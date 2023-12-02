@@ -305,8 +305,8 @@ public class ServerResponse {
 
     protected boolean getDeletionDisabledFromJSON(JSONObject json) throws JSONException {
         boolean deletionDisabled = false;
-        if (json.has("deletion_disabled")) {
-            deletionDisabled = json.getBoolean("deletion_disabled");
+        if (json.has("deletiondisabled")) {
+            deletionDisabled = json.getBoolean("deletiondisabled");
         }
         return deletionDisabled;
     }
