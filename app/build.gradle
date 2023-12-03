@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 32
+    compileSdk 33
     // buildToolsVersion '31.0.0'
     defaultConfig {
         applicationId "net.eneiluj.moneybuster"
         minSdkVersion 23
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 36
         versionName "0.1.16"
         vectorDrawables.useSupportLibrary true
