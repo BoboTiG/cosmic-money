@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.1.17 – 2024-01-03
+
+### Changed
+
+- target sdk 33
+- switch from me.dm7.barcodescanner:zxing to com.github.yuriy-budiyev:code-scanner
+- detect and handle cospend:// links in new project form just like IHM invitation links
+  [#108](https://gitlab.com/eneiluj/moneybuster/issues/108) @ghost1
+
+### Fixed
+
+- Fix disabled deletion status retrieval
+  [!24](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/24) @nicofrand
+
 ## 0.1.16 – 2022-03-08
 ### Added
 - accept IHM invitation links in new project form and when clicked or scanned
