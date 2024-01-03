@@ -20,22 +20,20 @@
     <!-- For SSO account import -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <!-- To export projects -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /-->
 
     <application
         android:name="net.eneiluj.moneybuster.util.MoneyBuster"
         android:allowBackup="true"
-        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".android.activity.ManageCurrenciesActivity"></activity>
+        <activity android:name=".android.activity.ManageCurrenciesActivity" />
         <activity
             android:name="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
 
@@ -148,7 +146,8 @@
         <service
             android:name="net.eneiluj.moneybuster.service.SyncService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <receiver
             android:name="net.eneiluj.moneybuster.service.BootCompletedReceiver"

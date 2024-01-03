@@ -3200,7 +3200,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         filter.addAction(MoneyBusterServerSyncHelper.BROADCAST_AVATAR_UPDATED);
         filter.addAction(BROADCAST_ACCOUNT_PROJECTS_SYNC_FAILED);
         filter.addAction(BROADCAST_ACCOUNT_PROJECTS_SYNCED);
-        registerReceiver(mBroadcastReceiver, filter);
+        registerReceiver(mBroadcastReceiver, filter, Context.RECEIVER_EXPORTED);
     }
 
     /**

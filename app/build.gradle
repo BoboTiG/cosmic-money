@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 33
+    compileSdk 34
     // buildToolsVersion '31.0.0'
     defaultConfig {
         applicationId "net.eneiluj.moneybuster"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdkVersion 26
+        targetSdkVersion 34
         versionCode 37
         versionName "0.1.17"
         vectorDrawables.useSupportLibrary true
@@ -25,9 +25,11 @@ android {
     flavorDimensions "default"
     productFlavors {
         normal {
+            dimension "default"
             resValue "string", "app_name", "MoneyBuster"
         }
         dev {
+            dimension "default"
             applicationId 'net.eneiluj.moneybuster.dev'
             resValue "string", "applicationId", applicationId
             // applicationIdSuffix '.dev'
@@ -50,12 +52,12 @@ dependencies {
     implementation project(':cert4android')
 
 // AndroidX
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     // needed for cert4android (conflict resolution)
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
 
 // Other
     implementation 'com.github.clans:fab:1.6.4'
@@ -67,7 +69,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.12'
     // implementation 'com.github.nextcloud:Android-SingleSignOn:-SNAPSHOT'
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.6.0'
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.opencsv:opencsv:5.1'
     implementation 'net.objecthunter:exp4j:0.4.8'
 
