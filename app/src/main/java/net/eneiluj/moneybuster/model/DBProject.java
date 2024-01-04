@@ -122,6 +122,14 @@ public class DBProject implements Serializable {
         return serverUrl;
     }
 
+    public String getRequestBaseUrl(boolean isOcsRequest) {
+        if (!isOcsRequest) {
+            return serverUrl.replaceAll("/+$", "");
+        }
+        return serverUrl.replaceAll("/+$", "")
+                .replace("/index.php/apps/cospend", "/ocs/v2.php/apps/cospend");
+    }
+
     public void setServerUrl(String serverUrl) {
         this.serverUrl = serverUrl;
     }

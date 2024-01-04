@@ -42,7 +42,7 @@ import net.eneiluj.moneybuster.model.DBPaymentMode;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.service.SyncService;
-import net.eneiluj.moneybuster.util.CospendClient;
+import net.eneiluj.moneybuster.util.NextcloudClient;
 import net.eneiluj.moneybuster.util.CospendClientUtil.LoginStatus;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.IProjectCreationCallback;
@@ -299,6 +299,7 @@ public class MoneyBusterServerSyncHelper {
         private final boolean onlyLocalChanges;
         private final DBProject project;
         private final List<ICallback> callbacks = new ArrayList<>();
+        private NextcloudClient nextcloudClient;
         private VersatileProjectSyncClient client;
         private List<Throwable> exceptions = new ArrayList<>();
         private List<String> errorMessages = new ArrayList<>();
@@ -327,7 +328,20 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createVersatileProjectSyncClient();
+            nextcloudClient = createNextcloudClient();
+            String version = null;
+            if (nextcloudClient != null) {
+                try {
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    version = response.getCospendVersion();
+                } catch (Exception e) {
+                    Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+                }
+            }
+
+            Log.i(getClass().getSimpleName(), "Syncing, cospend version is: " + version);
+
+            client = createVersatileProjectSyncClient(version);
             Log.i(getClass().getSimpleName(), "STARTING SYNCHRONIZATION");
             //dbHelper.debugPrintFullDB();
             LoginStatus status = LoginStatus.OK;
@@ -571,6 +585,7 @@ public class MoneyBusterServerSyncHelper {
             try {
                 ServerResponse.ProjectResponse projResponse = client.getProject(customCertManager, project, lastModified, lastETag);
                 String name = projResponse.getName();
+                Log.i(TAG, "AAA getProjectInfo, project name: " + name);
                 String email = projResponse.getEmail();
                 String currencyName = projResponse.getCurrencyName();
                 boolean deletionDisabled = projResponse.getDeletionDisabled();
@@ -1104,7 +1119,7 @@ public class MoneyBusterServerSyncHelper {
         NOTIFICATION_ID++;
     }
 
-    private VersatileProjectSyncClient createVersatileProjectSyncClient() {
+    private VersatileProjectSyncClient createVersatileProjectSyncClient(String cospendVersion) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(appContext.getApplicationContext());
         String url = "";
         String username = "";
@@ -1115,7 +1130,7 @@ public class MoneyBusterServerSyncHelper {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
                 NextcloudAPI nextcloudAPI = new NextcloudAPI(appContext.getApplicationContext(), ssoAccount, new GsonBuilder().create(), apiCallback);
                 //Log.d(TAG, "SSSSSSSSSSSSS "+ssoAccount.url+" "+ssoAccount.userId);
-                return new VersatileProjectSyncClient(url, username, password, nextcloudAPI, ssoAccount);
+                return new VersatileProjectSyncClient(url, username, password, nextcloudAPI, ssoAccount, cospendVersion);
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 return null;
             } catch (NoCurrentAccountSelectedException e) {
@@ -1125,7 +1140,7 @@ public class MoneyBusterServerSyncHelper {
             url = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS);
             username = preferences.getString(SettingsActivity.SETTINGS_USERNAME, SettingsActivity.DEFAULT_SETTINGS);
             password = preferences.getString(SettingsActivity.SETTINGS_PASSWORD, SettingsActivity.DEFAULT_SETTINGS);
-            return new VersatileProjectSyncClient(url, username, password, null, null);
+            return new VersatileProjectSyncClient(url, username, password, null, null, cospendVersion);
         }
     }
 
@@ -1170,6 +1185,7 @@ public class MoneyBusterServerSyncHelper {
      */
     private class EditRemoteProjectTask extends AsyncTask<Void, Void, LoginStatus> {
         private VersatileProjectSyncClient client;
+        private NextcloudClient nextcloudClient;
         private final String newName;
         private final String newEmail;
         private final String newPassword;
@@ -1196,7 +1212,17 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createVersatileProjectSyncClient();
+            nextcloudClient = createNextcloudClient();
+            String version = null;
+            if (nextcloudClient != null) {
+                try {
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    version = response.getCospendVersion();
+                } catch (Exception e) {
+                    Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+                }
+            }
+            client = createVersatileProjectSyncClient(version);
             if (BillsListViewActivity.DEBUG) {
                 Log.i(getClass().getSimpleName(), "STARTING edit remote project");
             }
@@ -1277,6 +1303,7 @@ public class MoneyBusterServerSyncHelper {
      */
     private class DeleteRemoteProjectTask extends AsyncTask<Void, Void, LoginStatus> {
         private VersatileProjectSyncClient client;
+        private NextcloudClient nextcloudClient;
         private final DBProject project;
         private final ICallback callback;
         private final List<Throwable> exceptions = new ArrayList<>();
@@ -1294,7 +1321,17 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createVersatileProjectSyncClient();
+            nextcloudClient = createNextcloudClient();
+            String version = null;
+            if (nextcloudClient != null) {
+                try {
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    version = response.getCospendVersion();
+                } catch (Exception e) {
+                    Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+                }
+            }
+            client = createVersatileProjectSyncClient(version);
             if (BillsListViewActivity.DEBUG) {
                 Log.i(getClass().getSimpleName(), "STARTING delete remote project");
             }
@@ -1372,6 +1409,7 @@ public class MoneyBusterServerSyncHelper {
      */
     private class CreateRemoteProjectTask extends AsyncTask<Void, Void, LoginStatus> {
         private VersatileProjectSyncClient client;
+        private NextcloudClient nextcloudClient;
         private final DBProject project;
         private final IProjectCreationCallback callback;
         private final List<Throwable> exceptions = new ArrayList<>();
@@ -1390,7 +1428,17 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createVersatileProjectSyncClient();
+            nextcloudClient = createNextcloudClient();
+            String version = null;
+            if (nextcloudClient != null) {
+                try {
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    version = response.getCospendVersion();
+                } catch (Exception e) {
+                    Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+                }
+            }
+            client = createVersatileProjectSyncClient(version);
             if (BillsListViewActivity.DEBUG) {
                 Log.i(getClass().getSimpleName(), "STARTING create remote project");
             }
@@ -1519,7 +1567,7 @@ public class MoneyBusterServerSyncHelper {
         }
     };
 
-    private CospendClient createCospendClient() {
+    private NextcloudClient createNextcloudClient() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(appContext.getApplicationContext());
         String url = "";
         String username = "";
@@ -1529,7 +1577,7 @@ public class MoneyBusterServerSyncHelper {
             try {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
                 NextcloudAPI nextcloudAPI = new NextcloudAPI(appContext.getApplicationContext(), ssoAccount, new GsonBuilder().create(), apiCallback);
-                return new CospendClient(url, ssoAccount.userId, password, nextcloudAPI);
+                return new NextcloudClient(url, ssoAccount.userId, password, nextcloudAPI);
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 return null;
             } catch (NoCurrentAccountSelectedException e) {
@@ -1539,13 +1587,13 @@ public class MoneyBusterServerSyncHelper {
             url = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS);
             username = preferences.getString(SettingsActivity.SETTINGS_USERNAME, SettingsActivity.DEFAULT_SETTINGS);
             password = preferences.getString(SettingsActivity.SETTINGS_PASSWORD, SettingsActivity.DEFAULT_SETTINGS);
-            return new CospendClient(url, username, password, null);
+            return new NextcloudClient(url, username, password, null);
         }
     }
 
     private class SyncAccountProjectsTask extends AsyncTask<Void, Void, LoginStatus> {
         private final List<ICallback> callbacks = new ArrayList<>();
-        private CospendClient client;
+        private NextcloudClient client;
         private final List<Throwable> exceptions = new ArrayList<>();
         private final List<String> errorMessages = new ArrayList<>();
 
@@ -1560,7 +1608,7 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createCospendClient(); // recreate client on every sync in case the connection settings was changed
+            client = createNextcloudClient(); // recreate client on every sync in case the connection settings was changed
             Log.i(getClass().getSimpleName(), "STARTING account projects SYNCHRONIZATION");
             LoginStatus status = LoginStatus.OK;
 
@@ -1690,7 +1738,7 @@ public class MoneyBusterServerSyncHelper {
     private class GetNCColorTask extends AsyncTask<Void, Void, LoginStatus> {
 
         private final List<ICallback> callbacks = new ArrayList<>();
-        private CospendClient client;
+        private NextcloudClient client;
         private final List<Throwable> exceptions = new ArrayList<>();
         private final List<String> errorMessages = new ArrayList<>();
 
@@ -1709,7 +1757,7 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createCospendClient(); // recreate CospendClients on every sync in case the connection settings was changed
+            client = createNextcloudClient(); // recreate CospendClients on every sync in case the connection settings was changed
             Log.i(getClass().getSimpleName(), "STARTING get color");
 
             LoginStatus status = LoginStatus.OK;
@@ -1732,7 +1780,7 @@ public class MoneyBusterServerSyncHelper {
             LoginStatus status;
             try {
 
-                ServerResponse.CapabilitiesResponse response = client.getColor(customCertManager);
+                ServerResponse.CapabilitiesResponse response = client.getCapabilities(customCertManager);
                 String color = response.getColor();
 
                 status = LoginStatus.OK;
@@ -1786,7 +1834,7 @@ public class MoneyBusterServerSyncHelper {
     private class GetNCUserAvatarTask extends AsyncTask<Void, Void, LoginStatus> {
 
         private final List<ICallback> callbacks = new ArrayList<>();
-        private CospendClient client;
+        private NextcloudClient client;
         private final List<Throwable> exceptions = new ArrayList<>();
         private final List<String> errorMessages = new ArrayList<>();
 
@@ -1805,7 +1853,7 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createCospendClient();
+            client = createNextcloudClient();
             Log.i(getClass().getSimpleName(), "STARTING get account avatar");
 
             LoginStatus status = LoginStatus.OK;
@@ -1878,7 +1926,7 @@ public class MoneyBusterServerSyncHelper {
     private class UpdateMemberAvatarTask extends AsyncTask<Void, Void, LoginStatus> {
 
         private final List<ICallback> callbacks = new ArrayList<>();
-        private CospendClient client;
+        private NextcloudClient client;
         private long memberId;
         private List<Throwable> exceptions = new ArrayList<>();
         private List<String> errorMessages = new ArrayList<>();
@@ -1898,7 +1946,7 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createCospendClient();
+            client = createNextcloudClient();
             Log.i(getClass().getSimpleName(), "STARTING get avatar for member");
 
             LoginStatus status = LoginStatus.OK;
@@ -1969,7 +2017,17 @@ public class MoneyBusterServerSyncHelper {
     }
 
     public boolean canConnectToRemoteProject(DBProject project) {
-        VersatileProjectSyncClient client = createVersatileProjectSyncClient();
+        NextcloudClient nextcloudClient = createNextcloudClient();
+        String version = null;
+        if (nextcloudClient != null) {
+            try {
+                ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                version = response.getCospendVersion();
+            } catch (Exception e) {
+                Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+            }
+        }
+        VersatileProjectSyncClient client = createVersatileProjectSyncClient(version);
         try {
             ServerResponse.ProjectResponse projResponse = client.getProject(customCertManager, project, 0, null);
             String name = projResponse.getName();
@@ -2018,7 +2076,17 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            client = createVersatileProjectSyncClient();
+            NextcloudClient nextcloudClient = createNextcloudClient();
+            String version = null;
+            if (nextcloudClient != null) {
+                try {
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    version = response.getCospendVersion();
+                } catch (Exception e) {
+                    Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+                }
+            }
+            client = createVersatileProjectSyncClient(version);
             if (BillsListViewActivity.DEBUG) {
                 Log.i(getClass().getSimpleName(), "STARTING create remote project");
             }

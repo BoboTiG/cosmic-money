@@ -27,15 +27,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import at.bitfire.cert4android.CustomCertManager;
 
 @WorkerThread
-public class CospendClient {
+public class NextcloudClient {
 
-    private static final String TAG = CospendClient.class.getSimpleName();
+    private static final String TAG = NextcloudClient.class.getSimpleName();
 
 
     public static final String METHOD_GET = "GET";
@@ -52,7 +54,7 @@ public class CospendClient {
     private String password;
     private NextcloudAPI nextcloudAPI;
 
-    public CospendClient(String url, String username, String password, @Nullable NextcloudAPI nextcloudAPI) {
+    public NextcloudClient(String url, String username, String password, @Nullable NextcloudAPI nextcloudAPI) {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -64,18 +66,18 @@ public class CospendClient {
         Log.d(getClass().getSimpleName(), "target "+target);
         if (nextcloudAPI != null) {
             Log.d(getClass().getSimpleName(), "using SSO to get account projects");
-            return new ServerResponse.AccountProjectsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, null));
+            return new ServerResponse.AccountProjectsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, null, false));
         } else {
             return new ServerResponse.AccountProjectsResponse(requestServer(ccm, target, METHOD_POST, null, "", true, false));
         }
     }
 
-    public ServerResponse.CapabilitiesResponse getColor(CustomCertManager ccm) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
+    public ServerResponse.CapabilitiesResponse getCapabilities(CustomCertManager ccm) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
         String target = "/ocs/v2.php/cloud/capabilities";
         if (nextcloudAPI != null) {
             Log.d(getClass().getSimpleName(), "using SSO to get color");
             //return new ServerResponse.SessionsResponse(new ResponseData("[]", lastETag, lastModified));
-            return new ServerResponse.CapabilitiesResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, null));
+            return new ServerResponse.CapabilitiesResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, null, true));
         } else {
             return new ServerResponse.CapabilitiesResponse(requestServer(ccm, target, METHOD_GET, null, null, true, true));
         }
@@ -96,19 +98,30 @@ public class CospendClient {
         }
     }
 
-    private VersatileProjectSyncClient.ResponseData requestServerWithSSO(NextcloudAPI nextcloudAPI, String target, String method, Map<String, String> params) throws TokenMismatchException, NextcloudHttpRequestFailedException {
+    private VersatileProjectSyncClient.ResponseData requestServerWithSSO(NextcloudAPI nextcloudAPI, String target, String method, Map<String, String> params, boolean isOCSRequest) throws TokenMismatchException, NextcloudHttpRequestFailedException {
         StringBuffer result = new StringBuffer();
+
+        Map<String, List<String>> headers = new HashMap<>();
+
+        if (isOCSRequest) {
+            List<String> acceptHeader = new ArrayList<>();
+            acceptHeader.add("application/json");
+            headers.put("Accept", acceptHeader);
+        }
 
         NextcloudRequest nextcloudRequest;
         if (params == null) {
             nextcloudRequest = new NextcloudRequest.Builder()
                     .setMethod(method)
-                    .setUrl(target).build();
+                    .setUrl(target)
+                    .setHeader(headers)
+                    .build();
         } else {
             nextcloudRequest = new NextcloudRequest.Builder()
                     .setMethod(method)
                     .setUrl(target)
                     .setParameter(params)
+                    .setHeader(headers)
                     .build();
         }
 
@@ -156,7 +169,8 @@ public class CospendClient {
         if (params == null) {
             nextcloudRequest = new NextcloudRequest.Builder()
                     .setMethod(method)
-                    .setUrl(target).build();
+                    .setUrl(target)
+                    .build();
         } else {
             nextcloudRequest = new NextcloudRequest.Builder()
                     .setMethod(method)
@@ -223,6 +237,7 @@ public class CospendClient {
         }
         if (isOCSRequest) {
             con.setRequestProperty("OCS-APIRequest", "true");
+            con.setRequestProperty("Accept", "application/json");
         }
         con.setConnectTimeout(10 * 1000); // 10 seconds
         Log.d(getClass().getSimpleName(), method + " " + targetURL);

@@ -45,44 +45,54 @@ public class ServerResponse {
     }
 
     public static class ProjectResponse extends ServerResponse {
-        public ProjectResponse(VersatileProjectSyncClient.ResponseData response) {
+        private final boolean isOcsResponse;
+        public ProjectResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
             super(response);
+            this.isOcsResponse = isOcsResponse;
+        }
+
+        public JSONObject getResponseData(JSONObject rawData) throws JSONException {
+            if (!isOcsResponse) {
+                return rawData;
+            }
+            JSONObject data = rawData.getJSONObject("ocs");
+            return data.getJSONObject("data");
         }
 
         public String getEmail() throws JSONException {
-            return getEmailFromJSON(new JSONObject(getContent()));
+            return getEmailFromJSON(getResponseData(new JSONObject(getContent())));
         }
 
         public String getName() throws JSONException {
-            return getNameFromJSON(new JSONObject(getContent()));
+            return getNameFromJSON(getResponseData(new JSONObject(getContent())));
         }
 
         public boolean getDeletionDisabled() throws JSONException {
-            return getDeletionDisabledFromJSON(new JSONObject(getContent()));
+            return getDeletionDisabledFromJSON(getResponseData(new JSONObject(getContent())));
         }
 
         public int getMyAccessLevel() throws JSONException {
-            return getMyAccessLevelFromJSON(new JSONObject(getContent()));
+            return getMyAccessLevelFromJSON(getResponseData(new JSONObject(getContent())));
         }
 
         public String getCurrencyName() throws JSONException {
-            return getCurrencyNameFromJSON(new JSONObject(getContent()));
+            return getCurrencyNameFromJSON(getResponseData(new JSONObject(getContent())));
         }
 
         public List<DBMember> getMembers(long projId) throws JSONException {
-            return getMembersFromJSON(new JSONObject(getContent()), projId);
+            return getMembersFromJSON(getResponseData(new JSONObject(getContent())), projId);
         }
 
         public List<DBCategory> getCategories(long projId) throws JSONException {
-            return getCategoriesFromJSON(new JSONObject(getContent()), projId);
+            return getCategoriesFromJSON(getResponseData(new JSONObject(getContent())), projId);
         }
 
         public List<DBPaymentMode> getPaymentModes(long projId) throws JSONException {
-            return getPaymentModesFromJSON(new JSONObject(getContent()), projId);
+            return getPaymentModesFromJSON(getResponseData(new JSONObject(getContent())), projId);
         }
 
         public List<DBCurrency> getCurrencies(long projId) throws JSONException {
-            return getCurrenciesFromJSON(new JSONObject(getContent()), projId);
+            return getCurrenciesFromJSON(getResponseData(new JSONObject(getContent())), projId);
         }
     }
 
@@ -249,8 +259,12 @@ public class ServerResponse {
             super(response);
         }
 
-        public String getColor() throws IOException {
-            return getColorFromContent(getContent());
+        public String getColor() throws IOException, JSONException {
+            return getColorFromJsonContent(new JSONObject(getContent()));
+        }
+
+        public String getCospendVersion() throws JSONException {
+            return getCospendVersionFromCapabilitiesContent(new JSONObject(getContent()));
         }
     }
 
@@ -686,5 +700,35 @@ public class ServerResponse {
         catch (SAXException e) {
         }
         return result;
+    }
+
+    protected String getColorFromJsonContent(JSONObject json) {
+        try {
+            JSONObject ocs = json.getJSONObject("ocs");
+            JSONObject data = ocs.getJSONObject("data");
+            JSONObject capabilities = data.getJSONObject("capabilities");
+            JSONObject theming = capabilities.getJSONObject("theming");
+            String color = theming.getString("color");
+            Log.i(TAG,"I GOT THE COLOR from server's JSON response: "+color);
+            return color;
+        } catch (JSONException e) {
+            Log.e(TAG,"Failed to get the color from OCS capabilities response " + e);
+        }
+        return null;
+    }
+
+    protected String getCospendVersionFromCapabilitiesContent(JSONObject json) {
+        try {
+            JSONObject ocs = json.getJSONObject("ocs");
+            JSONObject data = ocs.getJSONObject("data");
+            JSONObject capabilities = data.getJSONObject("capabilities");
+            JSONObject cospend = capabilities.getJSONObject("cospend");
+            String version = cospend.getString("version");
+            Log.i(TAG,"I GOT THE Cospend version: "+version);
+            return version;
+        } catch (JSONException e) {
+            Log.i(TAG,"Failed to get the Cospend version"+e);
+        }
+        return null;
     }
 }
