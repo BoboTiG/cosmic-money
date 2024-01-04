@@ -342,7 +342,7 @@ public class MoneyBusterServerSyncHelper {
             Log.i(getClass().getSimpleName(), "Syncing, cospend version is: " + version);
 
             client = createVersatileProjectSyncClient(version);
-            Log.i(getClass().getSimpleName(), "STARTING SYNCHRONIZATION");
+            Log.i(getClass().getSimpleName(), "STARTING SYNCHRONIZATION with Cospend version("+version+")");
             //dbHelper.debugPrintFullDB();
             LoginStatus status = LoginStatus.OK;
 
@@ -1654,7 +1654,17 @@ public class MoneyBusterServerSyncHelper {
 
                 List<DBProject> localProjects = dbHelper.getProjects();
 
-                ServerResponse.AccountProjectsResponse response = client.getAccountProjects(customCertManager);
+                ServerResponse.CapabilitiesResponse capabilitiesResponse = client.getCapabilities(customCertManager);
+                String cospendVersion = capabilitiesResponse.getCospendVersion();
+                boolean useOcsApi = cospendVersion == null
+                        ? false
+                        : SupportUtil.compareVersions(cospendVersion, "1.6.0") >= 0;
+                if (cospendVersion == null) {
+                    Log.i(TAG, "project sync: GT160 is FALSE");
+                } else {
+                    Log.i(TAG, "project sync: GT160: " + (SupportUtil.compareVersions(cospendVersion, "1.6.0") >= 0));
+                }
+                ServerResponse.AccountProjectsResponse response = client.getAccountProjects(customCertManager, useOcsApi);
                 List<DBAccountProject> remoteAccountProjects = response.getAccountProjects(url);
                 // we successfully got accounts (or zero), so we can clear local ones before adding new ones
                 dbHelper.clearAccountProjects();

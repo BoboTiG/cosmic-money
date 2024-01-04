@@ -856,7 +856,7 @@ public class VersatileProjectSyncClient {
                     return new ServerResponse.MembersResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, null, null, true), true);
                 } else {
                     target = "/index.php/apps/cospend/api-priv/projects/" + project.getRemoteId() + "/members";
-                    return new ServerResponse.MembersResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, null, null, false), true);
+                    return new ServerResponse.MembersResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, null, null, false), false);
                 }
             } else {
                 useOcsApiRequest = this.cospendVersionGT160;
@@ -915,7 +915,7 @@ public class VersatileProjectSyncClient {
                     return new ServerResponse.CreateRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, paramKeys, paramValues, true), true);
                 } else {
                     target = "/index.php/apps/cospend/api-priv/projects/" + project.getRemoteId() + "/currency";
-                    return new ServerResponse.CreateRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, paramKeys, paramValues, false), true);
+                    return new ServerResponse.CreateRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, paramKeys, paramValues, false), false);
                 }
             } else {
                 useOcsApiRequest = this.cospendVersionGT160;
@@ -977,7 +977,7 @@ public class VersatileProjectSyncClient {
                     return new ServerResponse.EditRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_PUT, paramKeys, paramValues, true), true);
                 } else {
                     target = "/index.php/apps/cospend/api-priv/projects/" + project.getRemoteId() + "/currency/" + currency.getRemoteId();
-                    return new ServerResponse.EditRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_PUT, paramKeys, paramValues, false), true);
+                    return new ServerResponse.EditRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_PUT, paramKeys, paramValues, false), false);
                 }
             } else {
                 useOcsApiRequest = this.cospendVersionGT160;
@@ -1029,7 +1029,7 @@ public class VersatileProjectSyncClient {
                     return new ServerResponse.DeleteRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_PUT, null, null, true), true);
                 } else {
                     target = "/index.php/apps/cospend/api-priv/projects/" + project.getRemoteId() + "/currency/" + currencyRemoteId;
-                    return new ServerResponse.DeleteRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_PUT, null, null, false), true);
+                    return new ServerResponse.DeleteRemoteCurrencyResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_PUT, null, null, false), false);
                 }
             } else {
                 useOcsApiRequest = this.cospendVersionGT160;

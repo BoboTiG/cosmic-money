@@ -61,14 +61,18 @@ public class NextcloudClient {
         this.nextcloudAPI = nextcloudAPI;
     }
 
-    public ServerResponse.AccountProjectsResponse getAccountProjects(CustomCertManager ccm) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
-        String target = "/index.php/apps/cospend/" + "getProjects";
-        Log.d(getClass().getSimpleName(), "target "+target);
+    public ServerResponse.AccountProjectsResponse getAccountProjects(CustomCertManager ccm, boolean useOcsApi) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
+        String target = useOcsApi
+            ? "/ocs/v2.php/apps/cospend/api/v1/projects"
+            : "/index.php/apps/cospend/getProjects";
+        String method = useOcsApi ? METHOD_GET : METHOD_POST;
         if (nextcloudAPI != null) {
-            Log.d(getClass().getSimpleName(), "using SSO to get account projects");
-            return new ServerResponse.AccountProjectsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, null, false), false);
+            Log.d(getClass().getSimpleName(), "using SSO to get/sync account projects");
+            Log.d(getClass().getSimpleName(), "Sync projects target "+target);
+            return new ServerResponse.AccountProjectsResponse(requestServerWithSSO(nextcloudAPI, target, method, null, useOcsApi), useOcsApi);
         } else {
-            return new ServerResponse.AccountProjectsResponse(requestServer(ccm, target, METHOD_POST, null, "", true, false), false);
+            Log.d(getClass().getSimpleName(), "Sync projects target "+target);
+            return new ServerResponse.AccountProjectsResponse(requestServer(ccm, target, method, null, "", true, useOcsApi), useOcsApi);
         }
     }
 
