@@ -237,7 +237,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
         }
 
         final Preference nextcloudAccountPref = findPreference(getString(R.string.pref_key_nextcloud_account_settings));
-        final Preference cospendSmartSync = findPreference(getString(R.string.pref_key_smart_sync));
 
         final SwitchPreferenceCompat showNextcloudSettingsPref = (SwitchPreferenceCompat) findPreference(getString(R.string.pref_key_show_nextcloud_settings));
         showNextcloudSettingsPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -245,7 +244,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 Boolean newShowNextcloudSettings = (Boolean) newValue;
                 nextcloudAccountPref.setVisible(newShowNextcloudSettings);
-                cospendSmartSync.setVisible(newShowNextcloudSettings);
                 useServerColorPref.setVisible(newShowNextcloudSettings);
                 if (!newShowNextcloudSettings) {
                     useServerColorPref.setChecked(false);
@@ -256,7 +254,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
         });
 
         nextcloudAccountPref.setVisible(showNextcloudSettingsPref.isChecked());
-        cospendSmartSync.setVisible(showNextcloudSettingsPref.isChecked());
         useServerColorPref.setVisible(showNextcloudSettingsPref.isChecked());
         if (!showNextcloudSettingsPref.isChecked()) {
             useServerColorPref.setChecked(false);

@@ -84,13 +84,6 @@
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
-            android:icon="@drawable/ic_lightbulb_outline_grey_24dp"
-            android:key="@string/pref_key_smart_sync"
-            android:summary="@string/settings_smart_sync_summary"
-            android:title="@string/settings_smart_sync_title" />
-
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
             android:icon="@drawable/ic_sync_grey_24dp"
             android:key="@string/pref_key_periodical_sync"
             android:summary="@string/settings_periodical_sync_summary"

@@ -578,7 +578,6 @@ public class MoneyBusterServerSyncHelper {
         private LoginStatus pullRemoteChanges() {
             Log.d(TAG, "pullRemoteChanges(" + project + ")");
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(appContext);
-            boolean cospendSmartSync = pref.getBoolean(appContext.getString(R.string.pref_key_smart_sync), false);
             String lastETag = null;
             long lastModified = 0;
             LoginStatus status;
@@ -831,7 +830,7 @@ public class MoneyBusterServerSyncHelper {
                 }
 
                 // get bills
-                ServerResponse.BillsResponse billsResponse = client.getBills(customCertManager, project, cospendSmartSync);
+                ServerResponse.BillsResponse billsResponse = client.getBills(customCertManager, project);
                 List<DBBill> remoteBills;
                 List<Long> remoteAllBillIds = new ArrayList<>();
                 long serverSyncTimestamp = project.getLastSyncedTimestamp();
@@ -841,13 +840,8 @@ public class MoneyBusterServerSyncHelper {
                 // and bill id list and server timestamp at the sync moment
                 if (ProjectType.COSPEND.equals(project.getType())) {
                     remoteBills = billsResponse.getBillsCospend(project.getId(), memberRemoteIdToId);
-                    if (cospendSmartSync || client.canAccessProjectWithSSO(project) || client.canAccessProjectWithNCLogin(project)) {
-                        remoteAllBillIds = billsResponse.getAllBillIds();
-                        serverSyncTimestamp = billsResponse.getSyncTimestamp();
-                    } else {
-                        // if smartsync is disabled, we still set last sync timestamp for the sidebar indicator
-                        serverSyncTimestamp = System.currentTimeMillis() / 1000;
-                    }
+                    remoteAllBillIds = billsResponse.getAllBillIds();
+                    serverSyncTimestamp = billsResponse.getSyncTimestamp();
                 } else {
                     // IHATEMONEY => we get all bills
                     remoteBills = billsResponse.getBillsIHM(project.getId(), memberRemoteIdToId);

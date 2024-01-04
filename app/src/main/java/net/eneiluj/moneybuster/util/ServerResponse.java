@@ -246,10 +246,8 @@ public class ServerResponse {
     }
 
     public static class BillsResponse extends ServerResponse {
-        private boolean smartSync;
-        public BillsResponse(VersatileProjectSyncClient.ResponseData response, boolean smartSync, boolean isOcsResponse) {
+        public BillsResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
             super(response, isOcsResponse);
-            this.smartSync = smartSync;
         }
 
         public List<DBBill> getBillsIHM(long projId, Map<Long, Long> memberRemoteIdToId) throws JSONException {
@@ -257,11 +255,7 @@ public class ServerResponse {
         }
 
         public List<DBBill> getBillsCospend(long projId, Map<Long, Long> memberRemoteIdToId) throws JSONException {
-            if (smartSync) {
-                return getBillsFromJSONObject(getResponseObjectData(), projId, memberRemoteIdToId);
-            } else {
-                return getBillsFromJSONArray(getResponseArrayData(), projId, memberRemoteIdToId);
-            }
+            return getBillsFromJSONObject(getResponseObjectData(), projId, memberRemoteIdToId);
         }
 
         public List<Long> getAllBillIds() throws JSONException {

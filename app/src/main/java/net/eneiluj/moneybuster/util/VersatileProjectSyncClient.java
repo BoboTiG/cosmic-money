@@ -761,7 +761,7 @@ public class VersatileProjectSyncClient {
         );
     }
 
-    public ServerResponse.BillsResponse getBills(CustomCertManager ccm, DBProject project, boolean cospendSmartSync) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
+    public ServerResponse.BillsResponse getBills(CustomCertManager ccm, DBProject project) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
         String target;
         String username = null;
         String password = null;
@@ -784,7 +784,7 @@ public class VersatileProjectSyncClient {
                                 ccm, target, METHOD_GET, null, null,
                                 null, username, password, null, useOcsApiRequest
                         ),
-                        true, useOcsApiRequest
+                        useOcsApiRequest
                 );
             } else if (canAccessProjectWithSSO(project)) {
                 List<String> paramKeys = new ArrayList<>();
@@ -794,10 +794,10 @@ public class VersatileProjectSyncClient {
                 if (this.cospendVersionGT160) {
                     target = "/ocs/v2.php/apps/cospend/api/v1/projects/" + project.getRemoteId() + "/bills";
                     Log.i(TAG, "using new API for getBills");
-                    return new ServerResponse.BillsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, paramKeys, paramValues, true), true, true);
+                    return new ServerResponse.BillsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, paramKeys, paramValues, true), true);
                 } else {
                     target = "/index.php/apps/cospend/api-priv/projects/" + project.getRemoteId() + "/bills";
-                    return new ServerResponse.BillsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, paramKeys, paramValues, false), true, false);
+                    return new ServerResponse.BillsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_GET, paramKeys, paramValues, false), false);
                 }
             } else {
                 useOcsApiRequest = this.cospendVersionGT160;
@@ -813,7 +813,7 @@ public class VersatileProjectSyncClient {
                                 ccm, target, METHOD_GET, null, null,
                                 null, username, password, null, useOcsApiRequest
                         ),
-                        true, useOcsApiRequest
+                        useOcsApiRequest
                 );
             }
         } else {
@@ -827,7 +827,7 @@ public class VersatileProjectSyncClient {
                             ccm, target, METHOD_GET, null, null,
                             null, username, password, bearerToken, false
                     ),
-                    false, false
+                    false
             );
         }
     }
