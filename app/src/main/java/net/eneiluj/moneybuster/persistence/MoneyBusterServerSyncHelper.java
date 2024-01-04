@@ -920,13 +920,12 @@ public class MoneyBusterServerSyncHelper {
 
                 // delete local bill
                 // DELETION is now different between IHM and COSPEND
-                // if smartsync is enable OR if project is accessed with NC login =>
+                // smart sync is now always on for Cospend projects
                 // we just get bill ids
-                if (ProjectType.COSPEND.equals(project.getType())
-                        && (cospendSmartSync || client.canAccessProjectWithSSO(project) || client.canAccessProjectWithNCLogin(project))) {
+                if (ProjectType.COSPEND.equals(project.getType())) {
                     for (DBBill localBill : localBills) {
                         // if local bill does not exist remotely
-                        if (remoteAllBillIds.indexOf(localBill.getRemoteId()) <= -1) {
+                        if (!remoteAllBillIds.contains(localBill.getRemoteId())) {
                             dbHelper.deleteBill(localBill.getId());
                             nbPulledDeletedBills++;
                             deletedBillsDialogText += "\uD83D\uDDD1 " + localBill.getWhat() + "\n";
