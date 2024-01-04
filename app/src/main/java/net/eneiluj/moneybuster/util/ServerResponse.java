@@ -37,6 +37,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * Provides entity classes for handling server responses
  */
 public class ServerResponse {
+    protected final boolean isOcsResponse;
     private static final String TAG = ServerResponse.class.getSimpleName();
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
@@ -44,172 +45,210 @@ public class ServerResponse {
     public static class NotModifiedException extends IOException {
     }
 
-    public static class ProjectResponse extends ServerResponse {
-        private final boolean isOcsResponse;
-        public ProjectResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
-            super(response);
-            this.isOcsResponse = isOcsResponse;
-        }
+    private final VersatileProjectSyncClient.ResponseData response;
 
-        public JSONObject getResponseData(JSONObject rawData) throws JSONException {
-            if (!isOcsResponse) {
-                return rawData;
-            }
-            JSONObject data = rawData.getJSONObject("ocs");
-            return data.getJSONObject("data");
+    public ServerResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+        this.response = response;
+        this.isOcsResponse = isOcsResponse;
+    }
+
+    protected String getContent() {
+        return response.getContent();
+    }
+
+    public String getETag() {
+        return response.getETag();
+    }
+
+    public long getLastModified() {
+        return response.getLastModified();
+    }
+
+    public JSONObject getResponseObjectData() throws JSONException {
+        JSONObject rawData = new JSONObject(getContent());
+        if (!isOcsResponse) {
+            return rawData;
+        }
+        JSONObject data = rawData.getJSONObject("ocs");
+        return data.getJSONObject("data");
+    }
+
+    public JSONArray getResponseArrayData() throws JSONException {
+        if (!isOcsResponse) {
+            return new JSONArray(getContent());
+        }
+        JSONObject rawData = new JSONObject(getContent());
+        JSONObject data = rawData.getJSONObject("ocs");
+        return data.getJSONArray("data");
+    }
+
+    public String getResponseStringData() throws JSONException {
+        if (!isOcsResponse) {
+            return getContent();
+        }
+        JSONObject rawData = new JSONObject(getContent());
+        JSONObject data = rawData.getJSONObject("ocs");
+        return data.getString("data");
+    }
+
+    public static class ProjectResponse extends ServerResponse {
+        public ProjectResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
         public String getEmail() throws JSONException {
-            return getEmailFromJSON(getResponseData(new JSONObject(getContent())));
+            return getEmailFromJSON(getResponseObjectData());
         }
 
         public String getName() throws JSONException {
-            return getNameFromJSON(getResponseData(new JSONObject(getContent())));
+            return getNameFromJSON(getResponseObjectData());
         }
 
         public boolean getDeletionDisabled() throws JSONException {
-            return getDeletionDisabledFromJSON(getResponseData(new JSONObject(getContent())));
+            return getDeletionDisabledFromJSON(getResponseObjectData());
         }
 
         public int getMyAccessLevel() throws JSONException {
-            return getMyAccessLevelFromJSON(getResponseData(new JSONObject(getContent())));
+            return getMyAccessLevelFromJSON(getResponseObjectData());
         }
 
         public String getCurrencyName() throws JSONException {
-            return getCurrencyNameFromJSON(getResponseData(new JSONObject(getContent())));
+            return getCurrencyNameFromJSON(getResponseObjectData());
         }
 
         public List<DBMember> getMembers(long projId) throws JSONException {
-            return getMembersFromJSON(getResponseData(new JSONObject(getContent())), projId);
+            return getMembersFromJSON(getResponseObjectData(), projId);
         }
 
         public List<DBCategory> getCategories(long projId) throws JSONException {
-            return getCategoriesFromJSON(getResponseData(new JSONObject(getContent())), projId);
+            return getCategoriesFromJSON(getResponseObjectData(), projId);
         }
 
         public List<DBPaymentMode> getPaymentModes(long projId) throws JSONException {
-            return getPaymentModesFromJSON(getResponseData(new JSONObject(getContent())), projId);
+            return getPaymentModesFromJSON(getResponseObjectData(), projId);
         }
 
         public List<DBCurrency> getCurrencies(long projId) throws JSONException {
-            return getCurrenciesFromJSON(getResponseData(new JSONObject(getContent())), projId);
+            return getCurrenciesFromJSON(getResponseObjectData(), projId);
         }
     }
 
     public static class CreateRemoteMemberResponse extends ServerResponse {
-        public CreateRemoteMemberResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public CreateRemoteMemberResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class CreateRemoteCurrencyResponse extends ServerResponse {
-        public CreateRemoteCurrencyResponse(VersatileProjectSyncClient.ResponseData response){
-            super(response);
+        public CreateRemoteCurrencyResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse){
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class EditRemoteCurrencyResponse extends ServerResponse {
-        public EditRemoteCurrencyResponse(VersatileProjectSyncClient.ResponseData response){
-            super(response);
+        public EditRemoteCurrencyResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse){
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class DeleteRemoteCurrencyResponse extends ServerResponse {
-        public DeleteRemoteCurrencyResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public DeleteRemoteCurrencyResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class EditRemoteProjectResponse extends ServerResponse {
-        public EditRemoteProjectResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+
+        public EditRemoteProjectResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class EditRemoteMemberResponse extends ServerResponse {
-        public EditRemoteMemberResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public EditRemoteMemberResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
         public long getRemoteId(long projectId) throws JSONException {
-            return getMemberFromJSON(new JSONObject(getContent()), projectId).getRemoteId();
+            return getMemberFromJSON(getResponseObjectData(), projectId)
+                    .getRemoteId();
         }
     }
 
     public static class EditRemoteBillResponse extends ServerResponse {
-        public EditRemoteBillResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public EditRemoteBillResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class CreateRemoteBillResponse extends ServerResponse {
-        public CreateRemoteBillResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public CreateRemoteBillResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class DeleteRemoteBillResponse extends ServerResponse {
-        public DeleteRemoteBillResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public DeleteRemoteBillResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class DeleteRemoteProjectResponse extends ServerResponse {
-        public DeleteRemoteProjectResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public DeleteRemoteProjectResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class CreateRemoteProjectResponse extends ServerResponse {
-        public CreateRemoteProjectResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public CreateRemoteProjectResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
-        public String getStringContent() {
-            return getContent();
+        public String getStringContent() throws JSONException {
+            return getResponseStringData();
         }
     }
 
     public static class BillsResponse extends ServerResponse {
         private boolean smartSync;
-        public BillsResponse(VersatileProjectSyncClient.ResponseData response, boolean smartSync) {
-            super(response);
+        public BillsResponse(VersatileProjectSyncClient.ResponseData response, boolean smartSync, boolean isOcsResponse) {
+            super(response, isOcsResponse);
             this.smartSync = smartSync;
         }
 
@@ -219,44 +258,44 @@ public class ServerResponse {
 
         public List<DBBill> getBillsCospend(long projId, Map<Long, Long> memberRemoteIdToId) throws JSONException {
             if (smartSync) {
-                return getBillsFromJSONObject(new JSONObject(getContent()), projId, memberRemoteIdToId);
+                return getBillsFromJSONObject(getResponseObjectData(), projId, memberRemoteIdToId);
             } else {
-                return getBillsFromJSONArray(new JSONArray(getContent()), projId, memberRemoteIdToId);
+                return getBillsFromJSONArray(getResponseArrayData(), projId, memberRemoteIdToId);
             }
         }
 
         public List<Long> getAllBillIds() throws JSONException {
-            return getAllBillIdsFromJSON(new JSONObject(getContent()));
+            return getAllBillIdsFromJSON(getResponseObjectData());
         }
 
         public Long getSyncTimestamp() throws JSONException {
-            return getSyncTimestampFromJSON(new JSONObject(getContent()));
+            return getSyncTimestampFromJSON(getResponseObjectData());
         }
     }
 
     public static class MembersResponse extends ServerResponse {
-        public MembersResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public MembersResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
         public List<DBMember> getMembers(long projId) throws JSONException {
-            return getMembersFromJSONArray(new JSONArray(getContent()), projId);
+            return getMembersFromJSONArray(getResponseArrayData(), projId);
         }
     }
 
     public static class AccountProjectsResponse extends ServerResponse {
-        public AccountProjectsResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+        public AccountProjectsResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+            super(response, isOcsResponse);
         }
 
         public List<DBAccountProject> getAccountProjects(String ncUrl) throws JSONException {
-            return getAccountProjectsFromJSONArray(new JSONArray(getContent()), ncUrl);
+            return getAccountProjectsFromJSONArray(getResponseArrayData(), ncUrl);
         }
     }
 
     public static class CapabilitiesResponse extends ServerResponse {
         public CapabilitiesResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+            super(response, true);
         }
 
         public String getColor() throws IOException, JSONException {
@@ -270,30 +309,12 @@ public class ServerResponse {
 
     public static class AvatarResponse extends ServerResponse {
         public AvatarResponse(VersatileProjectSyncClient.ResponseData response) {
-            super(response);
+            super(response, false);
         }
 
         public String getAvatarString() throws IOException {
             return getContent();
         }
-    }
-
-    private final VersatileProjectSyncClient.ResponseData response;
-
-    public ServerResponse(VersatileProjectSyncClient.ResponseData response) {
-        this.response = response;
-    }
-
-    protected String getContent() {
-        return response.getContent();
-    }
-
-    public String getETag() {
-        return response.getETag();
-    }
-
-    public long getLastModified() {
-        return response.getLastModified();
     }
 
     protected String getPublicTokenFromJSON(JSONObject json) throws JSONException {

@@ -1240,6 +1240,9 @@ public class MoneyBusterServerSyncHelper {
                 }
                 exceptions.add(e);
                 status = LoginStatus.CONNECTION_FAILED;
+            } catch (JSONException e) {
+                Log.e(getClass().getSimpleName(), "Catch JSON exception", e);
+                status = LoginStatus.JSON_FAILED;
             } catch (TokenMismatchException e) {
                 Log.e(getClass().getSimpleName(), "Catch MISMATCHTOKEN", e);
                 status = LoginStatus.SSO_TOKEN_MISMATCH;
@@ -1347,6 +1350,9 @@ public class MoneyBusterServerSyncHelper {
                 }
                 exceptions.add(e);
                 status = LoginStatus.CONNECTION_FAILED;
+            } catch (JSONException e) {
+                Log.e(getClass().getSimpleName(), "Catch JSONException", e);
+                status = LoginStatus.JSON_FAILED;
             } catch (TokenMismatchException e) {
                 Log.e(getClass().getSimpleName(), "Catch MISMATCHTOKEN", e);
                 status = LoginStatus.SSO_TOKEN_MISMATCH;
@@ -1461,6 +1467,12 @@ public class MoneyBusterServerSyncHelper {
                 }
                 exceptions.add(e);
                 status = LoginStatus.CONNECTION_FAILED;
+            } catch (JSONException e) {
+                if (BillsListViewActivity.DEBUG) {
+                    Log.e(getClass().getSimpleName(), "JSON Exception", e);
+                }
+                exceptions.add(e);
+                status = LoginStatus.JSON_FAILED;
             } catch (TokenMismatchException e) {
                 if (BillsListViewActivity.DEBUG) {
                     Log.e(getClass().getSimpleName(), "Exception", e);

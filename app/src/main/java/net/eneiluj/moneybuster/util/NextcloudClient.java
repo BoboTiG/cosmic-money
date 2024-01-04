@@ -66,9 +66,9 @@ public class NextcloudClient {
         Log.d(getClass().getSimpleName(), "target "+target);
         if (nextcloudAPI != null) {
             Log.d(getClass().getSimpleName(), "using SSO to get account projects");
-            return new ServerResponse.AccountProjectsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, null, false));
+            return new ServerResponse.AccountProjectsResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, null, false), false);
         } else {
-            return new ServerResponse.AccountProjectsResponse(requestServer(ccm, target, METHOD_POST, null, "", true, false));
+            return new ServerResponse.AccountProjectsResponse(requestServer(ccm, target, METHOD_POST, null, "", true, false), false);
         }
     }
 
@@ -296,7 +296,7 @@ public class NextcloudClient {
         }
         // https://github.com/square/retrofit/issues/805#issuecomment-93426183
         con.setRequestProperty( "Connection", "Close");
-        con.setRequestProperty("User-Agent", "phonetrack-android/" + BuildConfig.VERSION_NAME);
+        con.setRequestProperty("User-Agent", "Moneybuster-android/" + BuildConfig.VERSION_NAME);
         if (lastETag != null && METHOD_GET.equals(method)) {
             con.setRequestProperty("If-None-Match", lastETag);
         }
