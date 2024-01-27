@@ -1123,7 +1123,7 @@ public class MoneyBusterServerSyncHelper {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
                 NextcloudAPI nextcloudAPI = new NextcloudAPI(appContext.getApplicationContext(), ssoAccount, new GsonBuilder().create(), apiCallback);
                 //Log.d(TAG, "SSSSSSSSSSSSS "+ssoAccount.url+" "+ssoAccount.userId);
-                return new VersatileProjectSyncClient(url, username, password, nextcloudAPI, ssoAccount, cospendVersion);
+                return new VersatileProjectSyncClient(url, username, password, nextcloudAPI, ssoAccount, cospendVersion, appContext);
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 return null;
             } catch (NoCurrentAccountSelectedException e) {
@@ -1133,7 +1133,7 @@ public class MoneyBusterServerSyncHelper {
             url = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS);
             username = preferences.getString(SettingsActivity.SETTINGS_USERNAME, SettingsActivity.DEFAULT_SETTINGS);
             password = preferences.getString(SettingsActivity.SETTINGS_PASSWORD, SettingsActivity.DEFAULT_SETTINGS);
-            return new VersatileProjectSyncClient(url, username, password, null, null, cospendVersion);
+            return new VersatileProjectSyncClient(url, username, password, null, null, cospendVersion, appContext);
         }
     }
 
@@ -1582,7 +1582,7 @@ public class MoneyBusterServerSyncHelper {
             try {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
                 NextcloudAPI nextcloudAPI = new NextcloudAPI(appContext.getApplicationContext(), ssoAccount, new GsonBuilder().create(), apiCallback);
-                return new NextcloudClient(url, ssoAccount.userId, password, nextcloudAPI);
+                return new NextcloudClient(url, ssoAccount.userId, password, nextcloudAPI, appContext);
             } catch (NextcloudFilesAppAccountNotFoundException e) {
                 return null;
             } catch (NoCurrentAccountSelectedException e) {
@@ -1592,7 +1592,7 @@ public class MoneyBusterServerSyncHelper {
             url = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS);
             username = preferences.getString(SettingsActivity.SETTINGS_USERNAME, SettingsActivity.DEFAULT_SETTINGS);
             password = preferences.getString(SettingsActivity.SETTINGS_PASSWORD, SettingsActivity.DEFAULT_SETTINGS);
-            return new NextcloudClient(url, username, password, null);
+            return new NextcloudClient(url, username, password, null, appContext);
         }
     }
 

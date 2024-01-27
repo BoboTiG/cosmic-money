@@ -441,4 +441,17 @@ public class SupportUtil {
 
         return 0;
     }
+
+    public static String getAppVersionName(Context context) {
+        String versionName = "???";
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            versionName = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(SupportUtil.class.getSimpleName(), "Failed to get app version name", e);
+            e.printStackTrace();
+        }
+        Log.d(SupportUtil.class.getSimpleName(), "app version name is " + versionName);
+        return versionName;
+    }
 }

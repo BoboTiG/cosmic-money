@@ -1,5 +1,6 @@
 package net.eneiluj.moneybuster.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -13,8 +14,6 @@ import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.api.Response;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.TokenMismatchException;
-
-import net.eneiluj.moneybuster.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,12 +52,14 @@ public class NextcloudClient {
     private String username;
     private String password;
     private NextcloudAPI nextcloudAPI;
+    private Context context;
 
-    public NextcloudClient(String url, String username, String password, @Nullable NextcloudAPI nextcloudAPI) {
+    public NextcloudClient(String url, String username, String password, @Nullable NextcloudAPI nextcloudAPI, Context context) {
         this.url = url;
         this.username = username;
         this.password = password;
         this.nextcloudAPI = nextcloudAPI;
+        this.context = context;
     }
 
     public ServerResponse.AccountProjectsResponse getAccountProjects(CustomCertManager ccm, boolean useOcsApi) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
@@ -235,7 +236,7 @@ public class NextcloudClient {
         }
         // https://github.com/square/retrofit/issues/805#issuecomment-93426183
         con.setRequestProperty( "Connection", "Close");
-        con.setRequestProperty("User-Agent", "phonetrack-android/" + BuildConfig.VERSION_NAME);
+        con.setRequestProperty("User-Agent", "phonetrack-android/" + SupportUtil.getAppVersionName(context));
         if (lastETag != null && METHOD_GET.equals(method)) {
             con.setRequestProperty("If-None-Match", lastETag);
         }
@@ -300,7 +301,7 @@ public class NextcloudClient {
         }
         // https://github.com/square/retrofit/issues/805#issuecomment-93426183
         con.setRequestProperty( "Connection", "Close");
-        con.setRequestProperty("User-Agent", "Moneybuster-android/" + BuildConfig.VERSION_NAME);
+        con.setRequestProperty("User-Agent", "Moneybuster-android/" + SupportUtil.getAppVersionName(context));
         if (lastETag != null && METHOD_GET.equals(method)) {
             con.setRequestProperty("If-None-Match", lastETag);
         }

@@ -1,5 +1,6 @@
 package net.eneiluj.moneybuster.util;
 
+import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
@@ -13,7 +14,6 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.TokenMismatchException;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
-import net.eneiluj.moneybuster.BuildConfig;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBCurrency;
 import net.eneiluj.moneybuster.model.DBMember;
@@ -86,10 +86,11 @@ public class VersatileProjectSyncClient {
     private SingleSignOnAccount ssoAccount;
     @Nullable
     private boolean cospendVersionGT160;
+    private Context context;
 
     public VersatileProjectSyncClient(String url, String username, String password,
                                       @Nullable NextcloudAPI nextcloudAPI, @Nullable SingleSignOnAccount ssoAccount,
-                                      @Nullable String cospendVersion) {
+                                      @Nullable String cospendVersion, Context context) {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -102,6 +103,7 @@ public class VersatileProjectSyncClient {
             this.cospendVersionGT160 = SupportUtil.compareVersions(cospendVersion, "1.6.0") >= 0;
             Log.i(TAG, "GT160: " + this.cospendVersionGT160);
         }
+        this.context = context;
     }
 
     public boolean canAccessProjectWithNCLogin(DBProject project) {
@@ -1153,7 +1155,7 @@ public class VersatileProjectSyncClient {
             con.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((username + ":" + password).getBytes(), Base64.NO_WRAP));
         }
         con.setRequestProperty("Connection", "Close");
-        con.setRequestProperty("User-Agent", "MoneyBuster/" + BuildConfig.VERSION_NAME);
+        con.setRequestProperty("User-Agent", "MoneyBuster/" + SupportUtil.getAppVersionName(context));
         if (lastETag != null && METHOD_GET.equals(method)) {
             con.setRequestProperty("If-None-Match", lastETag);
         }
