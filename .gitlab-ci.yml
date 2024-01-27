@@ -1,4 +1,4 @@
-image: openjdk:11-jdk-buster
+image: openjdk:17-jdk-buster
 
 variables:
   ANDROID_COMPILE_SDK: "30"
