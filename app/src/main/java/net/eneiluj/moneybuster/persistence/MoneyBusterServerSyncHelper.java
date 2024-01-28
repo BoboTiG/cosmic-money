@@ -328,14 +328,16 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            nextcloudClient = createNextcloudClient();
             String version = null;
-            if (nextcloudClient != null) {
-                try {
-                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
-                    version = response.getCospendVersion();
-                } catch (Exception e) {
-                    Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+            if (project.getType().equals(ProjectType.COSPEND)) {
+                nextcloudClient = createNextcloudClient();
+                if (nextcloudClient != null) {
+                    try {
+                        ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager, project);
+                        version = response.getCospendVersion();
+                    } catch (Exception e) {
+                        Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+                    }
                 }
             }
 
@@ -1209,7 +1211,7 @@ public class MoneyBusterServerSyncHelper {
             String version = null;
             if (nextcloudClient != null) {
                 try {
-                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager, null);
                     version = response.getCospendVersion();
                 } catch (Exception e) {
                     Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
@@ -1321,7 +1323,7 @@ public class MoneyBusterServerSyncHelper {
             String version = null;
             if (nextcloudClient != null) {
                 try {
-                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager, null);
                     version = response.getCospendVersion();
                 } catch (Exception e) {
                     Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
@@ -1431,7 +1433,7 @@ public class MoneyBusterServerSyncHelper {
             String version = null;
             if (nextcloudClient != null) {
                 try {
-                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager, null);
                     version = response.getCospendVersion();
                 } catch (Exception e) {
                     Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
@@ -1647,7 +1649,7 @@ public class MoneyBusterServerSyncHelper {
 
                 List<DBProject> localProjects = dbHelper.getProjects();
 
-                ServerResponse.CapabilitiesResponse capabilitiesResponse = client.getCapabilities(customCertManager);
+                ServerResponse.CapabilitiesResponse capabilitiesResponse = client.getCapabilities(customCertManager, null);
                 String cospendVersion = capabilitiesResponse.getCospendVersion();
                 boolean useOcsApi = cospendVersion == null
                         ? false
@@ -1795,7 +1797,7 @@ public class MoneyBusterServerSyncHelper {
             LoginStatus status;
             try {
 
-                ServerResponse.CapabilitiesResponse response = client.getCapabilities(customCertManager);
+                ServerResponse.CapabilitiesResponse response = client.getCapabilities(customCertManager, null);
                 String color = response.getColor();
 
                 status = LoginStatus.OK;
@@ -2036,7 +2038,7 @@ public class MoneyBusterServerSyncHelper {
         String version = null;
         if (nextcloudClient != null) {
             try {
-                ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
+                ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager, project);
                 version = response.getCospendVersion();
             } catch (Exception e) {
                 Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
@@ -2091,14 +2093,16 @@ public class MoneyBusterServerSyncHelper {
 
         @Override
         protected LoginStatus doInBackground(Void... voids) {
-            NextcloudClient nextcloudClient = createNextcloudClient();
             String version = null;
-            if (nextcloudClient != null) {
-                try {
-                    ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager);
-                    version = response.getCospendVersion();
-                } catch (Exception e) {
-                    Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+            if (project.getType().equals(ProjectType.COSPEND)) {
+                NextcloudClient nextcloudClient = createNextcloudClient();
+                if (nextcloudClient != null) {
+                    try {
+                        ServerResponse.CapabilitiesResponse response = nextcloudClient.getCapabilities(customCertManager, project);
+                        version = response.getCospendVersion();
+                    } catch (Exception e) {
+                        Log.i(getClass().getSimpleName(), "Failed to get cospend version when syncing: " + e);
+                    }
                 }
             }
             client = createVersatileProjectSyncClient(version);

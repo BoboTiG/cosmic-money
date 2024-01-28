@@ -15,6 +15,8 @@ import com.nextcloud.android.sso.api.Response;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.TokenMismatchException;
 
+import net.eneiluj.moneybuster.model.DBProject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,8 +79,17 @@ public class NextcloudClient {
         }
     }
 
-    public ServerResponse.CapabilitiesResponse getCapabilities(CustomCertManager ccm) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
-        String target = "/ocs/v2.php/cloud/capabilities";
+    public ServerResponse.CapabilitiesResponse getCapabilities(CustomCertManager ccm, @Nullable DBProject project) throws JSONException, IOException, TokenMismatchException, NextcloudHttpRequestFailedException {
+        String target;
+        // if a project is given and we are not connected, override the url
+        if (project == null || !url.equals("")) {
+            target = "/ocs/v2.php/cloud/capabilities";
+        } else {
+            String realServerUrl = project.getServerUrl()
+                    .replace("/apps/cospend", "")
+                    .replace("/index.php", "");
+            target = realServerUrl + "/ocs/v2.php/cloud/capabilities";
+        }
         if (nextcloudAPI != null) {
             Log.d(getClass().getSimpleName(), "using SSO to get color");
             //return new ServerResponse.SessionsResponse(new ResponseData("[]", lastETag, lastModified));
@@ -227,6 +238,7 @@ public class NextcloudClient {
         StringBuffer result = new StringBuffer();
         // setup connection
         String targetURL = url + target.replaceAll("^/", "");
+        Log.d(getClass().getSimpleName(), "method and target URL: " + method + " " + targetURL);
         HttpURLConnection con = SupportUtil.getHttpURLConnection(ccm, targetURL);
         con.setRequestMethod(method);
         if (needLogin) {
@@ -245,7 +257,6 @@ public class NextcloudClient {
             con.setRequestProperty("Accept", "application/json");
         }
         con.setConnectTimeout(10 * 1000); // 10 seconds
-        Log.d(getClass().getSimpleName(), method + " " + targetURL);
         // send request data (optional)
         byte[] paramData = null;
         if (params != null) {
