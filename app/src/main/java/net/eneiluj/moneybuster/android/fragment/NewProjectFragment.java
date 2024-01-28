@@ -440,26 +440,32 @@ public class NewProjectFragment extends Fragment {
                 && isInvitationLink(projectUrl);
         boolean isCospendScheme = type.equals(ProjectType.COSPEND)
                 && isCospendSchemeLink(projectUrl);
-        // show/hide projId and password if this is an IHM invitation link or a Cospend scheme link
-        if (isIhmInvitationLink || isCospendScheme) {
+        // in "join" mode, show/hide projId and password if this is an IHM invitation link or a Cospend scheme link
+        if (!todoCreate && (isIhmInvitationLink || isCospendScheme)) {
             newProjectPasswordLayout.setVisibility(View.GONE);
-            newProjectNameLayout.setVisibility(View.GONE);
             newProjectIdLayout.setVisibility(View.GONE);
         } else {
             newProjectPasswordLayout.setVisibility(View.VISIBLE);
-            newProjectNameLayout.setVisibility(View.VISIBLE);
             newProjectIdLayout.setVisibility(View.VISIBLE);
         }
 
         // always check project ID
-        if (projectId.equals("") && !isIhmInvitationLink && !isCospendScheme) {
-            newProjectIdInputLayout.setBackgroundColor(0x55FF0000);
-            valid = false;
+        if (todoCreate) {
+            if (projectId.equals("")) {
+                newProjectIdInputLayout.setBackgroundColor(0x55FF0000);
+                valid = false;
+            } else {
+                newProjectIdInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+            }
         } else {
-            newProjectIdInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+            if (projectId.equals("") && !isIhmInvitationLink && !isCospendScheme) {
+                newProjectIdInputLayout.setBackgroundColor(0x55FF0000);
+                valid = false;
+            } else {
+                newProjectIdInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+            }
         }
 
-        // first, what is independent from creation/join
         if (!type.equals(ProjectType.LOCAL)) {
             if (
                     !isCospendScheme
@@ -470,11 +476,20 @@ public class NewProjectFragment extends Fragment {
             } else {
                 newProjectUrlInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
             }
-            if (projectPassword.equals("") && !isIhmInvitationLink && !isCospendScheme) {
-                newProjectPasswordInputLayout.setBackgroundColor(0x55FF0000);
-                valid = false;
+            if (todoCreate) {
+                if (projectPassword.equals("")) {
+                    newProjectPasswordInputLayout.setBackgroundColor(0x55FF0000);
+                    valid = false;
+                } else {
+                    newProjectPasswordInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                }
             } else {
-                newProjectPasswordInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                if (projectPassword.equals("") && !isIhmInvitationLink && !isCospendScheme) {
+                    newProjectPasswordInputLayout.setBackgroundColor(0x55FF0000);
+                    valid = false;
+                } else {
+                    newProjectPasswordInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                }
             }
         }
 
