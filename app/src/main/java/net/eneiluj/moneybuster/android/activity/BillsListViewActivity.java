@@ -145,7 +145,6 @@ import static net.eneiluj.moneybuster.util.SupportUtil.settleBills;
 public class BillsListViewActivity extends AppCompatActivity implements ItemAdapter.BillClickListener {
 
     private final static int PERMISSION_FOREGROUND = 1;
-    private final static int PERMISSION_WRITE = 2;
     public static boolean DEBUG = true;
     public static final String BROADCAST_EXTRA_PARAM = "net.eneiluj.moneybuster.broadcast_extra_param";
     public static final String BROADCAST_ERROR_MESSAGE = "net.eneiluj.moneybuster.broadcast_error_message";
@@ -738,18 +737,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 long selectedProjectId = preferences.getLong("selected_project", 0);
 
                 if (selectedProjectId != 0) {
-                    if (ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-
-                        Log.d(TAG, "[request write permission]");
-                        ActivityCompat.requestPermissions(
-                                BillsListViewActivity.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                PERMISSION_WRITE
-                        );
-                    } else {
-                        exportCurrentProject();
-                    }
+                    exportCurrentProject();
                 }
             }
         });
@@ -1883,23 +1871,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
             showToast(e.toString());
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSION_WRITE:
-                if (grantResults.length > 0) {
-                    Log.d(TAG, "[permission WRITE result] " + grantResults[0]);
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        exportCurrentProject();
-                    } else {
-                        showToast(getString(R.string.write_permission_refused));
-                    }
-                }
-                break;
         }
     }
 
