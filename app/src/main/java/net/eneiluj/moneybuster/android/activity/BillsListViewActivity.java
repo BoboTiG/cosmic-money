@@ -737,7 +737,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 long selectedProjectId = preferences.getLong("selected_project", 0);
 
                 if (selectedProjectId != 0) {
-                    exportCurrentProject();
+                    exportProject(selectedProjectId);
                 }
             }
         });
@@ -1831,14 +1831,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
         TextView totalPayedTV = tView.findViewById(R.id.totalPayedText);
         totalPayedTV.setText(getString(R.string.total_payed, totalPayed));
-    }
-
-    private void exportCurrentProject() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long selectedProjectId = preferences.getLong("selected_project", 0);
-        if (selectedProjectId != 0) {
-            exportProject(selectedProjectId);
-        }
     }
 
     private void exportProject(long projectId) {
