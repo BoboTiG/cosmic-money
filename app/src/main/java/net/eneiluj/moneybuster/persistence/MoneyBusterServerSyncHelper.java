@@ -1653,11 +1653,11 @@ public class MoneyBusterServerSyncHelper {
                 String cospendVersion = capabilitiesResponse.getCospendVersion();
                 boolean useOcsApi = cospendVersion == null
                         ? false
-                        : SupportUtil.compareVersions(cospendVersion, "1.6.0") >= 0;
+                        : SupportUtil.compareVersions(cospendVersion, "1.6.1") >= 0;
                 if (cospendVersion == null) {
-                    Log.i(TAG, "project sync: GT160 is FALSE");
+                    Log.i(TAG, "project sync: GT161 is FALSE");
                 } else {
-                    Log.i(TAG, "project sync: GT160: " + (SupportUtil.compareVersions(cospendVersion, "1.6.0") >= 0));
+                    Log.i(TAG, "project sync: GT161: " + (SupportUtil.compareVersions(cospendVersion, "1.6.1") >= 0));
                 }
                 ServerResponse.AccountProjectsResponse response = client.getAccountProjects(customCertManager, useOcsApi);
                 List<DBAccountProject> remoteAccountProjects = response.getAccountProjects(url);
