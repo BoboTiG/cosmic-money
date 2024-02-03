@@ -103,7 +103,6 @@ import net.eneiluj.moneybuster.model.Category;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBBillOwer;
 import net.eneiluj.moneybuster.model.DBCategory;
-import net.eneiluj.moneybuster.model.DBCurrency;
 import net.eneiluj.moneybuster.model.DBMember;
 import net.eneiluj.moneybuster.model.DBPaymentMode;
 import net.eneiluj.moneybuster.model.DBProject;
@@ -123,8 +122,6 @@ import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.SupportUtil;
 import net.eneiluj.moneybuster.util.ThemeUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -291,6 +288,8 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
         setupToolBar();
         setupBillsList();
+        setupProjectFabMenu();
+        setupDrawerButtons();
         setupNavigationMenu();
         setupMembersNavigationList(categoryAdapterSelectedItem);
 
@@ -513,6 +512,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         lastSyncLayout.setBackground(gradientDrawable2);
 
         menuButton.setOnClickListener((v) -> drawerLayout.openDrawer(GravityCompat.START));
+
         final BillsListViewActivity that = this;
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -529,8 +529,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
 
-        final LinearLayout searchEditFrame = searchView.findViewById(R.id
-                .search_edit_frame);
+        final LinearLayout searchEditFrame = searchView.findViewById(R.id.search_edit_frame);
 
         searchEditFrame.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int oldVisibility = -1;
@@ -603,6 +602,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
     private void setupBillsList() {
         initList();
+
         // Pull to Refresh
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -621,10 +621,43 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         });
 
         if (!db.getMoneyBusterServerSyncHelper().isSyncPossible()) {
-            System.out.println("DISABLLLLLL");
+            Log.d(TAG, "[no sync, disabled pull-to-refresh]");
             swipeRefreshLayout.setEnabled(false);
         }
 
+        fabAddBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent createIntent = new Intent(getApplicationContext(), EditBillActivity.class);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                long selectedProjectId = preferences.getLong("selected_project", 0);
+                if (selectedProjectId != 0) {
+                    if (db.getActivatedMembersOfProject(selectedProjectId).size() < 1) {
+                        showToast(getString(R.string.add_bill_impossible_no_member));
+                    } else {
+                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_ID, selectedProjectId);
+                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_TYPE, db.getProject(selectedProjectId).getType().getId());
+                        createBillLauncher.launch(createIntent);
+                    }
+                }
+            }
+        });
+
+        // color
+        boolean darkTheme = MoneyBuster.isDarkTheme(this);
+        // if dark theme and main color is black, make fab button lighter/gray
+        if (darkTheme && ThemeUtils.primaryColor(this) == Color.BLACK) {
+            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
+            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
+        } else {
+            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
+            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
+        }
+        fabAddBill.setRippleColor(ThemeUtils.primaryDarkColor(this));
+        //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
+    }
+
+    private void setupDrawerButtons() {
         fabMenuDrawerEdit.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -645,34 +678,28 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
 
-        /*fabBillListAddProject.setOnClickListener(new View.OnClickListener() {
+        fabSelectProject.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                addProject();
-                drawerLayout.closeDrawers();
+            public void onClick(final View view) {
+                showProjectSelectionDialog();
+                fabMenuDrawerEdit.close(true);
             }
         });
 
-         */
-
-        fabAddBill.setOnClickListener(new View.OnClickListener() {
+        configuredAccount.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent createIntent = new Intent(getApplicationContext(), EditBillActivity.class);
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                long selectedProjectId = preferences.getLong("selected_project", 0);
-                if (selectedProjectId != 0) {
-                    if (db.getActivatedMembersOfProject(selectedProjectId).size() < 1) {
-                        showToast(getString(R.string.add_bill_impossible_no_member));
-                    } else {
-                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_ID, selectedProjectId);
-                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_TYPE, db.getProject(selectedProjectId).getType().getId());
-                        createBillLauncher.launch(createIntent);
-                    }
-                }
+            public void onClick(final View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                serverSettingsLauncher.launch(intent);
             }
         });
 
+        fabMenuDrawerEdit.setMenuButtonColorPressed(ThemeUtils.primaryColor(this));
+        fabSidebarAddProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
+        fabSelectProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
+    }
+
+    private void setupProjectFabMenu() {
         fabManageProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1413,41 +1440,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 }
             }
         });
-
-        fabSelectProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                showProjectSelectionDialog();
-                fabMenuDrawerEdit.close(true);
-            }
-        });
-
-        configuredAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-                serverSettingsLauncher.launch(intent);
-            }
-        });
-
-
-        // color
-        boolean darkTheme = MoneyBuster.isDarkTheme(this);
-        // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(this) == Color.BLACK) {
-            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
-            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
-        } else {
-            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
-            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
-        }
-        fabAddBill.setRippleColor(ThemeUtils.primaryDarkColor(this));
-        //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
-
-        fabSelectProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
-        fabSidebarAddProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
-
-        fabMenuDrawerEdit.setMenuButtonColorPressed(ThemeUtils.primaryColor(this));
 
         fabManageMembers.setColorNormal(ThemeUtils.primaryColor(this));
         fabManageMembers.setColorPressed(ThemeUtils.primaryColor(this));
