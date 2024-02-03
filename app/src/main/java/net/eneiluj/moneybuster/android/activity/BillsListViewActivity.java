@@ -1441,20 +1441,21 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
 
-        fabManageMembers.setColorNormal(ThemeUtils.primaryColor(this));
-        fabManageMembers.setColorPressed(ThemeUtils.primaryColor(this));
-        fabExportProject.setColorNormal(ThemeUtils.primaryColor(this));
-        fabExportProject.setColorPressed(ThemeUtils.primaryColor(this));
-        fabManageProject.setColorNormal(ThemeUtils.primaryColor(this));
-        fabManageProject.setColorPressed(ThemeUtils.primaryColor(this));
-        fabManageCurrencies.setColorNormal(ThemeUtils.primaryColor(this));
-        fabManageCurrencies.setColorPressed(ThemeUtils.primaryColor(this));
-        fabStatistics.setColorNormal(ThemeUtils.primaryColor(this));
-        fabStatistics.setColorPressed(ThemeUtils.primaryColor(this));
-        fabSettle.setColorNormal(ThemeUtils.primaryColor(this));
-        fabSettle.setColorPressed(ThemeUtils.primaryColor(this));
-        fabShareProject.setColorNormal(ThemeUtils.primaryColor(this));
-        fabShareProject.setColorPressed(ThemeUtils.primaryColor(this));
+        int primaryColor = ThemeUtils.primaryColor(this);
+        fabManageMembers.setColorNormal(primaryColor);
+        fabManageMembers.setColorPressed(primaryColor);
+        fabExportProject.setColorNormal(primaryColor);
+        fabExportProject.setColorPressed(primaryColor);
+        fabManageProject.setColorNormal(primaryColor);
+        fabManageProject.setColorPressed(primaryColor);
+        fabManageCurrencies.setColorNormal(primaryColor);
+        fabManageCurrencies.setColorPressed(primaryColor);
+        fabStatistics.setColorNormal(primaryColor);
+        fabStatistics.setColorPressed(primaryColor);
+        fabSettle.setColorNormal(primaryColor);
+        fabSettle.setColorPressed(primaryColor);
+        fabShareProject.setColorNormal(primaryColor);
+        fabShareProject.setColorPressed(primaryColor);
     }
 
     private void showHideButtons() {
