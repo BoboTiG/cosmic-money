@@ -99,7 +99,6 @@ public class AccountActivity extends AppCompatActivity {
 
     private WebView webView;
 
-    private boolean first_run = false;
     private boolean useWebLogin = true;
 
     private LoginDialogFragment loginDialogFragment;
@@ -140,7 +139,6 @@ public class AccountActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(getApplicationContext());
 
         if (!MoneyBusterServerSyncHelper.isNextcloudAccountConfigured(this)) {
-            first_run = true;
             if (getSupportActionBar() != null) {
 //                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
@@ -280,26 +278,6 @@ public class AccountActivity extends AppCompatActivity {
     private void setPasswordHint(boolean hasFocus) {
         boolean unchangedHint = !hasFocus && field_password.getText().toString().isEmpty() && !old_password.isEmpty();
         password_wrapper.setHint(getString(unchangedHint ? R.string.settings_password_unchanged : R.string.settings_password));
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        /*if ((first_run) && (SessionServerSyncHelper.isConfigured(this))) {
-            finish();
-        }*/
-    }
-
-    /**
-     * Prevent pressing back button on first run
-     */
-    @Override
-    public void onBackPressed() {
-        //if (!first_run) {
-            super.onBackPressed();
-        //}
     }
 
     private void legacyLogin() {
