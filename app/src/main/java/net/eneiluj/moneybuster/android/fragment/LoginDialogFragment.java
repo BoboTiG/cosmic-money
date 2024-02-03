@@ -15,7 +15,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledExcepti
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
-import net.eneiluj.moneybuster.android.activity.SettingsActivity;
+import net.eneiluj.moneybuster.android.activity.AccountActivity;
 
 public class LoginDialogFragment extends DialogFragment {
     @NonNull
@@ -42,7 +42,7 @@ public class LoginDialogFragment extends DialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             AccountImporter.onActivityResult(requestCode, resultCode, data, LoginDialogFragment.this, (SingleSignOnAccount account) -> {
-                ((SettingsActivity) getActivity()).onAccountChoose(account);
+                ((AccountActivity) getActivity()).onAccountChoose(account);
             });
         } catch (
                 AccountImportCancelledException e) {

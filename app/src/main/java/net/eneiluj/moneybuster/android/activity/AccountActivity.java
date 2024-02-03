@@ -62,9 +62,9 @@ import java.util.Map;
  * Allows to set Settings like URL, Username and Password for Server-Synchronization
  * Created by stefan on 22.09.15.
  */
-public class SettingsActivity extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity {
 
-    private static final String TAG = SettingsActivity.class.getSimpleName();
+    private static final String TAG = AccountActivity.class.getSimpleName();
     private final static int PERMISSION_GET_ACCOUNTS = 42;
 
     public static final String SETTINGS_USE_SSO = "settingsUseSSO";
@@ -108,7 +108,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_settings, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_account, null);
         setContentView(view);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -194,12 +194,12 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if (isChecked) {
                     loginDialogFragment = new LoginDialogFragment();
-                    loginDialogFragment.show(SettingsActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
+                    loginDialogFragment.show(AccountActivity.this.getSupportFragmentManager(), "NoticeDialogFragment");
 
                     use_sso_switch.setChecked(false);
                 } else {
-                    use_sso_switch.getTrackDrawable().setColorFilter(ContextCompat.getColor(SettingsActivity.this, R.color.fg_default_low), PorterDuff.Mode.SRC_IN);
-                    use_sso_switch.getThumbDrawable().setColorFilter(ContextCompat.getColor(SettingsActivity.this, R.color.fg_default_high), PorterDuff.Mode.MULTIPLY);
+                    use_sso_switch.getTrackDrawable().setColorFilter(ContextCompat.getColor(AccountActivity.this, R.color.fg_default_low), PorterDuff.Mode.SRC_IN);
+                    use_sso_switch.getThumbDrawable().setColorFilter(ContextCompat.getColor(AccountActivity.this, R.color.fg_default_high), PorterDuff.Mode.MULTIPLY);
 
                     url_wrapper.setVisibility(View.VISIBLE);
                     //urlWarnHttp.setVisibility(View.VISIBLE);
@@ -349,7 +349,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void webLogin() {
-        setContentView(R.layout.activity_settings_webview);
+        setContentView(R.layout.activity_account_webview);
         webView = findViewById(R.id.login_webview);
         webView.setVisibility(View.GONE);
 
@@ -513,7 +513,7 @@ public class SettingsActivity extends AppCompatActivity {
         useWebLogin = false;
 
         webView.setVisibility(View.INVISIBLE);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_account);
 
         //ButterKnife.bind(this);
         setupListener();
