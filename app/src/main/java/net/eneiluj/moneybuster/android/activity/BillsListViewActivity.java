@@ -117,6 +117,7 @@ import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
 import net.eneiluj.moneybuster.service.SyncService;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
+import net.eneiluj.moneybuster.util.ExportUtil;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.SupportUtil;
@@ -1860,79 +1861,9 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
     }
 
     private void exportProject(long projectId) {
-        String fileContent = "";
-        // get information
-        DBProject project = db.getProject(projectId);
-        Map<Long, DBMember> membersById = new HashMap<>();
-        List<DBMember> members = db.getMembersOfProject(projectId, null);
-        for (DBMember m : members) {
-            membersById.put(m.getId(), m);
-        }
-        List<DBBill> bills = db.getBillsOfProject(projectId);
+        contentToExport = ExportUtil.createExportContent(db, projectId);
+        String fileName = ExportUtil.createExportFileName(db, projectId);
 
-        String payerName;
-        double payerWeight;
-        int payerActive;
-        Long payerId;
-        String owersTxt;
-        // write bills
-        fileContent += "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,categoryid,paymentmode\n";
-        // just a way to write all members
-        for (DBMember m : members) {
-            DBBill fakeBill = new DBBill(
-                    0, 0, projectId, m.getId(), 1, 666,
-                    "deleteMeIfYouWant", DBBill.STATE_OK, DBBill.NON_REPEATED,
-                    DBBill.PAYMODE_NONE, 0, "", 0
-            );
-            List<DBBillOwer> fakeBillOwers = new ArrayList<>();
-            fakeBillOwers.add(new DBBillOwer(0, 0, m.getId()));
-            fakeBill.setBillOwers(fakeBillOwers);
-            bills.add(0, fakeBill);
-        }
-        for (DBBill b : bills) {
-            payerId = b.getPayerId();
-            payerName = membersById.get(payerId).getName();
-            payerWeight = membersById.get(payerId).getWeight();
-            payerActive = membersById.get(payerId).isActivated() ? 1 : 0;
-            List<DBBillOwer> billOwers = b.getBillOwers();
-            owersTxt = "";
-            for (DBBillOwer bo : billOwers) {
-                owersTxt += membersById.get(bo.getMemberId()).getName() + ", ";
-            }
-            owersTxt = owersTxt.replaceAll(", $", "");
-            fileContent += "\"" + b.getWhat() + "\"," + b.getAmount() + "," + b.getDate() + "," + b.getTimestamp() + ",\"" + payerName + "\"," +
-                    payerWeight + "," + payerActive + ",\"" + owersTxt + "\"," + b.getRepeat() + "," + b.getCategoryRemoteId() +
-                    "," + b.getPaymentMode() + "\n";
-        }
-
-        // write categories
-        List<DBCategory> cats = db.getCategories(projectId);
-        if (cats.size() > 0) {
-            fileContent += "\ncategoryname,categoryid,icon,color\n";
-            for (DBCategory cat : cats) {
-                fileContent += "\"" + cat.getName() + "\"," + cat.getId() + ",\"" + cat.getIcon() + "\",\"" + cat.getColor() + "\"\n";
-            }
-        }
-
-        // write currencies
-        List<DBCurrency> curs = db.getCurrencies(projectId);
-        if (curs.size() > 0 && project.getCurrencyName() != null &&
-                !project.getCurrencyName().isEmpty() && !project.getCurrencyName().equals("null")) {
-            fileContent += "\ncurrencyname,exchange_rate\n";
-            fileContent += "\"" + project.getCurrencyName() + "\",1\n";
-            for (DBCurrency cur : curs) {
-                fileContent += "\"" + cur.getName() + "\"," + cur.getExchangeRate() + "\n";
-            }
-        }
-
-        String fileName;
-        if (project.getName() == null || project.getName().equals("")) {
-            fileName = project.getRemoteId() + ".csv";
-        } else {
-            fileName = project.getName() + ".csv";
-        }
-
-        contentToExport = fileContent;
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/csv");
