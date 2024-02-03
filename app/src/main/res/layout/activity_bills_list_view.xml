@@ -45,12 +45,12 @@
                 android:id="@+id/home_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacer_1x"
+                android:layout_marginStart="@dimen/spacer_2x"
                 android:layout_marginTop="@dimen/spacer_1hx"
-                android:layout_marginEnd="@dimen/spacer_1x"
+                android:layout_marginEnd="@dimen/spacer_2x"
                 android:layout_marginBottom="@dimen/spacer_1hx"
                 app:cardBackgroundColor="@color/appbar"
-                app:cardCornerRadius="@dimen/spacer_1x"
+                app:cardCornerRadius="@dimen/spacer_3x"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
 
@@ -64,10 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:paddingStart="@dimen/spacer_1x"
-                        android:paddingTop="@dimen/spacer_2x"
-                        android:paddingEnd="@dimen/spacer_1x"
-                        android:paddingBottom="@dimen/spacer_2x"
+                        android:padding="@dimen/spacer_2x"
                         android:tint="?attr/colorAccent"
                         app:srcCompat="@drawable/ic_baseline_menu_24" />
 
@@ -76,7 +73,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/spacer_1x"
                         android:layout_marginEnd="@dimen/spacer_1x"
                         android:layout_weight="1"
                         android:textColor="@color/fg_default"
@@ -114,7 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/bg_normal"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                tools:listitem="@layout/fragment_bills_list_bill_item"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
