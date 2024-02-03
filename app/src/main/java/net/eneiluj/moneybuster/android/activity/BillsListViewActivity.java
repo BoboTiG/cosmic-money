@@ -1931,9 +1931,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         } else {
             fileName = project.getName() + ".csv";
         }
-        String path = Environment.getExternalStorageDirectory() + File.separator + "MoneyBuster";
-        // this does not work anymore from Android 10 (Q)
-        //saveToFile(fileContent, path, fileName);
 
         contentToExport = fileContent;
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
@@ -1941,52 +1938,20 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         intent.setType("text/csv");
         intent.putExtra(Intent.EXTRA_TITLE, fileName);
 
-        // Optionally, specify a URI for the directory that should be opened in
-        // the system file picker when your app creates the document.
-        //intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
-
+        // Open the launcher for a user to pick a location.
+        // This will return an ActivityResult which will call saveToFileUri() to write the content to the selected file.
         saveFileLauncher.launch(intent);
     }
 
     private void saveToFileUri(String content, Uri fileUri) {
         try {
             OutputStream fOut = getContentResolver().openOutputStream(fileUri);
-            //FileOutputStream fOut = new FileOutputStream(fileUri.getPath());
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             myOutWriter.append(content);
             myOutWriter.close();
             fOut.flush();
             fOut.close();
             showToast(getString(R.string.file_saved_success, fileUri.getLastPathSegment().replace(
-                    Environment.getExternalStorageDirectory().toString(),
-                    ""))
-            );
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-            showToast(e.toString());
-        }
-    }
-
-    private void saveToFile(String content, String path, String fileName) {
-        File folder = new File(path);
-        if (!folder.exists()) {
-            Log.v(TAG, "create dir "+path);
-            folder.mkdirs();
-        }
-
-        Log.v(TAG, "try to write in ["+path+"] a file named: "+fileName);
-        final File file = new File(path, fileName);
-
-        try {
-            file.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(file);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(content);
-            myOutWriter.close();
-            fOut.flush();
-            fOut.close();
-            showToast(getString(R.string.file_saved_success, file.getAbsolutePath().replace(
                     Environment.getExternalStorageDirectory().toString(),
                     ""))
             );
@@ -2890,9 +2855,9 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                             Log.d(TAG, "SAVE FILE result");
                             if (result.getResultCode() == RESULT_OK) {
                                 if (data != null) {
-                                    Uri savedFile = data.getData();
-                                    Log.v(TAG, "WE SAVE to " + savedFile);
-                                    saveToFileUri(contentToExport, savedFile);
+                                    Uri fileUri = data.getData();
+                                    Log.v(TAG, "WE SAVE to " + fileUri);
+                                    saveToFileUri(contentToExport, fileUri);
                                 }
                             }
                         }
