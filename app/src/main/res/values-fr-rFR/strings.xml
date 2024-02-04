@@ -360,4 +360,5 @@
         <item quantity="one">%d sélectionnés</item>
         <item quantity="other">%d sélectionnés</item>
     </plurals>
+    <string name="fab_manage_currencies">Gérer les devises</string>
 </resources>
