@@ -31,7 +31,7 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.activity.BillsListViewActivity;
-import net.eneiluj.moneybuster.android.activity.SettingsActivity;
+import net.eneiluj.moneybuster.android.activity.AccountActivity;
 import net.eneiluj.moneybuster.model.DBAccountProject;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBBillOwer;
@@ -176,13 +176,13 @@ public class MoneyBusterServerSyncHelper {
 
     public static boolean isNextcloudAccountConfigured(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return !preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS).isEmpty() ||
-                preferences.getBoolean(SettingsActivity.SETTINGS_USE_SSO, false);
+        return !preferences.getString(AccountActivity.SETTINGS_URL, AccountActivity.DEFAULT_SETTINGS).isEmpty() ||
+                preferences.getBoolean(AccountActivity.SETTINGS_USE_SSO, false);
     }
 
     public static String getNextcloudAccountServerUrl(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (preferences.getBoolean(SettingsActivity.SETTINGS_USE_SSO, false)) {
+        if (preferences.getBoolean(AccountActivity.SETTINGS_USE_SSO, false)) {
             try {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(context.getApplicationContext());
                 return ssoAccount.url.replaceAll("/+$", "");
@@ -190,7 +190,7 @@ public class MoneyBusterServerSyncHelper {
                 return "";
             }
         } else {
-            return preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS).replaceAll("/+$", "");
+            return preferences.getString(AccountActivity.SETTINGS_URL, AccountActivity.DEFAULT_SETTINGS).replaceAll("/+$", "");
         }
     }
 
@@ -1119,7 +1119,7 @@ public class MoneyBusterServerSyncHelper {
         String url = "";
         String username = "";
         String password = "";
-        boolean useSSO = preferences.getBoolean(SettingsActivity.SETTINGS_USE_SSO, false);
+        boolean useSSO = preferences.getBoolean(AccountActivity.SETTINGS_USE_SSO, false);
         if (useSSO) {
             try {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
@@ -1132,9 +1132,9 @@ public class MoneyBusterServerSyncHelper {
                 return null;
             }
         } else {
-            url = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS);
-            username = preferences.getString(SettingsActivity.SETTINGS_USERNAME, SettingsActivity.DEFAULT_SETTINGS);
-            password = preferences.getString(SettingsActivity.SETTINGS_PASSWORD, SettingsActivity.DEFAULT_SETTINGS);
+            url = preferences.getString(AccountActivity.SETTINGS_URL, AccountActivity.DEFAULT_SETTINGS);
+            username = preferences.getString(AccountActivity.SETTINGS_USERNAME, AccountActivity.DEFAULT_SETTINGS);
+            password = preferences.getString(AccountActivity.SETTINGS_PASSWORD, AccountActivity.DEFAULT_SETTINGS);
             return new VersatileProjectSyncClient(url, username, password, null, null, cospendVersion, appContext);
         }
     }
@@ -1147,7 +1147,7 @@ public class MoneyBusterServerSyncHelper {
 
         String accountUrl = "";
 
-        boolean useSSO = preferences.getBoolean(SettingsActivity.SETTINGS_USE_SSO, false);
+        boolean useSSO = preferences.getBoolean(AccountActivity.SETTINGS_USE_SSO, false);
         if (useSSO) {
             try {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
@@ -1156,7 +1156,7 @@ public class MoneyBusterServerSyncHelper {
                 return false;
             }
         } else {
-            accountUrl = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS).replaceAll("/$", "");
+            accountUrl = preferences.getString(AccountActivity.SETTINGS_URL, AccountActivity.DEFAULT_SETTINGS).replaceAll("/$", "");
         }
 
         Log.v(TAG, "proj url : "+projUrl+" ; account url : "+accountUrl);
@@ -1579,7 +1579,7 @@ public class MoneyBusterServerSyncHelper {
         String url = "";
         String username = "";
         String password = "";
-        boolean useSSO = preferences.getBoolean(SettingsActivity.SETTINGS_USE_SSO, false);
+        boolean useSSO = preferences.getBoolean(AccountActivity.SETTINGS_USE_SSO, false);
         if (useSSO) {
             try {
                 SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
@@ -1591,9 +1591,9 @@ public class MoneyBusterServerSyncHelper {
                 return null;
             }
         } else {
-            url = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS);
-            username = preferences.getString(SettingsActivity.SETTINGS_USERNAME, SettingsActivity.DEFAULT_SETTINGS);
-            password = preferences.getString(SettingsActivity.SETTINGS_PASSWORD, SettingsActivity.DEFAULT_SETTINGS);
+            url = preferences.getString(AccountActivity.SETTINGS_URL, AccountActivity.DEFAULT_SETTINGS);
+            username = preferences.getString(AccountActivity.SETTINGS_USERNAME, AccountActivity.DEFAULT_SETTINGS);
+            password = preferences.getString(AccountActivity.SETTINGS_PASSWORD, AccountActivity.DEFAULT_SETTINGS);
             return new NextcloudClient(url, username, password, null, appContext);
         }
     }
@@ -1635,7 +1635,7 @@ public class MoneyBusterServerSyncHelper {
             try {
                 // get NC url
                 String url = "";
-                boolean useSSO = preferences.getBoolean(SettingsActivity.SETTINGS_USE_SSO, false);
+                boolean useSSO = preferences.getBoolean(AccountActivity.SETTINGS_USE_SSO, false);
                 if (useSSO) {
                     try {
                         SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(appContext.getApplicationContext());
@@ -1644,7 +1644,7 @@ public class MoneyBusterServerSyncHelper {
                     } catch (NoCurrentAccountSelectedException e) {
                     }
                 } else {
-                    url = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS);
+                    url = preferences.getString(AccountActivity.SETTINGS_URL, AccountActivity.DEFAULT_SETTINGS);
                 }
 
                 List<DBProject> localProjects = dbHelper.getProjects();
@@ -1792,8 +1792,8 @@ public class MoneyBusterServerSyncHelper {
         private LoginStatus getNextcloudColor() {
             Log.d(getClass().getSimpleName(), "getNextcloudColor()");
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
-            String lastETag = preferences.getString(SettingsActivity.SETTINGS_KEY_ETAG, null);
-            long lastModified = preferences.getLong(SettingsActivity.SETTINGS_KEY_LAST_MODIFIED, 0);
+            String lastETag = preferences.getString(AccountActivity.SETTINGS_KEY_ETAG, null);
+            long lastModified = preferences.getLong(AccountActivity.SETTINGS_KEY_LAST_MODIFIED, 0);
             LoginStatus status;
             try {
 

@@ -310,7 +310,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 public void onClick(DialogInterface dialog, int which) {
 
                     if (which == 0) {
-                        Intent newProjectIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                        Intent newProjectIntent = new Intent(getApplicationContext(), AccountActivity.class);
                         serverSettingsLauncher.launch(newProjectIntent);
                         dialog.dismiss();
                     } else if (which == 1) {
@@ -463,9 +463,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         activityVisible = true;
     }
 
-    /**
-     * On pause
-     */
     @Override
     protected void onPause() {
         if (DEBUG) { Log.d(TAG, "[onPause]"); }
@@ -519,7 +516,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent settingsIntent = new Intent(that, SettingsActivity.class);
+                Intent settingsIntent = new Intent(that, AccountActivity.class);
                 serverSettingsLauncher.launch(settingsIntent);
             }
         });
@@ -1427,7 +1424,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         configuredAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
                 serverSettingsLauncher.launch(intent);
             }
         });
@@ -2715,7 +2712,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
     private void displaySearchHelp() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        boolean noMoreSearchHelp = preferences.getBoolean(SettingsActivity.SETTINGS_NO_MORE_SEARCH_HELP, false);
+        boolean noMoreSearchHelp = preferences.getBoolean(AccountActivity.SETTINGS_NO_MORE_SEARCH_HELP, false);
 
         if (!noMoreSearchHelp) {
             AlertDialog.Builder helpBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
@@ -2731,7 +2728,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             helpBuilder.setNeutralButton(getString(R.string.simple_ok_no_more), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    preferences.edit().putBoolean(SettingsActivity.SETTINGS_NO_MORE_SEARCH_HELP, true).apply();
+                    preferences.edit().putBoolean(AccountActivity.SETTINGS_NO_MORE_SEARCH_HELP, true).apply();
                 }
             });
 
@@ -2952,7 +2949,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             String accountServerUrl;
             String accountUser;
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            if (preferences.getBoolean(SettingsActivity.SETTINGS_USE_SSO, false)) {
+            if (preferences.getBoolean(AccountActivity.SETTINGS_USE_SSO, false)) {
                 try {
                     SingleSignOnAccount ssoAccount = SingleAccountHelper.getCurrentSingleSignOnAccount(this);
                     accountServerUrl = ssoAccount.url.replaceAll("/+$", "").replaceAll("^https?://", "");
@@ -2962,10 +2959,10 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                     accountUser = "error";
                 }
             } else {
-                accountServerUrl = preferences.getString(SettingsActivity.SETTINGS_URL, SettingsActivity.DEFAULT_SETTINGS)
+                accountServerUrl = preferences.getString(AccountActivity.SETTINGS_URL, AccountActivity.DEFAULT_SETTINGS)
                         .replaceAll("/+$", "")
                         .replaceAll("^https?://", "");
-                accountUser = preferences.getString(SettingsActivity.SETTINGS_USERNAME, SettingsActivity.DEFAULT_SETTINGS);
+                accountUser = preferences.getString(AccountActivity.SETTINGS_USERNAME, AccountActivity.DEFAULT_SETTINGS);
             }
             configuredAccount.setText(accountUser + "@" + accountServerUrl);
             updateAvatarInDrawer(true);
