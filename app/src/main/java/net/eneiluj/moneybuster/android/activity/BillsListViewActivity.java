@@ -688,7 +688,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         configuredAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
                 serverSettingsLauncher.launch(intent);
             }
         });
