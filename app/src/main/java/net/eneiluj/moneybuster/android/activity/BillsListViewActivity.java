@@ -87,6 +87,7 @@ import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.dialogs.ProjectSettlementDialogBuilder;
+import net.eneiluj.moneybuster.android.dialogs.ProjectShareDialogBuilder;
 import net.eneiluj.moneybuster.android.dialogs.ProjectStatisticsDialogBuilder;
 import net.eneiluj.moneybuster.android.fragment.NewProjectFragment;
 import net.eneiluj.moneybuster.android.ui.ProjectAdapter;
@@ -125,6 +126,7 @@ import java.util.Map;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static net.eneiluj.moneybuster.android.activity.EditProjectActivity.PARAM_PROJECT_ID;
+import static net.eneiluj.moneybuster.util.SupportUtil.getCertManager;
 import static net.eneiluj.moneybuster.util.SupportUtil.getVersionName;
 
 public class BillsListViewActivity extends AppCompatActivity implements ItemAdapter.BillClickListener, IRefreshBillsListCallback {
@@ -814,104 +816,9 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
                 final DBProject proj = db.getProject(selectedProjectId);
 
-                if (selectedProjectId != 0 && proj.getServerUrl() != null && !proj.getServerUrl().equals("")) {
-                    // get url, id and password
-                    String projId = proj.getRemoteId();
-                    String url = proj.getServerUrl()
-                            .replace("https://", "")
-                            .replace("http://", "")
-                            .replace("/index.php/apps/cospend", "");
-                    String password = proj.getPassword();
-
-                    String protocol;
-                    final String publicWebUrl;
-                    String publicWebLink;
-                    if (proj.getServerUrl().contains("index.php/apps/cospend")) {
-                        protocol = "cospend";
-                        publicWebUrl = proj.getServerUrl() + "/loginproject/" + proj.getRemoteId();
-                    } else {
-                        protocol = "ihatemoney";
-                        publicWebUrl = proj.getServerUrl() + "/" + proj.getRemoteId();
-                    }
-                    publicWebLink = "<a href=\"" + publicWebUrl + "\">" + publicWebUrl + "</a>";
-
-                    final String shareUrl = protocol + "://" +
-                            url + "/" + projId + "/" + password;
-                    final String shareLink = "<a href=\"" + shareUrl + "\">" + shareUrl + "</a>";
-
-                    // generate the dialog
-                    AlertDialog.Builder builder = new AlertDialog.Builder(
-                            new ContextThemeWrapper(
-                                    view.getContext(),
-                                    R.style.AppThemeDialog
-                            )
-                    );
-                    builder.setTitle(getString(R.string.share_dialog_title));
-
-                    final View tView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.share_project_items, null);
-
-                    TextView publicUrlTitle = tView.findViewById(R.id.textViewShareProjectPublicUrlTitle);
-                    publicUrlTitle.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-
-                    TextView qrCodeTitle = tView.findViewById(R.id.textViewShareProjectQRCodeTitle);
-                    qrCodeTitle.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-
-                    TextView publicUrlHint = tView.findViewById(R.id.textViewShareProjectPublicUrlHint);
-                    publicUrlHint.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-
-                    TextView publicUrl = tView.findViewById(R.id.textViewShareProjectPublicUrl);
-                    publicUrl.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-                    publicUrl.setText(Html.fromHtml(publicWebLink));
-                    publicUrl.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(final View view) {
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(publicWebUrl));
-                            startActivity(i);
-                        }
-                    });
-
-                    TextView link = tView.findViewById(R.id.textViewShareProject);
-                    link.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-                    link.setText(Html.fromHtml(shareLink));
-                    link.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(final View view) {
-                            showToast(getString(R.string.qrcode_link_open_attempt_warning));
-                        }
-                    });
-
-                    TextView hint = tView.findViewById(R.id.textViewShareProjectHint);
-                    hint.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-                    ImageView img = tView.findViewById(R.id.imageViewShareProject);
-                    try {
-                        Bitmap bitmap = ThemeUtils.encodeAsBitmap(shareUrl);
-                        img.setImageBitmap(bitmap);
-                    } catch (WriterException e) {
-                        e.printStackTrace();
-                    }
-
-                    builder.setView(tView)
-                            .setIcon(R.drawable.ic_share_grey_24dp);
-                    builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.setNeutralButton(getString(R.string.simple_share_share), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // share it
-                            Intent shareIntent = new Intent();
-                            shareIntent.setAction(Intent.ACTION_SEND);
-                            shareIntent.setType("text/plain");
-                            shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.share_share_intent_title, proj.getName()));
-                            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareUrl);
-                            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_share_chooser_title, proj.getName())));
-                        }
-                    });
-                    builder.show();
+                if (selectedProjectId != 0 && proj.isShareable()) {
+                    AlertDialog dialog = new ProjectShareDialogBuilder(view.getContext(), proj).build();
+                    dialog.show();
                     fabMenuDrawerEdit.close(false);
                 } else {
                     showToast(getString(R.string.share_impossible), Toast.LENGTH_LONG);
