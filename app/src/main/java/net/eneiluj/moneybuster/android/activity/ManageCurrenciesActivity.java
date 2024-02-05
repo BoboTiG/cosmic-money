@@ -1,21 +1,11 @@
 package net.eneiluj.moneybuster.android.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceManager;
-import net.eneiluj.moneybuster.R;
-import net.eneiluj.moneybuster.model.DBBill;
-import net.eneiluj.moneybuster.model.DBCurrency;
-import net.eneiluj.moneybuster.model.DBProject;
-import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
-import net.eneiluj.moneybuster.util.ICallback;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,11 +14,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.textfield.TextInputLayout;
+
+import net.eneiluj.moneybuster.R;
+import net.eneiluj.moneybuster.model.DBBill;
+import net.eneiluj.moneybuster.model.DBCurrency;
+import net.eneiluj.moneybuster.model.DBProject;
+import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.util.ICallback;
 
 import java.util.List;
 
 public class ManageCurrenciesActivity extends AppCompatActivity {
+
+    private static final String TAG = ManageCurrenciesActivity.class.getSimpleName();
+
+    public static final String EXTRA_PROJECT_ID = "EXTRA_PROJECT_ID";
+
     private MoneyBusterSQLiteOpenHelper db = null;
 
     private TextView mainCurrencyWarningTextView;
@@ -40,9 +46,9 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
     private Button buttonAddCurrency;
     private LinearLayout currenciesTable;
 
-    private long selectedProjectID;
+    private long selectedProjectID = -1;
 
-    private ICallback editMainCurrencyCallBack = new ICallback() {
+    private final ICallback editMainCurrencyCallBack = new ICallback() {
         @Override
         public void onFinish() {
         }
@@ -66,11 +72,7 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
         builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
         builder.setTitle(title)
                 .setMessage(msg)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> dialog.dismiss())
                 .setIcon(icon)
                 .show();
     }
@@ -92,8 +94,17 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            selectedProjectID = extras.getLong(EXTRA_PROJECT_ID);
+        }
+        if (selectedProjectID == -1) {
+            Log.e(TAG, "Missing project id. Did you pass EXTRA_PROJECT_ID?");
+            Toast.makeText(this, "Can't manage currencies. Reason: missing project id. Possibly a bug.", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
         db = MoneyBusterSQLiteOpenHelper.getInstance(this);
-        selectedProjectID = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("selected_project", 0);
         String mainCurrency = db.getProject(selectedProjectID).getCurrencyName();
 
         mainCurrencyTextEdit.addTextChangedListener(new TextWatcher() {
@@ -135,13 +146,13 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
         buttonAddCurrency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(newCurrencyNameTextEdit.getText().toString().length() > 0 && newCurrencyRateTextEdit.getText().toString().length() > 0){
+                if (newCurrencyNameTextEdit.getText().toString().length() > 0 && newCurrencyRateTextEdit.getText().toString().length() > 0) {
                     double exchangeRate = Double.parseDouble(newCurrencyRateTextEdit.getText().toString());
-                    DBCurrency newCurrency= new DBCurrency(0,
+                    DBCurrency newCurrency = new DBCurrency(0,
                             0,
                             selectedProjectID,
                             newCurrencyNameTextEdit.getText().toString(), exchangeRate, DBBill.STATE_ADDED
-                            );
+                    );
                     db.addCurrencyAndSync(newCurrency);
                     newCurrencyNameTextEdit.setText("");
                     newCurrencyRateTextEdit.setText("");
@@ -188,9 +199,9 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
             }
         });
 
-        if(mainCurrency == null){
+        if (mainCurrency == null) {
             buttonSaveMainCurrency.setEnabled(false);
-        }else{
+        } else {
             mainCurrencyTextEdit.setText(mainCurrency);
             mainCurrencyWarningTextView.setVisibility(View.GONE);
             updateCurrenciesList();
@@ -203,24 +214,24 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
         return true;
     }
 
-    private void checkMainCurrencyTextEdit(){
-        if(mainCurrencyTextEdit.getText().toString().length() == 0){
+    private void checkMainCurrencyTextEdit() {
+        if (mainCurrencyTextEdit.getText().toString().length() == 0) {
             buttonSaveMainCurrency.setEnabled(false);
-        }else{
+        } else {
             buttonSaveMainCurrency.setEnabled(true);
         }
     }
 
-    private void updateRateHint(){
+    private void updateRateHint() {
         String updatedMainCurrency = db.getProject(selectedProjectID).getCurrencyName();
         String rateValue = newCurrencyRateTextEdit.getText().toString();
-        if(rateValue.length() == 0){
+        if (rateValue.length() == 0) {
             rateValue = "X";
         }
-        if(newCurrencyNameTextEdit.getText().toString().length() > 0 && updatedMainCurrency != null){
+        if (newCurrencyNameTextEdit.getText().toString().length() > 0 && updatedMainCurrency != null) {
             newCurrencyRateLayout.setHint("1 " + newCurrencyNameTextEdit.getText().toString() + " = " + rateValue + " " + updatedMainCurrency);
             newCurrencyRateLayout.setEnabled(true);
-        }else{
+        } else {
             newCurrencyRateLayout.setHint(getString(R.string.currency_rate));
             newCurrencyRateLayout.setEnabled(false);
         }
@@ -229,17 +240,17 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
     private void checkNewCurrencyCanBeAdded() {
         if (newCurrencyNameTextEdit.getText().toString().length() > 0 && newCurrencyRateTextEdit.getText().toString().length() > 0) {
             buttonAddCurrency.setEnabled(true);
-        }else{
+        } else {
             buttonAddCurrency.setEnabled(false);
         }
     }
 
-    private void updateCurrenciesList(){
+    private void updateCurrenciesList() {
         currenciesTable.removeAllViews();
         List<DBCurrency> currenciesDB = db.getCurrenciesOfProjectWithState(selectedProjectID, DBBill.STATE_ADDED);
         currenciesDB.addAll(db.getCurrenciesOfProjectWithState(selectedProjectID, DBBill.STATE_EDITED));
         currenciesDB.addAll(db.getCurrenciesOfProjectWithState(selectedProjectID, DBBill.STATE_OK));
-        for(DBCurrency currency: currenciesDB) {
+        for (DBCurrency currency : currenciesDB) {
             View row = LayoutInflater.from(getApplicationContext()).inflate(R.layout.currency_row, null);
             TextView curr_name = row.findViewById(R.id.curr_name);
             //curr_name.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));

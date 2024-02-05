@@ -793,6 +793,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                     final DBProject proj = db.getProject(selectedProjectId);
                     if (proj != null && proj.getType().equals(ProjectType.COSPEND)) {
                         Intent createIntent = new Intent(getApplicationContext(), ManageCurrenciesActivity.class);
+                        createIntent.putExtra(ManageCurrenciesActivity.EXTRA_PROJECT_ID, selectedProjectId);
                         startActivity(createIntent);
                     } else {
                         showToast(getString(R.string.currency_management_unavailable));
