@@ -3,7 +3,6 @@ package net.eneiluj.moneybuster.android.activity;
 import android.Manifest;
 import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,21 +34,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +50,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
@@ -94,24 +86,19 @@ import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 
 import net.eneiluj.moneybuster.R;
+import net.eneiluj.moneybuster.android.dialogs.ProjectSettlementDialogBuilder;
 import net.eneiluj.moneybuster.android.dialogs.ProjectStatisticsDialogBuilder;
 import net.eneiluj.moneybuster.android.fragment.NewProjectFragment;
 import net.eneiluj.moneybuster.android.ui.ProjectAdapter;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
-import net.eneiluj.moneybuster.android.ui.UserAdapter;
-import net.eneiluj.moneybuster.android.ui.UserItem;
 import net.eneiluj.moneybuster.model.Category;
 import net.eneiluj.moneybuster.model.DBBill;
-import net.eneiluj.moneybuster.model.DBBillOwer;
-import net.eneiluj.moneybuster.model.DBCategory;
 import net.eneiluj.moneybuster.model.DBMember;
-import net.eneiluj.moneybuster.model.DBPaymentMode;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.Item;
 import net.eneiluj.moneybuster.model.ItemAdapter;
 import net.eneiluj.moneybuster.model.NavigationAdapter;
 import net.eneiluj.moneybuster.model.ProjectType;
-import net.eneiluj.moneybuster.model.Transaction;
 import net.eneiluj.moneybuster.persistence.LoadBillsListTask;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
@@ -120,6 +107,7 @@ import net.eneiluj.moneybuster.util.CospendClientUtil;
 import net.eneiluj.moneybuster.util.ExportUtil;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
+import net.eneiluj.moneybuster.util.IRefreshBillsListCallback;
 import net.eneiluj.moneybuster.util.SupportUtil;
 import net.eneiluj.moneybuster.util.ThemeUtils;
 
@@ -128,22 +116,18 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static net.eneiluj.moneybuster.android.activity.EditProjectActivity.PARAM_PROJECT_ID;
 import static net.eneiluj.moneybuster.util.SupportUtil.getVersionName;
-import static net.eneiluj.moneybuster.util.SupportUtil.settleBills;
 
-public class BillsListViewActivity extends AppCompatActivity implements ItemAdapter.BillClickListener {
+public class BillsListViewActivity extends AppCompatActivity implements ItemAdapter.BillClickListener, IRefreshBillsListCallback {
 
     private final static int PERMISSION_FOREGROUND = 1;
     public static boolean DEBUG = true;
@@ -806,6 +790,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
 
+        IRefreshBillsListCallback thisActivity = this; // In View.OnClickListener "this" would refer to the listener
         fabSettle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -814,149 +799,9 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
                 if (selectedProjectId != 0) {
                     final DBProject proj = db.getProject(selectedProjectId);
-                    String projectName;
-                    if (proj.getName() == null) {
-                        projectName = proj.getRemoteId();
-                    } else {
-                        projectName = proj.getName();
-                    }
-                    final View tView = LayoutInflater.from(view.getContext()).inflate(R.layout.settle_table, null);
-                    // show member list
-                    List<DBMember> memberList = db.getMembersOfProject(selectedProjectId, null);
-                    List<String> nameList = new ArrayList<>();
-                    List<String> idList = new ArrayList<>();
-                    nameList.add(getString(R.string.center_none));
-                    idList.add(String.valueOf(0));
-                    for (DBMember member : memberList) {
-                        //if (member.isActivated() || member.getId() == bill.getPayerId()) {
-                            nameList.add(member.getName());
-                            idList.add(String.valueOf(member.getId()));
-                        //}
-                    }
-                    List<UserItem> userList = new ArrayList<>();
-                    for (int i = 0; i < nameList.size(); i++) {
-                        userList.add(new UserItem(Long.valueOf(idList.get(i)), nameList.get(i)));
-                    }
-
-                    UserAdapter userAdapter = new UserAdapter(BillsListViewActivity.this, userList);
-                    Spinner centerMemberSpinner = tView.findViewById(R.id.memberCenterSpinner);
-                    centerMemberSpinner.setAdapter(userAdapter);
-                    centerMemberSpinner.getSelectedItemPosition();
-
-                    // generate the dialog
-                    AlertDialog.Builder builder = new AlertDialog.Builder(
-                            new ContextThemeWrapper(
-                                    view.getContext(),
-                                    R.style.AppThemeDialog
-                            )
-                    );
-                    builder.setTitle(getString(R.string.settle_dialog_title));
-
-                    // get stats
-                    Map<Long, Integer> membersNbBills = new HashMap<>();
-                    HashMap<Long, Double> membersBalance = new HashMap<>();
-                    HashMap<Long, Double> membersPaid = new HashMap<>();
-                    HashMap<Long, Double> membersSpent = new HashMap<>();
-
-                    int nbBills = SupportUtil.getStatsOfProject(
-                            proj.getId(), db,
-                            membersNbBills, membersBalance, membersPaid, membersSpent,
-                            -1000, -1000, null, null
-                    );
-
-                    List<DBMember> membersSortedByName = db.getMembersOfProject(proj.getId(), MoneyBusterSQLiteOpenHelper.key_name);
-
-
-                    // get members names per id
-                    final Map<Long, String> memberIdToName = new HashMap<>();
-                    for (DBMember m : membersSortedByName) {
-                        memberIdToName.put(m.getId(), m.getName());
-                    }
-
-                    // table header
-                    TextView hwho = tView.findViewById(R.id.header_who);
-                    hwho.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-                    TextView htowhom = tView.findViewById(R.id.header_towhom);
-                    htowhom.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-                    TextView hhowmuch = tView.findViewById(R.id.header_howmuch);
-                    hhowmuch.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
-
-                    builder.setView(tView).setIcon(R.drawable.ic_compare_arrows_white_24dp);
-                    builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.setNegativeButton(getString(R.string.simple_create_bills), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
-                            final List<Transaction> transactions = settleBills(membersSortedByName, membersBalance, item.getId());
-                            if (transactions == null || transactions.size() == 0) {
-                                return;
-                            }
-                            createBillsFromTransactions(selectedProjectId, transactions);
-                        }
-                    });
-                    builder.setNeutralButton(getString(R.string.simple_settle_share), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String text = getString(R.string.share_settle_intro, projectName) + "\n";
-                            UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
-                            final List<Transaction> transactions = settleBills(membersSortedByName, membersBalance, item.getId());
-                            if (transactions == null || transactions.size() == 0) {
-                                return;
-                            }
-                            // generate text to share
-                            for (Transaction t : transactions) {
-                                double amount = Math.round(t.getAmount() * 100.0) / 100.0;
-                                Log.v(TAG, "TRANSAC " + memberIdToName.get(t.getOwerMemberId()) + " => "
-                                        + memberIdToName.get(t.getReceiverMemberId()) + " ("
-                                        + amount + ")"
-                                );
-                                text += "\n" + getString(
-                                        R.string.share_settle_sentence,
-                                        memberIdToName.get(t.getOwerMemberId()),
-                                        memberIdToName.get(t.getReceiverMemberId()),
-                                        amount
-                                );
-                            }
-                            // share it
-                            Intent shareIntent = new Intent();
-                            shareIntent.setAction(Intent.ACTION_SEND);
-                            shareIntent.setType("text/plain");
-                            shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.share_settle_title, projectName));
-                            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
-                            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_settle_title, projectName)));
-                        }
-                    });
-                    builder.show();
+                    AlertDialog dialog = new ProjectSettlementDialogBuilder(view.getContext(), db, proj, thisActivity).build();
+                    dialog.show();
                     fabMenuDrawerEdit.close(false);
-
-                    // center spinner event
-                    centerMemberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                            if (position <= 0) {
-                                return;
-                            } else {
-                                UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
-                                //return item.getId();
-                                Log.d(TAG, "CENTER ON "+item.getId()+" "+item.getName());
-                                updateSettlement(tView, view, proj.getId(), membersBalance, memberIdToName, item.getId());
-                            }
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parentView) {
-                            Log.d(TAG, "CENTER NOTHING");
-                        }
-                    });
-
-                    UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
-                    updateSettlement(tView, view, proj.getId(), membersBalance, memberIdToName, item.getId());
                 }
             }
         });
@@ -1103,42 +948,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             fabAddBill.show();
             fabMenuDrawerEdit.setVisibility(VISIBLE);
             //fabBillListAddProject.hide();
-        }
-    }
-
-    private void updateSettlement(View tView, View view, long projectId, HashMap<Long, Double> membersBalance,
-                                  Map<Long, String> memberIdToName, long memberId) {
-        List<DBMember> membersSortedByName = db.getMembersOfProject(projectId, MoneyBusterSQLiteOpenHelper.key_name);
-        final List<Transaction> transactions = settleBills(membersSortedByName, membersBalance, memberId);
-        if (transactions == null || transactions.size() == 0) {
-            return;
-        }
-
-        NumberFormat numberFormatter = new DecimalFormat("#0.00");
-        final TableLayout tl = tView.findViewById(R.id.settleTable);
-        //tl.removeAllViews();
-        // clear table
-        int i;
-        for (i = tl.getChildCount()-1; i > 0; i--) {
-            tl.removeViewAt(i);
-        }
-
-        for (Transaction t : transactions) {
-            View row = LayoutInflater.from(getApplicationContext()).inflate(R.layout.settle_row, null);
-            TextView wv = row.findViewById(R.id.settle_who);
-            wv.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));
-            wv.setText(memberIdToName.get(t.getOwerMemberId()));
-
-            TextView pv = row.findViewById(R.id.settle_towhom);
-            pv.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));
-            pv.setText(memberIdToName.get(t.getReceiverMemberId()));
-
-            TextView sv = row.findViewById(R.id.settle_howmuch);
-            sv.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));
-            double amount = Math.round(t.getAmount() * 100.0) / 100.0;
-            sv.setText(numberFormatter.format(amount));
-
-            tl.addView(row);
         }
     }
 
@@ -1334,27 +1143,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             InputMethodManager inputMethodManager = (InputMethodManager) BillsListViewActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
-    }
-
-    private void createBillsFromTransactions(long projectId, List<Transaction> transactions) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        long timestamp = System.currentTimeMillis() / 1000;
-
-        for (Transaction t : transactions) {
-            long owerId = t.getOwerMemberId();
-            long receiverId = t.getReceiverMemberId();
-            //double amount = Math.round(t.getAmount() * 100.0) / 100.0;
-            double amount = t.getAmount();
-            DBBill bill = new DBBill(
-                    0, 0, projectId, owerId, amount,
-                    timestamp, getString(R.string.settle_bill_what),
-                    DBBill.STATE_ADDED, DBBill.NON_REPEATED,
-                    DBBill.PAYMODE_NONE, DBBill.CATEGORY_NONE,
-                    "", DBBill.PAYMODE_ID_NONE);
-            bill.getBillOwers().add(new DBBillOwer(0, 0, receiverId));
-            db.addBill(bill);
-        }
-        refreshLists(true);
     }
 
     private void exportProject(long projectId) {
@@ -2023,7 +1811,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
     private void refreshLists() {
         refreshLists(false);
     }
-    private void refreshLists(final boolean scrollToTop) {
+    public void refreshLists(final boolean scrollToTop) {
         long projId = 0;
         String projName = "";
 
@@ -2715,4 +2503,5 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         }
     };
+
 }
