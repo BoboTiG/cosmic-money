@@ -712,15 +712,18 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                         getString(R.string.fab_rm_project)
                 };
 
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                long selectedProjectId = preferences.getLong("selected_project", 0);
+
                 AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
                 selectBuilder.setTitle(getString(R.string.choose_project_management_action));
                 selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            editProject();
+                            editProject(selectedProjectId);
                         } else {
-                            removeProject();
+                            removeProject(selectedProjectId);
                         }
                         dialog.dismiss();
                     }
@@ -755,15 +758,18 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                         getString(R.string.fab_edit_member)
                 };
 
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                long selectedProjectId = preferences.getLong("selected_project", 0);
+
                 AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
                 selectBuilder.setTitle(getString(R.string.choose_member_management_action));
                 selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            addMember();
+                            addMember(selectedProjectId);
                         } else {
-                            fabEditMember();
+                            fabEditMember(selectedProjectId);
                         }
                         dialog.dismiss();
                     }
@@ -876,10 +882,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         }
     }
 
-    private void editProject() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long selectedProjectId = preferences.getLong("selected_project", 0);
-
+    private void editProject(long selectedProjectId) {
         if (selectedProjectId != 0) {
             DBProject proj = db.getProject(selectedProjectId);
             if (!proj.isLocal()) {
@@ -895,57 +898,54 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         }
     }
 
-    private void removeProject() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final long selectedProjectId = preferences.getLong("selected_project", 0);
+    private void removeProject(long selectedProjectId) {
+        if (selectedProjectId == 0) return;
         DBProject proj = db.getProject(selectedProjectId);
 
-        if (selectedProjectId != 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(
-                    new ContextThemeWrapper(
-                            this,
-                            R.style.AppThemeDialog
-                    )
-            );
-            builder.setTitle(getString(R.string.confirm_remove_project_dialog_title));
-            if (!proj.isLocal()) {
-                builder.setMessage(getString(R.string.confirm_remove_project_dialog_message));
-            }
-
-            // Set up the buttons
-            builder.setPositiveButton(getString(R.string.simple_yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    db.deleteProject(selectedProjectId);
-                    List<DBProject> dbProjects = db.getProjects();
-                    if (dbProjects.size() > 0) {
-                        setSelectedProject(dbProjects.get(0).getId());
-                        Log.v(TAG, "set selection 0");
-                    } else {
-                        setSelectedProject(0);
-                    }
-
-                    fabMenuDrawerEdit.close(false);
-                    //drawerLayout.closeDrawers();
-                    refreshLists();
-                    synchronize();
-                    String projName = proj.getName();
-                    String projectNameString = (projName == null || "".equals(projName)) ? proj.getRemoteId() : projName;
-                    showToast(getString(R.string.remove_project_confirmation, projectNameString));
-                }
-            });
-            builder.setNegativeButton(getString(R.string.simple_no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(
+                        this,
+                        R.style.AppThemeDialog
+                )
+        );
+        builder.setTitle(getString(R.string.confirm_remove_project_dialog_title));
+        if (!proj.isLocal()) {
+            builder.setMessage(getString(R.string.confirm_remove_project_dialog_message));
         }
+
+        // Set up the buttons
+        builder.setPositiveButton(getString(R.string.simple_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.deleteProject(selectedProjectId);
+                List<DBProject> dbProjects = db.getProjects();
+                if (dbProjects.size() > 0) {
+                    setSelectedProject(dbProjects.get(0).getId());
+                    Log.v(TAG, "set selection 0");
+                } else {
+                    setSelectedProject(0);
+                }
+
+                fabMenuDrawerEdit.close(false);
+                //drawerLayout.closeDrawers();
+                refreshLists();
+                synchronize();
+                String projName = proj.getName();
+                String projectNameString = (projName == null || "".equals(projName)) ? proj.getRemoteId() : projName;
+                showToast(getString(R.string.remove_project_confirmation, projectNameString));
+            }
+        });
+        builder.setNegativeButton(getString(R.string.simple_no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
-    private void fabEditMember() {
+    private void fabEditMember(long selectedProjectId) {
         // it was like that before...
                 /*final String selectedMemberIdStr = adapterMembers.getSelectedItem();
 
@@ -954,123 +954,117 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                     long selectedMemberId = Long.valueOf(selectedMemberIdStr);
                     editMember(view, selectedMemberId);
                 }*/
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long selectedProjectId = preferences.getLong("selected_project", 0);
 
-        if (selectedProjectId != 0) {
-            // check if we are allowed
-            DBProject project = db.getProject(selectedProjectId);
-            int myAccessLevel = project.getMyAccessLevel();
-            if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
-                showToast(getString(R.string.insufficient_access_level));
-                return;
-            }
+        if (selectedProjectId == 0) return;
 
-            final List<DBMember> members = db.getMembersOfProject(selectedProjectId, null);
-            List<String> memberNames = new ArrayList<>();
-            for (DBMember m : members) {
-                memberNames.add(m.getName());
-            }
-            CharSequence[] namescs = memberNames.toArray(new CharSequence[memberNames.size()]);
-
-            AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
-            selectBuilder.setTitle(getString(R.string.choose_member_to_edit));
-            selectBuilder.setSingleChoiceItems(namescs, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // user checked an item
-                    editMember(members.get(which).getId());
-                    dialog.dismiss();
-                }
-            });
-
-            selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-
-            AlertDialog selectDialog = selectBuilder.create();
-            selectDialog.show();
+        // check if we are allowed
+        DBProject project = db.getProject(selectedProjectId);
+        int myAccessLevel = project.getMyAccessLevel();
+        if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
+            showToast(getString(R.string.insufficient_access_level));
+            return;
         }
+
+        final List<DBMember> members = db.getMembersOfProject(selectedProjectId, null);
+        List<String> memberNames = new ArrayList<>();
+        for (DBMember m : members) {
+            memberNames.add(m.getName());
+        }
+        CharSequence[] namescs = memberNames.toArray(new CharSequence[memberNames.size()]);
+
+        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+        selectBuilder.setTitle(getString(R.string.choose_member_to_edit));
+        selectBuilder.setSingleChoiceItems(namescs, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+                editMember(members.get(which).getId());
+                dialog.dismiss();
+            }
+        });
+
+        selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
+
+        AlertDialog selectDialog = selectBuilder.create();
+        selectDialog.show();
     }
 
-    private void addMember() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final long selectedProjectId = preferences.getLong("selected_project", 0);
+    private void addMember(long selectedProjectId) {
+        if (selectedProjectId == 0) return;
 
-        if (selectedProjectId != 0) {
-            // check if we are allowed
-            DBProject project = db.getProject(selectedProjectId);
-            int myAccessLevel = project.getMyAccessLevel();
-            if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
-                showToast(getString(R.string.insufficient_access_level));
-                return;
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(
-                    new ContextThemeWrapper(
-                            BillsListViewActivity.this,
-                            R.style.AppThemeDialog
-                    )
-            );
-            builder.setTitle(getString(R.string.add_member_dialog_title));
-
-            // Set up the input
-            final EditText input = new EditText(new ContextThemeWrapper(
-                    BillsListViewActivity.this,
-                    R.style.AppThemeDialog
-            ));
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            input.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String memberName = input.getText().toString();
-
-                    if (!memberName.equals("")) {
-                        List<DBMember> members = db.getMembersOfProject(selectedProjectId, null);
-                        List<String> memberNames = new ArrayList<>();
-                        for (DBMember m : members) {
-                            memberNames.add(m.getName());
-                        }
-                        if (!memberNames.contains(memberName)) {
-                            db.addMemberAndSync(
-                                    new DBMember(0, 0, selectedProjectId, memberName,
-                                            true, 1, DBBill.STATE_ADDED,
-                                            null, null, null, null, null)
-                            );
-                            refreshLists();
-                        } else {
-                            showToast(getString(R.string.member_already_exists));
-                        }
-                    } else {
-                        showToast(getString(R.string.member_edit_empty_name));
-                    }
-
-                    //new LoadCategoryListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                }
-            });
-            builder.setNegativeButton(getString(R.string.simple_cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                    InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                }
-            });
-
-            builder.show();
-            input.setSelectAllOnFocus(true);
-            input.requestFocus();
-            // show keyboard
-            InputMethodManager inputMethodManager = (InputMethodManager) BillsListViewActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        // check if we are allowed
+        DBProject project = db.getProject(selectedProjectId);
+        int myAccessLevel = project.getMyAccessLevel();
+        if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
+            showToast(getString(R.string.insufficient_access_level));
+            return;
         }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog)
+        );
+        builder.setTitle(getString(R.string.add_member_dialog_title));
+
+        // Set up the input
+        final EditText input = new EditText(new ContextThemeWrapper(
+                BillsListViewActivity.this,
+                R.style.AppThemeDialog
+        ));
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String memberName = input.getText().toString();
+
+                if (!memberName.equals("")) {
+                    List<DBMember> members = db.getMembersOfProject(selectedProjectId, null);
+                    List<String> memberNames = new ArrayList<>();
+                    for (DBMember m : members) {
+                        memberNames.add(m.getName());
+                    }
+                    if (!memberNames.contains(memberName)) {
+                        db.addMemberAndSync(
+                                new DBMember(0, 0, selectedProjectId, memberName,
+                                        true, 1, DBBill.STATE_ADDED,
+                                        null, null, null, null, null)
+                        );
+                        refreshLists();
+                    } else {
+                        showToast(getString(R.string.member_already_exists));
+                    }
+                } else {
+                    showToast(getString(R.string.member_edit_empty_name));
+                }
+
+                //new LoadCategoryListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
+        builder.setNegativeButton(getString(R.string.simple_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
+
+        builder.show();
+        input.setSelectAllOnFocus(true);
+        input.requestFocus();
+        // show keyboard
+        InputMethodManager inputMethodManager = (InputMethodManager) BillsListViewActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     private void exportProject(long projectId) {
+        if (projectId == 0) return;
+
         contentToExport = ExportUtil.createExportContent(db, projectId);
         String fileName = ExportUtil.createExportFileName(db, projectId);
 
