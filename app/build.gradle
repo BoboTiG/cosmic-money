@@ -61,7 +61,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
 
 // Other
-    implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.github.kizitonwose.colorpreference:support:1.0.6'
     implementation 'com.larswerkman:lobsterpicker:1.0.1'
     // max zxing version working with API <= 24 is 3.3.3

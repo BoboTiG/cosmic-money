@@ -106,7 +106,7 @@
             tools:ignore="MergeRootFrame">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
+                android:id="@+id/list_bill_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/bg_normal"
