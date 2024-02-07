@@ -145,6 +145,7 @@ import static net.eneiluj.moneybuster.util.SupportUtil.settleBills;
 public class BillsListViewActivity extends AppCompatActivity implements ItemAdapter.BillClickListener {
 
     private final static int PERMISSION_FOREGROUND = 1;
+    private final static int PERMISSION_POST_NOTIFICATIONS = 2;
     public static boolean DEBUG = true;
     public static final String BROADCAST_EXTRA_PARAM = "net.eneiluj.moneybuster.broadcast_extra_param";
     public static final String BROADCAST_ERROR_MESSAGE = "net.eneiluj.moneybuster.broadcast_error_message";
@@ -342,18 +343,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
         displayWelcomeDialog();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                Log.d(TAG, "[request foreground permission]");
-                ActivityCompat.requestPermissions(
-                        this,
-                        new String[]{Manifest.permission.FOREGROUND_SERVICE},
-                        PERMISSION_FOREGROUND
-                );
-            }
-        }
+        checkAndRequestPermissions();
 
         if (!SyncService.isRunning() && preferences.getBoolean(getString(R.string.pref_key_periodical_sync), false)) {
             Intent intent = new Intent(this, SyncService.class);
@@ -385,6 +375,34 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         }
 
+    }
+
+    private void checkAndRequestPermissions(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.FOREGROUND_SERVICE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                Log.d(TAG, "[requesting permission FOREGROUND_SERVICE]");
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.FOREGROUND_SERVICE},
+                        PERMISSION_FOREGROUND
+                );
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                Log.d(TAG, "[requesting permission POST_NOTIFICATIONS]");
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        PERMISSION_POST_NOTIFICATIONS
+                );
+            }
+        }
     }
 
     private void displayWelcomeDialog() {
