@@ -163,7 +163,6 @@
                     app:layoutManager="LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/button_add_project"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="6"
                     tools:itemCount="20"
                     tools:listitem="@layout/item_drawer_project" />
 
@@ -212,13 +211,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:paddingTop="4dp"
-                    android:paddingBottom="0dp"
+                    android:paddingBottom="@dimen/spacer_1x"
                     android:scrollbarFadeDuration="500"
                     android:scrollbars="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constrainedHeight="true"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHeight_max="wrap"
+                    app:layout_constraintHeight_percent="0.4"
                     app:layout_constraintTop_toBottomOf="@id/divider"
-                    app:layout_constraintVertical_weight="4"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_navigation" />
 
