@@ -87,7 +87,6 @@ import net.eneiluj.moneybuster.android.dialogs.ProjectSettlementDialogBuilder;
 import net.eneiluj.moneybuster.android.dialogs.ProjectShareDialogBuilder;
 import net.eneiluj.moneybuster.android.dialogs.ProjectStatisticsDialogBuilder;
 import net.eneiluj.moneybuster.android.fragment.NewProjectFragment;
-import net.eneiluj.moneybuster.android.ui.ProjectAdapter;
 import net.eneiluj.moneybuster.android.ui.ProjectDrawerAdapter;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.model.Category;
@@ -1009,49 +1008,6 @@ public class BillsListViewActivity
         newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_NC_URL, defaultNcUrl);
         newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_IHM_URL, defaultIhmUrl);
         addProjectLauncher.launch(newProjectIntent);
-    }
-
-    private void showProjectSelectionDialog() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final long selectedProjectId = preferences.getLong("selected_project", 0);
-
-        final List<DBProject> dbProjects = db.getProjects();
-        List<Long> projectIds = new ArrayList<>();
-        for (DBProject p : dbProjects) {
-            projectIds.add(p.getId());
-        }
-
-        int checkedItem;
-        if (selectedProjectId != 0) {
-            checkedItem = projectIds.indexOf(selectedProjectId);
-        } else {
-            checkedItem = -1;
-        }
-
-        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
-        selectBuilder.setTitle(getString(R.string.choose_project_to_select));
-        ProjectAdapter projectAdapter = new ProjectAdapter(this, dbProjects, checkedItem);
-        selectBuilder.setSingleChoiceItems(projectAdapter, checkedItem, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user checked an item
-                setSelectedProject(dbProjects.get(which).getId());
-                //preferences.edit().putLong("selected_project", dbProjects.get(which).getId()).apply();
-
-                drawerLayout.closeDrawers();
-                refreshLists();
-                boolean offlineMode = preferences.getBoolean(getString(R.string.pref_key_offline_mode), false);
-                if (!offlineMode) {
-                    synchronize();
-                }
-                dialog.dismiss();
-            }
-        });
-
-        selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-
-        AlertDialog selectDialog = selectBuilder.create();
-        selectDialog.show();
     }
 
     private void setSelectedProject(long projectId) {

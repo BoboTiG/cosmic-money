@@ -282,7 +282,6 @@
     <string name="share_stats_header">نام_عضو (پرداخت شده | خرج شده | موجودی)</string>
     <string name="drawer_no_project">هیچ پروژه ای وجود ندارد.\nبرای ساختن/افزودن اینجا بزنید</string>
     <string name="drawer_no_account">برای اتصال به حساب Nextcloud اینجا کلیک کنید</string>
-    <string name="choose_project_to_select">یک پروژه انتخاب کنید</string>
     <string name="add_bill_impossible_no_member">At least one activated member is required to add a bill</string>
     <string name="edit_project_local_impossible">برای پروژه‌های محلی ناممکن است</string>
     <string name="choose_account_project_dialog_title">یک پروژه را از حساب Nextcloud خود انتخاب کنید</string>

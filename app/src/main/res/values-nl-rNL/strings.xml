@@ -282,7 +282,6 @@
     <string name="share_stats_header">NAAM_VAN_DEELNEMER (BETAALD | UITGEGEVEN | SALDO)</string>
     <string name="drawer_no_project">Er is nog geen project.\nCreëer er één of voeg er één toe</string>
     <string name="drawer_no_account">Click here to connect to a Nextcloud account</string>
-    <string name="choose_project_to_select">Project kiezen</string>
     <string name="add_bill_impossible_no_member">At least one activated member is required to add a bill</string>
     <string name="edit_project_local_impossible">Onmogelijk voor lokale projecten</string>
     <string name="choose_account_project_dialog_title">Kies een project uit je Nextcloud account</string>

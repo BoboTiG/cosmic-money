@@ -282,7 +282,6 @@
     <string name="share_stats_header">MEMBER_NAME (ПЛАТИЛ | ПОХАРЧИЛ | САЛДО)</string>
     <string name="drawer_no_project">Няма проект.\nЧукнете тук, за да сътворите/добавите проект</string>
     <string name="drawer_no_account">Кликнете тук, за да се свържете с акаунт в Nextcloud</string>
-    <string name="choose_project_to_select">Изберете проект</string>
     <string name="add_bill_impossible_no_member">Нужен е поне един активиран член, за да се добави сметка</string>
     <string name="edit_project_local_impossible">Невъзможно за местни проекти</string>
     <string name="choose_account_project_dialog_title">Изберете проект от акаунта си в Nextcloud</string>
