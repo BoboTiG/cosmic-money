@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/spacer_1qx"
+    android:background="@drawable/bg_navdrawer_item"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingHorizontal="12dp">
+
+    <ImageView
+        android:id="@+id/project_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacer_1x"
+        android:src="@drawable/ic_phone_android_grey_24dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacer_1x"
+        android:layout_marginVertical="@dimen/spacer_1hx"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_project_title"
+            style="@style/NavigationItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Example project" />
+
+        <TextView
+            android:id="@+id/text_project_url"
+            style="@style/NavigationItem.Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="example-project@cloud.example.com" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/project_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacer_1x"
+        android:src="@drawable/ic_more_vert_gray_24dp" />
+</LinearLayout>

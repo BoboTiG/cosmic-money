@@ -49,7 +49,13 @@
     <style name="NavigationItem">
         <item name="android:textSize">@dimen/secondary_font_size</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">#de000000</item>
+        <item name="android:textColor">@color/fg_default</item>
+    </style>
+
+    <style name="NavigationItem.Subtitle">
+        <item name="android:textSize">@dimen/subtitle_font_size</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/fg_default_low</item>
     </style>
 
     <style name="fab">
