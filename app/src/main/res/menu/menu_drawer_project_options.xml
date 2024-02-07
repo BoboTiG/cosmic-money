@@ -2,37 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/opt_manage_project"
-        android:icon="@drawable/ic_edit_white_24dp"
+        android:icon="@drawable/ic_edit_black_24dp_daynight"
         android:orderInCategory="10"
         android:title="@string/action_manage_project" />
     <item
         android:id="@+id/opt_manage_members"
-        android:icon="@drawable/ic_account_circle_white_24dp"
+        android:icon="@drawable/ic_account_circle_black_24dp_daynight"
         android:orderInCategory="20"
         android:title="@string/fab_manage_members" />
     <item
         android:id="@+id/opt_manage_currencies"
-        android:icon="@drawable/ic_currency_white_24dp"
+        android:icon="@drawable/ic_currency_black_24dp_daynight"
         android:orderInCategory="30"
         android:title="@string/fab_manage_currencies" />
     <item
         android:id="@+id/opt_project_statistics"
-        android:icon="@drawable/ic_chart_white_24dp"
+        android:icon="@drawable/ic_chart_black_24dp_daynight"
         android:orderInCategory="40"
         android:title="@string/fab_statistics" />
     <item
         android:id="@+id/opt_settle_project"
-        android:icon="@drawable/ic_compare_arrows_white_24dp"
+        android:icon="@drawable/ic_compare_arrows_black_24dp_daynight"
         android:orderInCategory="50"
         android:title="@string/fab_settle" />
     <item
         android:id="@+id/opt_share_project"
-        android:icon="@drawable/ic_share_white_24dp"
+        android:icon="@drawable/ic_share_black_24dp_daynight"
         android:orderInCategory="60"
         android:title="@string/action_share_project" />
     <item
         android:id="@+id/opt_export_project"
-        android:icon="@drawable/ic_save_white_24dp"
+        android:icon="@drawable/ic_save_black_24dp_daynight"
         android:orderInCategory="70"
         android:title="@string/fab_export_project" />
 </menu>

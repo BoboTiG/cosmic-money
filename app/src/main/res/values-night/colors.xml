@@ -17,6 +17,7 @@
     <color name="fg_default_low">#aaaaaa</color>
     <color name="fg_default_high">#666666</color>
     <color name="fg_contrast">#000000</color>
+    <color name="ic_black_daynight">#ffffff</color>
     <color name="primary_text">#FFFFFF</color>
 
     <color name="appbar">#212121</color>
