@@ -103,7 +103,6 @@ import net.eneiluj.moneybuster.model.Category;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBBillOwer;
 import net.eneiluj.moneybuster.model.DBCategory;
-import net.eneiluj.moneybuster.model.DBCurrency;
 import net.eneiluj.moneybuster.model.DBMember;
 import net.eneiluj.moneybuster.model.DBPaymentMode;
 import net.eneiluj.moneybuster.model.DBProject;
@@ -117,13 +116,12 @@ import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
 import net.eneiluj.moneybuster.service.SyncService;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
+import net.eneiluj.moneybuster.util.ExportUtil;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.SupportUtil;
 import net.eneiluj.moneybuster.util.ThemeUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -147,7 +145,6 @@ import static net.eneiluj.moneybuster.util.SupportUtil.settleBills;
 public class BillsListViewActivity extends AppCompatActivity implements ItemAdapter.BillClickListener {
 
     private final static int PERMISSION_FOREGROUND = 1;
-    private final static int PERMISSION_WRITE = 2;
     public static boolean DEBUG = true;
     public static final String BROADCAST_EXTRA_PARAM = "net.eneiluj.moneybuster.broadcast_extra_param";
     public static final String BROADCAST_ERROR_MESSAGE = "net.eneiluj.moneybuster.broadcast_error_message";
@@ -290,6 +287,8 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
         setupToolBar();
         setupBillsList();
+        setupProjectFabMenu();
+        setupDrawerButtons();
         setupNavigationMenu();
         setupMembersNavigationList(categoryAdapterSelectedItem);
 
@@ -512,6 +511,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         lastSyncLayout.setBackground(gradientDrawable2);
 
         menuButton.setOnClickListener((v) -> drawerLayout.openDrawer(GravityCompat.START));
+
         final BillsListViewActivity that = this;
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -528,8 +528,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
 
-        final LinearLayout searchEditFrame = searchView.findViewById(R.id
-                .search_edit_frame);
+        final LinearLayout searchEditFrame = searchView.findViewById(R.id.search_edit_frame);
 
         searchEditFrame.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int oldVisibility = -1;
@@ -602,6 +601,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
     private void setupBillsList() {
         initList();
+
         // Pull to Refresh
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -620,10 +620,43 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         });
 
         if (!db.getMoneyBusterServerSyncHelper().isSyncPossible()) {
-            System.out.println("DISABLLLLLL");
+            Log.d(TAG, "[no sync, disabled pull-to-refresh]");
             swipeRefreshLayout.setEnabled(false);
         }
 
+        fabAddBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent createIntent = new Intent(getApplicationContext(), EditBillActivity.class);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                long selectedProjectId = preferences.getLong("selected_project", 0);
+                if (selectedProjectId != 0) {
+                    if (db.getActivatedMembersOfProject(selectedProjectId).size() < 1) {
+                        showToast(getString(R.string.add_bill_impossible_no_member));
+                    } else {
+                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_ID, selectedProjectId);
+                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_TYPE, db.getProject(selectedProjectId).getType().getId());
+                        createBillLauncher.launch(createIntent);
+                    }
+                }
+            }
+        });
+
+        // color
+        boolean darkTheme = MoneyBuster.isDarkTheme(this);
+        // if dark theme and main color is black, make fab button lighter/gray
+        if (darkTheme && ThemeUtils.primaryColor(this) == Color.BLACK) {
+            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
+            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
+        } else {
+            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
+            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
+        }
+        fabAddBill.setRippleColor(ThemeUtils.primaryDarkColor(this));
+        //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
+    }
+
+    private void setupDrawerButtons() {
         fabMenuDrawerEdit.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -644,34 +677,28 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
 
-        /*fabBillListAddProject.setOnClickListener(new View.OnClickListener() {
+        fabSelectProject.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                addProject();
-                drawerLayout.closeDrawers();
+            public void onClick(final View view) {
+                showProjectSelectionDialog();
+                fabMenuDrawerEdit.close(true);
             }
         });
 
-         */
-
-        fabAddBill.setOnClickListener(new View.OnClickListener() {
+        configuredAccount.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent createIntent = new Intent(getApplicationContext(), EditBillActivity.class);
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                long selectedProjectId = preferences.getLong("selected_project", 0);
-                if (selectedProjectId != 0) {
-                    if (db.getActivatedMembersOfProject(selectedProjectId).size() < 1) {
-                        showToast(getString(R.string.add_bill_impossible_no_member));
-                    } else {
-                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_ID, selectedProjectId);
-                        createIntent.putExtra(EditBillActivity.PARAM_PROJECT_TYPE, db.getProject(selectedProjectId).getType().getId());
-                        createBillLauncher.launch(createIntent);
-                    }
-                }
+            public void onClick(final View view) {
+                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+                serverSettingsLauncher.launch(intent);
             }
         });
 
+        fabMenuDrawerEdit.setMenuButtonColorPressed(ThemeUtils.primaryColor(this));
+        fabSidebarAddProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
+        fabSelectProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
+    }
+
+    private void setupProjectFabMenu() {
         fabManageProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -710,18 +737,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 long selectedProjectId = preferences.getLong("selected_project", 0);
 
                 if (selectedProjectId != 0) {
-                    if (ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-
-                        Log.d(TAG, "[request write permission]");
-                        ActivityCompat.requestPermissions(
-                                BillsListViewActivity.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                PERMISSION_WRITE
-                        );
-                    } else {
-                        exportCurrentProject();
-                    }
+                    exportProject(selectedProjectId);
                 }
             }
         });
@@ -1413,55 +1429,21 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
 
-        fabSelectProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                showProjectSelectionDialog();
-                fabMenuDrawerEdit.close(true);
-            }
-        });
-
-        configuredAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-                serverSettingsLauncher.launch(intent);
-            }
-        });
-
-
-        // color
-        boolean darkTheme = MoneyBuster.isDarkTheme(this);
-        // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(this) == Color.BLACK) {
-            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
-            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
-        } else {
-            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
-            //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
-        }
-        fabAddBill.setRippleColor(ThemeUtils.primaryDarkColor(this));
-        //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
-
-        fabSelectProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
-        fabSidebarAddProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
-
-        fabMenuDrawerEdit.setMenuButtonColorPressed(ThemeUtils.primaryColor(this));
-
-        fabManageMembers.setColorNormal(ThemeUtils.primaryColor(this));
-        fabManageMembers.setColorPressed(ThemeUtils.primaryColor(this));
-        fabExportProject.setColorNormal(ThemeUtils.primaryColor(this));
-        fabExportProject.setColorPressed(ThemeUtils.primaryColor(this));
-        fabManageProject.setColorNormal(ThemeUtils.primaryColor(this));
-        fabManageProject.setColorPressed(ThemeUtils.primaryColor(this));
-        fabManageCurrencies.setColorNormal(ThemeUtils.primaryColor(this));
-        fabManageCurrencies.setColorPressed(ThemeUtils.primaryColor(this));
-        fabStatistics.setColorNormal(ThemeUtils.primaryColor(this));
-        fabStatistics.setColorPressed(ThemeUtils.primaryColor(this));
-        fabSettle.setColorNormal(ThemeUtils.primaryColor(this));
-        fabSettle.setColorPressed(ThemeUtils.primaryColor(this));
-        fabShareProject.setColorNormal(ThemeUtils.primaryColor(this));
-        fabShareProject.setColorPressed(ThemeUtils.primaryColor(this));
+        int primaryColor = ThemeUtils.primaryColor(this);
+        fabManageMembers.setColorNormal(primaryColor);
+        fabManageMembers.setColorPressed(primaryColor);
+        fabExportProject.setColorNormal(primaryColor);
+        fabExportProject.setColorPressed(primaryColor);
+        fabManageProject.setColorNormal(primaryColor);
+        fabManageProject.setColorPressed(primaryColor);
+        fabManageCurrencies.setColorNormal(primaryColor);
+        fabManageCurrencies.setColorPressed(primaryColor);
+        fabStatistics.setColorNormal(primaryColor);
+        fabStatistics.setColorPressed(primaryColor);
+        fabSettle.setColorNormal(primaryColor);
+        fabSettle.setColorPressed(primaryColor);
+        fabShareProject.setColorNormal(primaryColor);
+        fabShareProject.setColorPressed(primaryColor);
     }
 
     private void showHideButtons() {
@@ -1851,107 +1833,23 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         totalPayedTV.setText(getString(R.string.total_payed, totalPayed));
     }
 
-    private void exportCurrentProject() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long selectedProjectId = preferences.getLong("selected_project", 0);
-        if (selectedProjectId != 0) {
-            exportProject(selectedProjectId);
-        }
-    }
-
     private void exportProject(long projectId) {
-        String fileContent = "";
-        // get information
-        DBProject project = db.getProject(projectId);
-        Map<Long, DBMember> membersById = new HashMap<>();
-        List<DBMember> members = db.getMembersOfProject(projectId, null);
-        for (DBMember m : members) {
-            membersById.put(m.getId(), m);
-        }
-        List<DBBill> bills = db.getBillsOfProject(projectId);
+        contentToExport = ExportUtil.createExportContent(db, projectId);
+        String fileName = ExportUtil.createExportFileName(db, projectId);
 
-        String payerName;
-        double payerWeight;
-        int payerActive;
-        Long payerId;
-        String owersTxt;
-        // write bills
-        fileContent += "what,amount,date,timestamp,payer_name,payer_weight,payer_active,owers,repeat,categoryid,paymentmode\n";
-        // just a way to write all members
-        for (DBMember m : members) {
-            DBBill fakeBill = new DBBill(
-                    0, 0, projectId, m.getId(), 1, 666,
-                    "deleteMeIfYouWant", DBBill.STATE_OK, DBBill.NON_REPEATED,
-                    DBBill.PAYMODE_NONE, 0, "", 0
-            );
-            List<DBBillOwer> fakeBillOwers = new ArrayList<>();
-            fakeBillOwers.add(new DBBillOwer(0, 0, m.getId()));
-            fakeBill.setBillOwers(fakeBillOwers);
-            bills.add(0, fakeBill);
-        }
-        for (DBBill b : bills) {
-            payerId = b.getPayerId();
-            payerName = membersById.get(payerId).getName();
-            payerWeight = membersById.get(payerId).getWeight();
-            payerActive = membersById.get(payerId).isActivated() ? 1 : 0;
-            List<DBBillOwer> billOwers = b.getBillOwers();
-            owersTxt = "";
-            for (DBBillOwer bo : billOwers) {
-                owersTxt += membersById.get(bo.getMemberId()).getName() + ", ";
-            }
-            owersTxt = owersTxt.replaceAll(", $", "");
-            fileContent += "\"" + b.getWhat() + "\"," + b.getAmount() + "," + b.getDate() + "," + b.getTimestamp() + ",\"" + payerName + "\"," +
-                    payerWeight + "," + payerActive + ",\"" + owersTxt + "\"," + b.getRepeat() + "," + b.getCategoryRemoteId() +
-                    "," + b.getPaymentMode() + "\n";
-        }
-
-        // write categories
-        List<DBCategory> cats = db.getCategories(projectId);
-        if (cats.size() > 0) {
-            fileContent += "\ncategoryname,categoryid,icon,color\n";
-            for (DBCategory cat : cats) {
-                fileContent += "\"" + cat.getName() + "\"," + cat.getId() + ",\"" + cat.getIcon() + "\",\"" + cat.getColor() + "\"\n";
-            }
-        }
-
-        // write currencies
-        List<DBCurrency> curs = db.getCurrencies(projectId);
-        if (curs.size() > 0 && project.getCurrencyName() != null &&
-                !project.getCurrencyName().isEmpty() && !project.getCurrencyName().equals("null")) {
-            fileContent += "\ncurrencyname,exchange_rate\n";
-            fileContent += "\"" + project.getCurrencyName() + "\",1\n";
-            for (DBCurrency cur : curs) {
-                fileContent += "\"" + cur.getName() + "\"," + cur.getExchangeRate() + "\n";
-            }
-        }
-
-        String fileName;
-        if (project.getName() == null || project.getName().equals("")) {
-            fileName = project.getRemoteId() + ".csv";
-        } else {
-            fileName = project.getName() + ".csv";
-        }
-        String path = Environment.getExternalStorageDirectory() + File.separator + "MoneyBuster";
-        // this does not work anymore from Android 10 (Q)
-        //saveToFile(fileContent, path, fileName);
-
-        contentToExport = fileContent;
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/csv");
         intent.putExtra(Intent.EXTRA_TITLE, fileName);
 
-        // Optionally, specify a URI for the directory that should be opened in
-        // the system file picker when your app creates the document.
-        //intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
-
+        // Open the launcher for a user to pick a location.
+        // This will return an ActivityResult which will call saveToFileUri() to write the content to the selected file.
         saveFileLauncher.launch(intent);
     }
 
     private void saveToFileUri(String content, Uri fileUri) {
         try {
             OutputStream fOut = getContentResolver().openOutputStream(fileUri);
-            //FileOutputStream fOut = new FileOutputStream(fileUri.getPath());
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             myOutWriter.append(content);
             myOutWriter.close();
@@ -1965,52 +1863,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
             showToast(e.toString());
-        }
-    }
-
-    private void saveToFile(String content, String path, String fileName) {
-        File folder = new File(path);
-        if (!folder.exists()) {
-            Log.v(TAG, "create dir "+path);
-            folder.mkdirs();
-        }
-
-        Log.v(TAG, "try to write in ["+path+"] a file named: "+fileName);
-        final File file = new File(path, fileName);
-
-        try {
-            file.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(file);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(content);
-            myOutWriter.close();
-            fOut.flush();
-            fOut.close();
-            showToast(getString(R.string.file_saved_success, file.getAbsolutePath().replace(
-                    Environment.getExternalStorageDirectory().toString(),
-                    ""))
-            );
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-            showToast(e.toString());
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSION_WRITE:
-                if (grantResults.length > 0) {
-                    Log.d(TAG, "[permission WRITE result] " + grantResults[0]);
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        exportCurrentProject();
-                    } else {
-                        showToast(getString(R.string.write_permission_refused));
-                    }
-                }
-                break;
         }
     }
 
@@ -2890,9 +2742,9 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                             Log.d(TAG, "SAVE FILE result");
                             if (result.getResultCode() == RESULT_OK) {
                                 if (data != null) {
-                                    Uri savedFile = data.getData();
-                                    Log.v(TAG, "WE SAVE to " + savedFile);
-                                    saveToFileUri(contentToExport, savedFile);
+                                    Uri fileUri = data.getData();
+                                    Log.v(TAG, "WE SAVE to " + fileUri);
+                                    saveToFileUri(contentToExport, fileUri);
                                 }
                             }
                         }
