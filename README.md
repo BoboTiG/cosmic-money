@@ -1,5 +1,5 @@
 # MoneyBuster for Android
-Shared budget manager able to sync with [IHateMoney](https://github.com/spiral-project/ihatemoney/) and [Nextcloud Cospend](https://gitlab.com/eneiluj/cospend-nc).
+Shared budget manager able to sync with [IHateMoney](https://github.com/spiral-project/ihatemoney/) and [Nextcloud Cospend](https://github.com/julien-nc/cospend-nc).
 
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/moneybuster/localized.svg)](https://crowdin.com/project/moneybuster)
 
