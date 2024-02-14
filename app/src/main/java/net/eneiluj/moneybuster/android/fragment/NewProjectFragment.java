@@ -445,7 +445,7 @@ public class NewProjectFragment extends Fragment {
             newProjectPasswordLayout.setVisibility(View.GONE);
             newProjectIdLayout.setVisibility(View.GONE);
         } else {
-            newProjectPasswordLayout.setVisibility(View.VISIBLE);
+            newProjectPasswordLayout.setVisibility((type.equals(ProjectType.COSPEND) && todoCreate) ? View.GONE : View.VISIBLE);
             newProjectIdLayout.setVisibility(View.VISIBLE);
         }
 
@@ -477,7 +477,7 @@ public class NewProjectFragment extends Fragment {
                 newProjectUrlInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
             }
             if (todoCreate) {
-                if (projectPassword.equals("")) {
+                if (type.equals(ProjectType.IHATEMONEY) && projectPassword.equals("")) {
                     newProjectPasswordInputLayout.setBackgroundColor(0x55FF0000);
                     valid = false;
                 } else {
@@ -615,6 +615,7 @@ public class NewProjectFragment extends Fragment {
             nextcloudButton.setVisibility((!todoCreate && isNCC && accProjs.size() > 0) ? View.VISIBLE : View.GONE);
             nextcloudCreateButton.setVisibility((todoCreate && isNCC) ? View.VISIBLE : View.GONE);
             importButton.setVisibility(View.GONE);
+            newProjectPasswordLayout.setVisibility(todoCreate ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -845,12 +846,16 @@ public class NewProjectFragment extends Fragment {
                 String url = getUrl();
                 if (!isValidUrl(url)) {
                     //showToast(getString(R.string.error_invalid_url), Toast.LENGTH_LONG);
+                    Log.e(TAG, "invalid URL");
                     return;
                 }
-                String pwd = getPassword();
-                if (url != null && !url.equals("") && (pwd == null || pwd.equals(""))) {
-                    //showToast(getString(R.string.error_invalid_project_password), Toast.LENGTH_LONG);
-                    return;
+                if (ProjectType.IHATEMONEY.equals(type)) {
+                    String pwd = getPassword();
+                    if (url != null && !url.equals("") && (pwd == null || pwd.equals(""))) {
+                        //showToast(getString(R.string.error_invalid_project_password), Toast.LENGTH_LONG);
+                        Log.e(TAG, "invalid password");
+                        return;
+                    }
                 }
             }
         }
@@ -871,10 +876,12 @@ public class NewProjectFragment extends Fragment {
             String name = getName();
             if (name == null || name.equals("")) {
                 //showToast(getString(R.string.error_invalid_project_name), Toast.LENGTH_LONG);
+                Log.e(TAG, "invalid project name");
                 return;
             }
             if (!SupportUtil.isValidEmail(getEmail())) {
                 //showToast(getString(R.string.error_invalid_email), Toast.LENGTH_LONG);
+                Log.e(TAG, "invalid email");
                 return;
             }
             progress = new ProgressDialog(getContext());
@@ -1070,7 +1077,7 @@ public class NewProjectFragment extends Fragment {
         if (!url.startsWith("http://") && !url.startsWith("https://") && isValidUrl("https://"+url)) {
             url = "https://" + url;
         }
-        Log.v(TAG, "URL : "+url);
+        Log.v(TAG, "getUrl: " + url);
         return url;
     }
     protected boolean isValidUrl(String url) {

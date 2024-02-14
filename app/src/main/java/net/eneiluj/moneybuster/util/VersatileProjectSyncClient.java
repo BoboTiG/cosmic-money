@@ -761,10 +761,10 @@ public class VersatileProjectSyncClient {
                 if (this.cospendVersionGT161) {
                     target = "/ocs/v2.php/apps/cospend/api/v1/projects/" + project.getRemoteId() + "/members";
                     Log.i(TAG, "using new API for createRemoteBill");
-                    return new ServerResponse.CreateRemoteMemberResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, paramKeys, paramValues, true), true);
+                    return new ServerResponse.CreateRemoteMemberResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, paramKeys, paramValues, true), true, true);
                 } else {
                     target = "/index.php/apps/cospend/api-priv/projects/" + project.getRemoteId() + "/members";
-                    return new ServerResponse.CreateRemoteMemberResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, paramKeys, paramValues, false), false);
+                    return new ServerResponse.CreateRemoteMemberResponse(requestServerWithSSO(nextcloudAPI, target, METHOD_POST, paramKeys, paramValues, false), false, false);
                 }
             } else {
                 useOcsApiRequest = this.cospendVersionGT161;
@@ -788,7 +788,8 @@ public class VersatileProjectSyncClient {
                 requestServer(
                         ccm, target, METHOD_POST, paramKeys, paramValues, null,
                         username, password, bearerToken, useOcsApiRequest
-                ), useOcsApiRequest
+                ), useOcsApiRequest,
+                ProjectType.COSPEND.equals(project.getType()) && this.cospendVersionGT161
         );
     }
 

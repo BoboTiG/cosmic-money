@@ -388,7 +388,7 @@ public class MoneyBusterServerSyncHelper {
                     } else {
                         // it does not exist, create it remotely
                         ServerResponse.CreateRemoteMemberResponse createRemoteMemberResponse = client.createRemoteMember(customCertManager, project, mToAdd);
-                        long newRemoteId = Long.parseLong(createRemoteMemberResponse.getStringContent());
+                        long newRemoteId = createRemoteMemberResponse.getRemoteMemberId();
                         if (newRemoteId > 0) {
                             dbHelper.updateMember(
                                 mToAdd.getId(), null,
@@ -1393,7 +1393,9 @@ public class MoneyBusterServerSyncHelper {
     public boolean createRemoteProject(String remoteId, String name, String email, String password, String ihmUrl, ProjectType projectType, IProjectCreationCallback callback) {
         if (isSyncPossible()) {
             DBProject proj = new DBProject(
-                    0, remoteId, password, name, ihmUrl, email,
+                    0, remoteId,
+                    projectType.equals(ProjectType.COSPEND) ? "" : password,
+                    name, ihmUrl, email,
                     null, projectType, 0L, null,
                     false, DBProject.ACCESS_LEVEL_UNKNOWN, null
             );

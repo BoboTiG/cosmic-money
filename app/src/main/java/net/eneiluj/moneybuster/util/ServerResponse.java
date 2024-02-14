@@ -134,12 +134,20 @@ public class ServerResponse {
     }
 
     public static class CreateRemoteMemberResponse extends ServerResponse {
-        public CreateRemoteMemberResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse) {
+        private boolean isJsonMember;
+        public CreateRemoteMemberResponse(VersatileProjectSyncClient.ResponseData response, boolean isOcsResponse, boolean isJsonMember) {
             super(response, isOcsResponse);
+            this.isJsonMember = isJsonMember;
         }
 
         public String getStringContent() throws JSONException {
             return getResponseStringData();
+        }
+
+        public Long getRemoteMemberId() throws JSONException {
+            return isJsonMember
+                    ? getRemoteMemberIdFromJSON(getResponseObjectData())
+                    : Long.parseLong(getResponseStringData());
         }
     }
 
@@ -745,5 +753,9 @@ public class ServerResponse {
             Log.i(TAG,"Failed to get the Cospend version"+e);
         }
         return null;
+    }
+
+    protected Long getRemoteMemberIdFromJSON(JSONObject json) throws JSONException {
+        return json.getLong("id");
     }
 }
