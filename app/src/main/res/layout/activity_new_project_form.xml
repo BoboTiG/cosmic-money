@@ -17,6 +17,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Join/create -->
             <LinearLayout
                 android:id="@+id/whatToDoLayout"
                 android:layout_width="match_parent"
@@ -30,7 +31,6 @@
                     android:id="@+id/whatTodoIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="32dp"
                     android:layout_marginEnd="32dp"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_group_work_grey_24dp" />
@@ -47,21 +47,18 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
                         android:paddingStart="2dp"
-                        android:paddingLeft="2dp"
                         android:paddingEnd="0dp"
-                        android:paddingRight="0dp"
                         android:text="@string/new_project_what_todo"
                         android:textColor="#9E9E9E"
                         android:textSize="12sp" />
-
 
                     <RadioGroup android:id="@+id/whatTodoRadiogroup"
                         android:layout_width="fill_parent"
                         android:layout_height="52dp"
                         android:layout_weight=".60"
                         android:layout_marginTop="0dp"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
+
                     <ToggleButton
                         android:id="@+id/whatTodoJoin"
                         android:layout_width="wrap_content"
@@ -71,8 +68,7 @@
                         android:textOn="@string/todo_join_label"
                         android:checked="true"
                         android:textSize="12sp"
-                        android:tooltipText="@string/todo_join"
-                        />
+                        android:tooltipText="@string/todo_join" />
 
                     <ToggleButton
                         android:id="@+id/whatTodoCreate"
@@ -82,8 +78,7 @@
                         android:textOff="@string/todo_create_label"
                         android:textOn="@string/todo_create_label"
                         android:textSize="12sp"
-                        android:tooltipText="@string/todo_create"
-                        />
+                        android:tooltipText="@string/todo_create" />
                     </RadioGroup>
                 </LinearLayout>
 
@@ -99,12 +94,10 @@
                     android:scaleX="2"
                     android:scaleY="2"
                     android:src="@drawable/ic_qrcode"
-                    android:tooltipText="@string/scan_qrcode_tooltip"
-                    />
-
+                    android:tooltipText="@string/scan_qrcode_tooltip" />
             </LinearLayout>
 
-
+            <!-- Location -->
             <LinearLayout
                 android:id="@+id/whereLayout"
                 android:layout_width="match_parent"
@@ -135,9 +128,6 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
                         android:paddingStart="2dp"
-                        android:paddingLeft="2dp"
-                        android:paddingEnd="0dp"
-                        android:paddingRight="0dp"
                         android:text="@string/new_project_where"
                         android:textColor="#9E9E9E"
                         android:textSize="12sp" />
@@ -145,10 +135,8 @@
                     <RadioGroup android:id="@+id/whereRadiogroup"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".60"
-                        android:layout_marginTop="0dp"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
+
                         <ToggleButton
                             android:id="@+id/whereLocal"
                             android:layout_width="wrap_content"
@@ -159,12 +147,13 @@
                             android:checked="true"
                             android:textSize="12sp"
                             android:tooltipText="@string/where_local"
-                            android:onClick="onToggle"
-                            />
+                            android:onClick="onToggle" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                         <ToggleButton
                             android:id="@+id/whereIhm"
                             android:layout_width="wrap_content"
@@ -174,8 +163,7 @@
                             android:textOn="@string/where_ihm_short"
                             android:textSize="12sp"
                             android:tooltipText="@string/where_ihm"
-                            android:onClick="onToggle"
-                            />
+                            android:onClick="onToggle" />
 
                         <ToggleButton
                             android:id="@+id/whereCospend"
@@ -185,8 +173,7 @@
                             android:textOff="@string/where_cospend_short"
                             android:textOn="@string/where_cospend_short"
                             android:textSize="12sp"
-                            android:tooltipText="@string/where_cospend"
-                            />
+                            android:tooltipText="@string/where_cospend" />
                         </LinearLayout>
                     </RadioGroup>
                 </LinearLayout>
@@ -203,8 +190,7 @@
                     android:scaleX="2"
                     android:scaleY="2"
                     android:src="@drawable/ic_nextcloud_logo_white"
-                    android:tooltipText="@string/new_project_from_nextcloud_tooltip"
-                    />
+                    android:tooltipText="@string/new_project_from_nextcloud_tooltip" />
 
                 <ImageView
                     android:id="@+id/importButton"
@@ -219,9 +205,9 @@
                     android:scaleY="2"
                     android:src="@drawable/ic_folder_open_grey600_24dp"
                     android:tooltipText="@string/import_tooltip" />
-
             </LinearLayout>
 
+            <!-- Project URL -->
             <LinearLayout
                 android:id="@+id/editProjectUrlLayout"
                 android:layout_width="match_parent"
@@ -235,7 +221,6 @@
                     android:id="@+id/editProjectUrlIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="32dp"
                     android:layout_marginEnd="32dp"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_link_grey_24dp" />
@@ -269,9 +254,9 @@
                     android:scaleX="2"
                     android:scaleY="2"
                     android:src="@drawable/ic_nextcloud_logo_white" />
-
             </LinearLayout>
 
+            <!-- Project ID -->
             <LinearLayout
                 android:id="@+id/editProjectIdLayout"
                 android:layout_width="match_parent"
@@ -285,7 +270,6 @@
                     android:id="@+id/editProjectIdIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="32dp"
                     android:layout_marginEnd="32dp"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_library_books_white_24dp" />
@@ -305,9 +289,9 @@
                         android:selectAllOnFocus="true"
                         android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
-
             </LinearLayout>
 
+            <!-- Password-->
             <LinearLayout
                 android:id="@+id/editProjectPasswordLayout"
                 android:layout_width="match_parent"
@@ -321,7 +305,6 @@
                     android:id="@+id/editProjectPasswordIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="32dp"
                     android:layout_marginEnd="32dp"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_lock_grey_24dp" />
@@ -342,9 +325,9 @@
                         android:selectAllOnFocus="true"
                         android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
-
             </LinearLayout>
 
+            <!-- Project name -->
             <LinearLayout
                 android:id="@+id/editProjectNameLayout"
                 android:layout_width="match_parent"
@@ -358,7 +341,6 @@
                     android:id="@+id/editProjectNameIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="32dp"
                     android:layout_marginEnd="32dp"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_title_grey_24dp" />
@@ -378,9 +360,9 @@
                         android:selectAllOnFocus="true"
                         android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
-
             </LinearLayout>
 
+            <!-- Email -->
             <LinearLayout
                 android:id="@+id/editProjectEmailLayout"
                 android:layout_width="match_parent"
@@ -394,7 +376,6 @@
                     android:id="@+id/editProjectEmailIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="32dp"
                     android:layout_marginEnd="32dp"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_email_grey_24dp" />
@@ -415,10 +396,7 @@
                         android:selectAllOnFocus="true"
                         android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
-
             </LinearLayout>
-
-
 
         </LinearLayout>
     </ScrollView>
@@ -426,6 +404,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_new_ok"
         style="@style/fab"
+        android:contentDescription="@string/action_save_bill"
         android:src="@drawable/ic_done_white_24dp"
         android:tint="#ffffff"
         android:title="@string/action_save_bill"
