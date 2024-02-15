@@ -187,15 +187,11 @@ public class ProjectSettlementDialogBuilder {
         centerMemberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position <= 0) {
-                    return;
-                } else {
-                    UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
-                    //return item.getId();
-                    Log.d(TAG, "CENTER ON " + item.getId() + " " + item.getName());
-                    updateSettlement(membersBalance, memberIdToName, item.getId());
-                }
+                if (position < 0) return;
 
+                UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
+                Log.d(TAG, "CENTER ON " + item.getId() + " " + item.getName());
+                updateSettlement(membersBalance, memberIdToName, item.getId());
             }
 
             @Override
