@@ -323,7 +323,7 @@
                         android:ems="10"
                         android:inputType="textPassword"
                         android:selectAllOnFocus="true"
-                        android:importantForAutofill="no" />
+                        android:autofillHints="password" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -394,7 +394,7 @@
                         android:ems="10"
                         android:inputType="textEmailAddress"
                         android:selectAllOnFocus="true"
-                        android:importantForAutofill="no" />
+                        android:autofillHints="emailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
