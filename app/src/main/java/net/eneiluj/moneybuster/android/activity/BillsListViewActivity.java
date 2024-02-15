@@ -752,6 +752,7 @@ public class BillsListViewActivity
                 }
 
                 //drawerLayout.closeDrawers();
+                setupDrawerProjects();
                 refreshLists();
                 synchronize();
                 String projName = proj.getName();
