@@ -265,6 +265,7 @@
   <string name="statistic_dialog_title">Projektstatistik</string>
   <string name="settle_dialog_title">Projekt abrechnen</string>
   <string name="share_dialog_title">Projekt teilen</string>
+  <string name="settle_dialog_balanced">Die Ausgaben in diesem Projekt sind bereits ausgeglichen. Es gibt nichts zu begleichen!</string>
   <string name="share_project_dialog_message">Scanne diesen QR-Code mit MoneyBuster oder einer Scanner-App auf einem Android-Gerät, auf dem MoneyBuster installiert ist. Du kannst auch den MoneyBuster Link oben senden/teilen.</string>
   <string name="share_project_public_url_dialog_message">Teile diesen Weblink, um anderen mit einem Webbrowser Zugang zum Projekt zu ermöglichen.</string>
   <string name="share_project_public_url_title">Weblink</string>

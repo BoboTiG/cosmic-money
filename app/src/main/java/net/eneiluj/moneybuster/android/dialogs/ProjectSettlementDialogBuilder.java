@@ -1,6 +1,7 @@
 package net.eneiluj.moneybuster.android.dialogs;
 
 import static androidx.core.content.ContextCompat.startActivity;
+import static net.eneiluj.moneybuster.util.SupportUtil.SETTLE_OPTIMAL;
 import static net.eneiluj.moneybuster.util.SupportUtil.settleBills;
 
 import android.content.Context;
@@ -68,7 +69,9 @@ public class ProjectSettlementDialogBuilder {
     public AlertDialog build() {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppThemeDialog));
 
-        view = LayoutInflater.from(context).inflate(R.layout.dialog_project_settlement, null);
+        builder.setTitle(context.getString(R.string.settle_dialog_title));
+        builder.setIcon(R.drawable.ic_compare_arrows_white_24dp); // TODO: fix light/dark mode
+        builder.setPositiveButton(R.string.simple_ok, (DialogInterface dialog, int which) -> dialog.dismiss());
 
         String projectName;
         if (proj.getName() == null) {
@@ -94,11 +97,6 @@ public class ProjectSettlementDialogBuilder {
             userList.add(new UserItem(Long.valueOf(idList.get(i)), nameList.get(i)));
         }
 
-        UserAdapter userAdapter = new UserAdapter(context, userList);
-        Spinner centerMemberSpinner = view.findViewById(R.id.memberCenterSpinner);
-        centerMemberSpinner.setAdapter(userAdapter);
-        centerMemberSpinner.getSelectedItemPosition();
-
         // get stats
         Map<Long, Integer> membersNbBills = new HashMap<>();
         HashMap<Long, Double> membersBalance = new HashMap<>();
@@ -119,6 +117,17 @@ public class ProjectSettlementDialogBuilder {
             memberIdToName.put(m.getId(), m.getName());
         }
 
+        // check if expenses are already balanced
+        final List<Transaction> transactions_check_balanced = settleBills(membersSortedByName, membersBalance, SETTLE_OPTIMAL);
+        if (transactions_check_balanced == null || transactions_check_balanced.size() == 0) {
+            view = LayoutInflater.from(context).inflate(R.layout.dialog_project_settlement_balanced, null);
+            builder.setView(view);
+            return builder.create();
+        }
+
+        view = LayoutInflater.from(context).inflate(R.layout.dialog_project_settlement, null);
+        builder.setView(view);
+
         // table header
         @ColorInt int headerColor = ContextCompat.getColor(context, R.color.fg_default);
         TextView hwho = view.findViewById(R.id.header_who);
@@ -128,11 +137,11 @@ public class ProjectSettlementDialogBuilder {
         TextView hhowmuch = view.findViewById(R.id.header_howmuch);
         hhowmuch.setTextColor(headerColor);
 
-        builder.setView(view);
-        builder.setTitle(context.getString(R.string.settle_dialog_title));
-        builder.setIcon(R.drawable.ic_compare_arrows_white_24dp); // TODO: fix light/dark mode
+        UserAdapter userAdapter = new UserAdapter(context, userList);
+        Spinner centerMemberSpinner = view.findViewById(R.id.memberCenterSpinner);
+        centerMemberSpinner.setAdapter(userAdapter);
+        centerMemberSpinner.getSelectedItemPosition();
 
-        builder.setPositiveButton(R.string.simple_ok, (DialogInterface dialog, int which) -> dialog.dismiss());
         builder.setNegativeButton(R.string.simple_create_bills, (DialogInterface dialog, int which) -> {
                     UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
                     final List<Transaction> transactions = settleBills(membersSortedByName, membersBalance, item.getId());
