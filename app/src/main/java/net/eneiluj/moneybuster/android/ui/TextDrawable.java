@@ -125,7 +125,6 @@ public class TextDrawable extends Drawable {
      */
     @NonNull
     public static TextDrawable createNamedAvatar(String name, float radiusInDp, @Nullable Integer r, @Nullable Integer g, @Nullable Integer b, boolean disabled) throws NoSuchAlgorithmException {
-        Log.v(TAG, "AVATAAAAR "+r+" "+g+" "+b);
         if (r != null && g != null && b != null) {
             return new TextDrawable(name.substring(0, 1).toUpperCase(Locale.getDefault()), r, g, b,
                     radiusInDp, disabled);
