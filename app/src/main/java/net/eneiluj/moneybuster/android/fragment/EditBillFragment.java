@@ -1034,10 +1034,11 @@ public class EditBillFragment extends Fragment {
         editComment.setText(bill.getComment());
         editWhat.setText(bill.getWhat());
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        // select what and show keyboard if this is a new bill
+        // if this is a new bill: select amount and show keyboard
+        // see https://gitlab.com/eneiluj/moneybuster/-/issues/126
         if (bill.getId() == 0 && "".equals(bill.getWhat())) {
-            editWhat.setSelectAllOnFocus(true);
-            editWhat.requestFocus();
+            editAmount.setSelectAllOnFocus(true);
+            editAmount.requestFocus();
             // show keyboard
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         } else {
