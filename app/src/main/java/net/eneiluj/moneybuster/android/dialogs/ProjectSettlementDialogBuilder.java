@@ -129,7 +129,7 @@ public class ProjectSettlementDialogBuilder {
         builder.setView(view);
 
         // table header
-        @ColorInt int headerColor = ContextCompat.getColor(context, R.color.fg_default);
+        @ColorInt int headerColor = ContextCompat.getColor(context, R.color.fg_default_low);
         TextView hwho = view.findViewById(R.id.header_who);
         hwho.setTextColor(headerColor);
         TextView htowhom = view.findViewById(R.id.header_towhom);
