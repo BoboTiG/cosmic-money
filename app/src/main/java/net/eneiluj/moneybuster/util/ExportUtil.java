@@ -59,7 +59,7 @@ public class ExportUtil {
             List<DBBillOwer> billOwers = b.getBillOwers();
             owersTxt = "";
             for (DBBillOwer bo : billOwers) {
-                owersTxt += membersById.get(bo.getMemberId()).getName() + ", ";
+                owersTxt += membersById.get(bo.getMemberId()).getName() + ",";
             }
             owersTxt = owersTxt.replaceAll(", $", "");
             fileContent += "\"" + b.getWhat() + "\"," + b.getAmount() + "," + b.getDate() + "," + b.getTimestamp() + ",\"" + payerName + "\"," +
