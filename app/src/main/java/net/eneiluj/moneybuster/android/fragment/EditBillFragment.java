@@ -546,7 +546,6 @@ public class EditBillFragment extends Fragment {
     private boolean hideSaveButton() {
         return getWhat() == null || getWhat().equals("") ||
                 getTimestamp() == null || getTimestamp() == 0 ||
-                getAmount() == 0.0 ||
                 getPayerId() == 0 ||
                 getOwersIds().size() == 0;
     }
@@ -694,8 +693,6 @@ public class EditBillFragment extends Fragment {
             showToast(getString(R.string.error_invalid_bill_what), Toast.LENGTH_LONG);
         } else if (getTimestamp() == null || getTimestamp() == 0) {
             showToast(getString(R.string.error_invalid_bill_date), Toast.LENGTH_LONG);
-        } else if (getAmount() == 0.0) {
-            showToast(getString(R.string.error_invalid_bill_amount), Toast.LENGTH_LONG);
         } else if (getPayerId() == 0) {
             showToast(getString(R.string.error_invalid_bill_payerid), Toast.LENGTH_LONG);
         } else if (getOwersIds().size() == 0) {
@@ -1034,10 +1031,11 @@ public class EditBillFragment extends Fragment {
         editComment.setText(bill.getComment());
         editWhat.setText(bill.getWhat());
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        // select what and show keyboard if this is a new bill
+        // if this is a new bill: select amount and show keyboard
+        // see https://gitlab.com/eneiluj/moneybuster/-/issues/126
         if (bill.getId() == 0 && "".equals(bill.getWhat())) {
-            editWhat.setSelectAllOnFocus(true);
-            editWhat.requestFocus();
+            editAmount.setSelectAllOnFocus(true);
+            editAmount.requestFocus();
             // show keyboard
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         } else {
@@ -1055,7 +1053,6 @@ public class EditBillFragment extends Fragment {
         // hide the validation button so that it appears if a value changes
         if (bill.getId() != 0 || "".equals(bill.getWhat())) {
             fabSaveBill.hide();
-            Log.d(TAG, "HIIIIIIIIIIDE FAB");
         }
 
         if (!ProjectType.IHATEMONEY.equals(projectType)) {
