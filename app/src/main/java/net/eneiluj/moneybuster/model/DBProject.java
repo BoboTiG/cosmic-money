@@ -1,5 +1,6 @@
 package net.eneiluj.moneybuster.model;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
@@ -162,8 +163,42 @@ public class DBProject implements Serializable {
         this.type = type;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "#DBProject" + getId() + "/" + this.remoteId + "," + this.name + ", " + this.serverUrl + ", " + this.email;
+    }
+
+    /* --- Extended helper methods --- */
+
+    public boolean isShareable() {
+        return getServerUrl() != null && !getServerUrl().isEmpty();
+    }
+
+    public String getShareUrl() {
+        String strippedUrl = getServerUrl()
+                .replace("https://", "")
+                .replace("http://", "")
+                .replace("/index.php/apps/cospend", "");
+
+        String protocol;
+        if (getServerUrl().contains("index.php/apps/cospend")) {
+            protocol = "cospend";
+        } else {
+            protocol = "ihatemoney";
+        }
+
+        final String shareUrl = protocol + "://" + strippedUrl + "/" + getRemoteId() + "/" + getPassword();
+        return shareUrl;
+    }
+
+    public String getPublicWebUrl() {
+        final String publicWebUrl;
+        if (getServerUrl().contains("index.php/apps/cospend")) {
+            publicWebUrl = getServerUrl() + "/loginproject/" + getRemoteId();
+        } else {
+            publicWebUrl = getServerUrl() + "/" + getRemoteId();
+        }
+        return publicWebUrl;
     }
 }
