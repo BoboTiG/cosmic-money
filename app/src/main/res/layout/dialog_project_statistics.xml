@@ -156,14 +156,6 @@
             android:text="" />
     </LinearLayout>
 
-        <TextView
-            android:id="@+id/tableTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:text="@string/stats_table_title" />
-
     <TableLayout
         android:id="@+id/statTable"
         android:layout_width="match_parent"
