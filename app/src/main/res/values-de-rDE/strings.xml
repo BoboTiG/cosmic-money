@@ -282,7 +282,6 @@
     <string name="share_stats_header">Mitgliedsname (Bezahlt | Ausgegeben | Saldo)</string>
     <string name="drawer_no_project">Es gibt kein Projekt.\nTippe hier, um eines zu erstellen/hinzuzufügen</string>
     <string name="drawer_no_account">Hier klicken, um sich mit einem Nextcloud-Konto zu verbinden</string>
-    <string name="choose_project_to_select">Projekt auswählen</string>
     <string name="add_bill_impossible_no_member">Mindestens ein aktiviertes Mitglied ist erforderlich, um eine Ausgabe hinzuzufügen</string>
     <string name="edit_project_local_impossible">Für lokale Projekte nicht möglich</string>
     <string name="choose_account_project_dialog_title">Wähle ein Projekt aus deinem Nextcloud Konto</string>

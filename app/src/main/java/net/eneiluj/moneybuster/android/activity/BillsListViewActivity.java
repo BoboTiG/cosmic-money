@@ -25,7 +25,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -56,7 +55,6 @@ import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -77,7 +75,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.zxing.WriterException;
 import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
@@ -90,7 +87,7 @@ import net.eneiluj.moneybuster.android.dialogs.ProjectSettlementDialogBuilder;
 import net.eneiluj.moneybuster.android.dialogs.ProjectShareDialogBuilder;
 import net.eneiluj.moneybuster.android.dialogs.ProjectStatisticsDialogBuilder;
 import net.eneiluj.moneybuster.android.fragment.NewProjectFragment;
-import net.eneiluj.moneybuster.android.ui.ProjectAdapter;
+import net.eneiluj.moneybuster.android.ui.ProjectDrawerAdapter;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.model.Category;
 import net.eneiluj.moneybuster.model.DBBill;
@@ -126,10 +123,11 @@ import java.util.Map;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static net.eneiluj.moneybuster.android.activity.EditProjectActivity.PARAM_PROJECT_ID;
-import static net.eneiluj.moneybuster.util.SupportUtil.getCertManager;
 import static net.eneiluj.moneybuster.util.SupportUtil.getVersionName;
 
-public class BillsListViewActivity extends AppCompatActivity implements ItemAdapter.BillClickListener, IRefreshBillsListCallback {
+public class BillsListViewActivity
+        extends AppCompatActivity
+        implements ItemAdapter.BillClickListener, IRefreshBillsListCallback, ProjectDrawerAdapter.IOnProjectMenuClick {
 
     private final static int PERMISSION_FOREGROUND = 1;
     private final static int PERMISSION_POST_NOTIFICATIONS = 2;
@@ -169,38 +167,26 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
     DrawerLayout drawerLayout;
     TextView configuredAccount;
     SwipeRefreshLayout swipeRefreshLayout;
-    com.github.clans.fab.FloatingActionMenu fabMenuDrawerEdit;
-    com.github.clans.fab.FloatingActionButton fabManageMembers;
-    com.github.clans.fab.FloatingActionButton fabManageCurrencies;
-    com.github.clans.fab.FloatingActionButton fabExportProject;
-    com.github.clans.fab.FloatingActionButton fabManageProject;
     FloatingActionButton fabAddBill;
-    FloatingActionButton fabSidebarAddProject;
-    //FloatingActionButton fabBillListAddProject;
-    com.github.clans.fab.FloatingActionButton fabStatistics;
-    com.github.clans.fab.FloatingActionButton fabSettle;
-    com.github.clans.fab.FloatingActionButton fabShareProject;
-    FloatingActionButton fabSelectProject;
-    RecyclerView listNavigationMembers;
-    RecyclerView listNavigationMenu;
-    RecyclerView listSettingMenu;
-    RecyclerView listView;
-    ArrayList<NavigationAdapter.NavigationItem> itemsMenu;
+    RecyclerView listBillItems;
+    RecyclerView listDrawerProjects;
+    RecyclerView listDrawerMembers;
     ImageView avatarView;
-    LinearLayoutCompat lastSyncLayout;
+    LinearLayout lastSyncLayout;
     TextView lastSyncText;
     AppCompatImageButton menuButton;
     AppCompatImageView accountButton;
     MaterialCardView homeToolbar;
     AppBarLayout appBar;
 
-    private String statsTextToShare;
+    private final ProjectDrawerAdapter projectAdapter = new ProjectDrawerAdapter(this);
 
     private ItemAdapter adapter = null;
     private NavigationAdapter adapterMembers;
     private NavigationAdapter.NavigationItem itemAll;
     private Category navigationSelection = new Category(null, null);
     private String navigationOpen = "";
+
     private ActionMode mActionMode;
     private MoneyBusterSQLiteOpenHelper db = null;
     private SearchView searchView = null;
@@ -242,22 +228,10 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         drawerLayout = findViewById(R.id.drawerLayout);
         configuredAccount = findViewById(R.id.configuredAccount);
         swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);
-        fabMenuDrawerEdit = findViewById(R.id.floatingMenuDrawerEdit);
-        fabManageMembers = findViewById(R.id.fabDrawer_manage_members);
-        fabExportProject = findViewById(R.id.fabDrawer_export_project);
-        fabManageCurrencies = findViewById(R.id.fabDrawer_manage_currencies);
-        fabStatistics = findViewById(R.id.fab_statistics);
-        fabSettle = findViewById(R.id.fab_settle);
-        fabManageProject = findViewById(R.id.fabDrawer_manage_project);
-        fabShareProject = findViewById(R.id.fab_share);
         fabAddBill = findViewById(R.id.fab_add_bill);
-        fabSidebarAddProject = findViewById(R.id.fab_add_project);
-        //fabBillListAddProject = findViewById(R.id.fab_bill_list_add_project);
-        fabSelectProject = findViewById(R.id.fab_select_project);
-        listNavigationMembers = findViewById(R.id.navigationList);
-        listNavigationMenu = findViewById(R.id.navigationMenu);
-        listSettingMenu = findViewById(R.id.settingMenu);
-        listView = findViewById(R.id.recycler_view);
+        listBillItems = findViewById(R.id.list_bill_items);
+        listDrawerProjects = findViewById(R.id.list_drawer_projects);
+        listDrawerMembers = findViewById(R.id.list_drawer_project_members);
         avatarView = findViewById(R.id.drawer_nc_logo);
         lastSyncLayout = findViewById(R.id.drawer_last_sync_layout);
         lastSyncText = findViewById(R.id.last_sync_text);
@@ -275,10 +249,9 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
 
         setupToolBar();
         setupBillsList();
-        setupProjectFabMenu();
         setupDrawerButtons();
-        setupNavigationMenu();
-        setupMembersNavigationList(categoryAdapterSelectedItem);
+        setupDrawerProjects();
+        setupDrawerProjectMembers(categoryAdapterSelectedItem);
 
         updateUsernameInDrawer();
 
@@ -662,415 +635,312 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
     }
 
     private void setupDrawerButtons() {
-        fabMenuDrawerEdit.setOnMenuButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "[3 DOTS clicked]");
-                if (fabMenuDrawerEdit.isOpened()) {
-                    fabMenuDrawerEdit.close(true);
-                } else {
-                    fabMenuDrawerEdit.open(true);
-                }
-            }
+        configuredAccount.setOnClickListener((View view) -> {
+            Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+            serverSettingsLauncher.launch(intent);
         });
 
-        fabSidebarAddProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addProject();
-                drawerLayout.closeDrawers();
-            }
+        findViewById(R.id.button_add_project).setOnClickListener((View view) -> {
+            addProject();
+            drawerLayout.closeDrawers();
         });
 
-        fabSelectProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                showProjectSelectionDialog();
-                fabMenuDrawerEdit.close(true);
-            }
+        findViewById(R.id.button_app_settings).setOnClickListener((View view) -> {
+            Intent settingsIntent = new Intent(getApplicationContext(), PreferencesActivity.class);
+            serverSettingsLauncher.launch(settingsIntent);
         });
-
-        configuredAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-                serverSettingsLauncher.launch(intent);
-            }
-        });
-
-        fabMenuDrawerEdit.setMenuButtonColorPressed(ThemeUtils.primaryColor(this));
-        fabSidebarAddProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
-        fabSelectProject.setRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
     }
 
-    private void setupProjectFabMenu() {
-        fabManageProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CharSequence[] choices = new CharSequence[]{
-                        getString(R.string.action_edit_project),
-                        getString(R.string.fab_rm_project)
-                };
-
-                AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
-                selectBuilder.setTitle(getString(R.string.choose_project_management_action));
-                selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            editProject();
-                        } else {
-                            removeProject();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-
-                selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-
-                AlertDialog selectDialog = selectBuilder.create();
-                selectDialog.show();
-
-                fabMenuDrawerEdit.close(true);
-            }
-        });
-
-        fabExportProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                long selectedProjectId = preferences.getLong("selected_project", 0);
-
-                if (selectedProjectId != 0) {
-                    exportProject(selectedProjectId);
-                }
-            }
-        });
-
-        fabManageMembers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                CharSequence[] choices = new CharSequence[]{
-                        getString(R.string.fab_add_member),
-                        getString(R.string.fab_edit_member)
-                };
-
-                AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
-                selectBuilder.setTitle(getString(R.string.choose_member_management_action));
-                selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            addMember();
-                        } else {
-                            fabEditMember();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-
-                selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-
-                AlertDialog selectDialog = selectBuilder.create();
-                selectDialog.show();
-
-                fabMenuDrawerEdit.close(true);
-            }
-        });
-
-        fabManageCurrencies.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                long selectedProjectId = preferences.getLong("selected_project", 0);
-                if (selectedProjectId != 0) {
-                    final DBProject proj = db.getProject(selectedProjectId);
-                    if (proj != null && proj.getType().equals(ProjectType.COSPEND)) {
-                        Intent createIntent = new Intent(getApplicationContext(), ManageCurrenciesActivity.class);
-                        startActivity(createIntent);
-                    } else {
-                        showToast(getString(R.string.currency_management_unavailable));
-                    }
-                }
-            }
-        });
-
-        fabStatistics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                long selectedProjectId = preferences.getLong("selected_project", 0);
-
-                if (selectedProjectId != 0) {
-                    final DBProject proj = db.getProject(selectedProjectId);
-                    AlertDialog dialog = new ProjectStatisticsDialogBuilder(view.getContext(), db, proj).build();
-                    dialog.show();
-                    fabMenuDrawerEdit.close(false);
-                }
-            }
-        });
-
-        IRefreshBillsListCallback thisActivity = this; // In View.OnClickListener "this" would refer to the listener
-        fabSettle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                long selectedProjectId = preferences.getLong("selected_project", 0);
-
-                if (selectedProjectId != 0) {
-                    final DBProject proj = db.getProject(selectedProjectId);
-                    AlertDialog dialog = new ProjectSettlementDialogBuilder(view.getContext(), db, proj, thisActivity).build();
-                    dialog.show();
-                    fabMenuDrawerEdit.close(false);
-                }
-            }
-        });
-
-        fabShareProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                long selectedProjectId = preferences.getLong("selected_project", 0);
-
-                final DBProject proj = db.getProject(selectedProjectId);
-
-                if (selectedProjectId != 0 && proj.isShareable()) {
-                    AlertDialog dialog = new ProjectShareDialogBuilder(view.getContext(), proj).build();
-                    dialog.show();
-                    fabMenuDrawerEdit.close(false);
-                } else {
-                    showToast(getString(R.string.share_impossible), Toast.LENGTH_LONG);
-                }
-            }
-        });
-
-        int primaryColor = ThemeUtils.primaryColor(this);
-        fabManageMembers.setColorNormal(primaryColor);
-        fabManageMembers.setColorPressed(primaryColor);
-        fabExportProject.setColorNormal(primaryColor);
-        fabExportProject.setColorPressed(primaryColor);
-        fabManageProject.setColorNormal(primaryColor);
-        fabManageProject.setColorPressed(primaryColor);
-        fabManageCurrencies.setColorNormal(primaryColor);
-        fabManageCurrencies.setColorPressed(primaryColor);
-        fabStatistics.setColorNormal(primaryColor);
-        fabStatistics.setColorPressed(primaryColor);
-        fabSettle.setColorNormal(primaryColor);
-        fabSettle.setColorPressed(primaryColor);
-        fabShareProject.setColorNormal(primaryColor);
-        fabShareProject.setColorPressed(primaryColor);
-    }
-
-    private void showHideButtons() {
+    private void setupDrawerProjects() {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final long selectedProjectId = preferences.getLong("selected_project", 0);
+        final List<DBProject> dbProjects = db.getProjects();
 
-        if (selectedProjectId == 0) {
-            fabAddBill.hide();
-            fabMenuDrawerEdit.setVisibility(GONE);
-            //fabBillListAddProject.show();
+        projectAdapter.setItems(dbProjects, selectedProjectId);
+        listDrawerProjects.setAdapter(projectAdapter);
+
+        // restore last selected project
+        Log.v(TAG, "RESTORE PROJECT SELECTION " + selectedProjectId);
+        setSelectedProject(selectedProjectId);
+    }
+
+    /* --- Project options --- */
+
+    @Override
+    public void onProjectClick(long projectId) {
+        // FIXME: setting the state correctly is currently all over the place. Maybe unify somewhere?
+        // order matters...
+        setSelectedProject(projectId);
+        adapterMembers.setSelectedItem(ADAPTER_KEY_ALL);
+        navigationSelection = new Category(null, null);
+        refreshLists(true);
+
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean offlineMode = preferences.getBoolean(getString(R.string.pref_key_offline_mode), false);
+        if (!offlineMode) {
+            synchronize();
+        }
+
+        drawerLayout.closeDrawers();
+    }
+
+    @Override
+    public void onManageProjectClick(long projectId) {
+        CharSequence[] choices = new CharSequence[]{
+                getString(R.string.action_edit_project),
+                getString(R.string.fab_rm_project)
+        };
+
+        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+        selectBuilder.setTitle(getString(R.string.choose_project_management_action));
+        selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    onEditProjectClick(projectId);
+                } else {
+                    onRemoveProjectClick(projectId);
+                }
+                dialog.dismiss();
+            }
+        });
+        selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
+        selectBuilder.show();
+    }
+
+    private void onEditProjectClick(long projectId) {
+        if (projectId == 0) return;
+
+        DBProject proj = db.getProject(projectId);
+        if (!proj.isLocal()) {
+            Intent editProjectIntent = new Intent(getApplicationContext(), EditProjectActivity.class);
+            editProjectIntent.putExtra(PARAM_PROJECT_ID, projectId);
+            editProjectLauncher.launch(editProjectIntent);
+
+            drawerLayout.closeDrawers();
         } else {
-            fabAddBill.show();
-            fabMenuDrawerEdit.setVisibility(VISIBLE);
-            //fabBillListAddProject.hide();
+            showToast(getString(R.string.edit_project_local_impossible));
         }
     }
 
-    private void editProject() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long selectedProjectId = preferences.getLong("selected_project", 0);
+    private void onRemoveProjectClick(long projectId) {
+        if (projectId == 0) return;
+        DBProject proj = db.getProject(projectId);
 
-        if (selectedProjectId != 0) {
-            DBProject proj = db.getProject(selectedProjectId);
-            if (!proj.isLocal()) {
-                Intent editProjectIntent = new Intent(getApplicationContext(), EditProjectActivity.class);
-                editProjectIntent.putExtra(PARAM_PROJECT_ID, selectedProjectId);
-                editProjectLauncher.launch(editProjectIntent);
-
-                fabMenuDrawerEdit.close(false);
-                drawerLayout.closeDrawers();
-            } else {
-                showToast(getString(R.string.edit_project_local_impossible));
-            }
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(
+                        this,
+                        R.style.AppThemeDialog
+                )
+        );
+        builder.setTitle(getString(R.string.confirm_remove_project_dialog_title));
+        if (!proj.isLocal()) {
+            builder.setMessage(getString(R.string.confirm_remove_project_dialog_message));
         }
+
+        // Set up the buttons
+        builder.setPositiveButton(getString(R.string.simple_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.deleteProject(projectId);
+                List<DBProject> dbProjects = db.getProjects();
+                if (dbProjects.size() > 0) {
+                    setSelectedProject(dbProjects.get(0).getId());
+                    Log.v(TAG, "set selection 0");
+                } else {
+                    setSelectedProject(0);
+                }
+
+                //drawerLayout.closeDrawers();
+                setupDrawerProjects();
+                refreshLists();
+                synchronize();
+                String projName = proj.getName();
+                String projectNameString = (projName == null || "".equals(projName)) ? proj.getRemoteId() : projName;
+                showToast(getString(R.string.remove_project_confirmation, projectNameString));
+            }
+        });
+        builder.setNegativeButton(getString(R.string.simple_no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
-    private void removeProject() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final long selectedProjectId = preferences.getLong("selected_project", 0);
-        DBProject proj = db.getProject(selectedProjectId);
 
-        if (selectedProjectId != 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(
-                    new ContextThemeWrapper(
-                            this,
-                            R.style.AppThemeDialog
-                    )
-            );
-            builder.setTitle(getString(R.string.confirm_remove_project_dialog_title));
-            if (!proj.isLocal()) {
-                builder.setMessage(getString(R.string.confirm_remove_project_dialog_message));
+    @Override
+    public void onManageMembersClick(long projectId) {
+        CharSequence[] choices = new CharSequence[]{
+                getString(R.string.fab_add_member),
+                getString(R.string.fab_edit_member)
+        };
+
+        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+        selectBuilder.setTitle(getString(R.string.choose_member_management_action));
+        selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    onAddMemberClick(projectId);
+                } else {
+                    onEditMemberClick(projectId);
+                }
+                dialog.dismiss();
             }
+        });
+        selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
+        selectBuilder.show();
+    }
 
-            // Set up the buttons
-            builder.setPositiveButton(getString(R.string.simple_yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    db.deleteProject(selectedProjectId);
-                    List<DBProject> dbProjects = db.getProjects();
-                    if (dbProjects.size() > 0) {
-                        setSelectedProject(dbProjects.get(0).getId());
-                        Log.v(TAG, "set selection 0");
-                    } else {
-                        setSelectedProject(0);
+    private void onEditMemberClick(long projectId) {
+        if (projectId == 0) return;
+
+        // check if we are allowed
+        DBProject project = db.getProject(projectId);
+        int myAccessLevel = project.getMyAccessLevel();
+        if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
+            showToast(getString(R.string.insufficient_access_level));
+            return;
+        }
+
+        final List<DBMember> members = db.getMembersOfProject(projectId, null);
+        List<String> memberNames = new ArrayList<>();
+        for (DBMember m : members) {
+            memberNames.add(m.getName());
+        }
+        CharSequence[] namescs = memberNames.toArray(new CharSequence[memberNames.size()]);
+
+        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+        selectBuilder.setTitle(getString(R.string.choose_member_to_edit));
+        selectBuilder.setSingleChoiceItems(namescs, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+                editMember(members.get(which).getId());
+                dialog.dismiss();
+            }
+        });
+        selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
+        selectBuilder.show();
+    }
+
+    private void onAddMemberClick(long projectId) {
+        if (projectId == 0) return;
+
+        // check if we are allowed
+        DBProject project = db.getProject(projectId);
+        int myAccessLevel = project.getMyAccessLevel();
+        if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
+            showToast(getString(R.string.insufficient_access_level));
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog)
+        );
+        builder.setTitle(getString(R.string.add_member_dialog_title));
+
+        // Set up the input
+        final EditText input = new EditText(new ContextThemeWrapper(
+                BillsListViewActivity.this,
+                R.style.AppThemeDialog
+        ));
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String memberName = input.getText().toString();
+
+                if (!memberName.equals("")) {
+                    List<DBMember> members = db.getMembersOfProject(projectId, null);
+                    List<String> memberNames = new ArrayList<>();
+                    for (DBMember m : members) {
+                        memberNames.add(m.getName());
                     }
-
-                    fabMenuDrawerEdit.close(false);
-                    //drawerLayout.closeDrawers();
-                    refreshLists();
-                    synchronize();
-                    String projName = proj.getName();
-                    String projectNameString = (projName == null || "".equals(projName)) ? proj.getRemoteId() : projName;
-                    showToast(getString(R.string.remove_project_confirmation, projectNameString));
-                }
-            });
-            builder.setNegativeButton(getString(R.string.simple_no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
-        }
-    }
-
-    private void fabEditMember() {
-        // it was like that before...
-                /*final String selectedMemberIdStr = adapterMembers.getSelectedItem();
-
-                if (selectedMemberIdStr != null && !selectedMemberIdStr.equals("all")) {
-
-                    long selectedMemberId = Long.valueOf(selectedMemberIdStr);
-                    editMember(view, selectedMemberId);
-                }*/
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long selectedProjectId = preferences.getLong("selected_project", 0);
-
-        if (selectedProjectId != 0) {
-            // check if we are allowed
-            DBProject project = db.getProject(selectedProjectId);
-            int myAccessLevel = project.getMyAccessLevel();
-            if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
-                showToast(getString(R.string.insufficient_access_level));
-                return;
-            }
-
-            final List<DBMember> members = db.getMembersOfProject(selectedProjectId, null);
-            List<String> memberNames = new ArrayList<>();
-            for (DBMember m : members) {
-                memberNames.add(m.getName());
-            }
-            CharSequence[] namescs = memberNames.toArray(new CharSequence[memberNames.size()]);
-
-            AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
-            selectBuilder.setTitle(getString(R.string.choose_member_to_edit));
-            selectBuilder.setSingleChoiceItems(namescs, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // user checked an item
-                    editMember(members.get(which).getId());
-                    dialog.dismiss();
-                }
-            });
-
-            selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-
-            AlertDialog selectDialog = selectBuilder.create();
-            selectDialog.show();
-        }
-    }
-
-    private void addMember() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final long selectedProjectId = preferences.getLong("selected_project", 0);
-
-        if (selectedProjectId != 0) {
-            // check if we are allowed
-            DBProject project = db.getProject(selectedProjectId);
-            int myAccessLevel = project.getMyAccessLevel();
-            if (myAccessLevel != DBProject.ACCESS_LEVEL_UNKNOWN && myAccessLevel < DBProject.ACCESS_LEVEL_MAINTAINER) {
-                showToast(getString(R.string.insufficient_access_level));
-                return;
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(
-                    new ContextThemeWrapper(
-                            BillsListViewActivity.this,
-                            R.style.AppThemeDialog
-                    )
-            );
-            builder.setTitle(getString(R.string.add_member_dialog_title));
-
-            // Set up the input
-            final EditText input = new EditText(new ContextThemeWrapper(
-                    BillsListViewActivity.this,
-                    R.style.AppThemeDialog
-            ));
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            input.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String memberName = input.getText().toString();
-
-                    if (!memberName.equals("")) {
-                        List<DBMember> members = db.getMembersOfProject(selectedProjectId, null);
-                        List<String> memberNames = new ArrayList<>();
-                        for (DBMember m : members) {
-                            memberNames.add(m.getName());
-                        }
-                        if (!memberNames.contains(memberName)) {
-                            db.addMemberAndSync(
-                                    new DBMember(0, 0, selectedProjectId, memberName,
-                                            true, 1, DBBill.STATE_ADDED,
-                                            null, null, null, null, null)
-                            );
-                            refreshLists();
-                        } else {
-                            showToast(getString(R.string.member_already_exists));
-                        }
+                    if (!memberNames.contains(memberName)) {
+                        db.addMemberAndSync(
+                                new DBMember(0, 0, projectId, memberName,
+                                        true, 1, DBBill.STATE_ADDED,
+                                        null, null, null, null, null)
+                        );
+                        refreshLists();
                     } else {
-                        showToast(getString(R.string.member_edit_empty_name));
+                        showToast(getString(R.string.member_already_exists));
                     }
-
-                    //new LoadCategoryListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                } else {
+                    showToast(getString(R.string.member_edit_empty_name));
                 }
-            });
-            builder.setNegativeButton(getString(R.string.simple_cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                    InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                }
-            });
 
-            builder.show();
-            input.setSelectAllOnFocus(true);
-            input.requestFocus();
-            // show keyboard
-            InputMethodManager inputMethodManager = (InputMethodManager) BillsListViewActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                //new LoadCategoryListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
+        builder.setNegativeButton(getString(R.string.simple_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                InputMethodManager inputMethodManager = (InputMethodManager) input.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
+
+        builder.show();
+        input.setSelectAllOnFocus(true);
+        input.requestFocus();
+        // show keyboard
+        InputMethodManager inputMethodManager = (InputMethodManager) BillsListViewActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    @Override
+    public void onManageCurrenciesClick(long projectId) {
+        final DBProject proj = db.getProject(projectId);
+        if (proj != null && proj.getType().equals(ProjectType.COSPEND)) {
+            Intent createIntent = new Intent(getApplicationContext(), ManageCurrenciesActivity.class);
+            createIntent.putExtra(ManageCurrenciesActivity.EXTRA_PROJECT_ID, projectId);
+            startActivity(createIntent);
+        } else {
+            showToast(getString(R.string.currency_management_unavailable));
         }
     }
 
-    private void exportProject(long projectId) {
+    @Override
+    public void onProjectStatisticsClick(long projectId) {
+        final DBProject proj = db.getProject(projectId);
+        AlertDialog dialog = new ProjectStatisticsDialogBuilder(this, db, proj).build();
+        dialog.show();
+    }
+
+    @Override
+    public void onSettleProjectClick(long projectId) {
+        final DBProject proj = db.getProject(projectId);
+        AlertDialog dialog = new ProjectSettlementDialogBuilder(this, db, proj, this).build();
+        dialog.show();
+    }
+
+    @Override
+    public void onShareProjectClick(long projectId) {
+        final DBProject proj = db.getProject(projectId);
+        if (projectId != 0 && proj.isShareable()) {
+            AlertDialog dialog = new ProjectShareDialogBuilder(this, proj).build();
+            dialog.show();
+        } else {
+            showToast(getString(R.string.share_impossible), Toast.LENGTH_LONG);
+        }
+    }
+
+    @Override
+    public void onExportProjectClick(long projectId) {
+        if (projectId == 0) return;
+
         contentToExport = ExportUtil.createExportContent(db, projectId);
         String fileName = ExportUtil.createExportFileName(db, projectId);
 
@@ -1102,6 +972,8 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             showToast(e.toString());
         }
     }
+
+    /* --- End project options --- */
 
     private void addProject() {
         String defaultNcUrl = "https://mynextcloud.org";
@@ -1139,54 +1011,10 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         addProjectLauncher.launch(newProjectIntent);
     }
 
-    private void showProjectSelectionDialog() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final long selectedProjectId = preferences.getLong("selected_project", 0);
-
-        final List<DBProject> dbProjects = db.getProjects();
-        List<Long> projectIds = new ArrayList<>();
-        for (DBProject p : dbProjects) {
-            projectIds.add(p.getId());
-        }
-
-        int checkedItem;
-        if (selectedProjectId != 0) {
-            checkedItem = projectIds.indexOf(selectedProjectId);
-        } else {
-            checkedItem = -1;
-        }
-
-        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
-        selectBuilder.setTitle(getString(R.string.choose_project_to_select));
-        ProjectAdapter projectAdapter = new ProjectAdapter(this, dbProjects, checkedItem);
-        selectBuilder.setSingleChoiceItems(projectAdapter, checkedItem, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user checked an item
-                setSelectedProject(dbProjects.get(which).getId());
-                //preferences.edit().putLong("selected_project", dbProjects.get(which).getId()).apply();
-
-                drawerLayout.closeDrawers();
-                refreshLists();
-                boolean offlineMode = preferences.getBoolean(getString(R.string.pref_key_offline_mode), false);
-                if (!offlineMode) {
-                    synchronize();
-                }
-                dialog.dismiss();
-            }
-        });
-
-        selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-
-        AlertDialog selectDialog = selectBuilder.create();
-        selectDialog.show();
-    }
-
     private void setSelectedProject(long projectId) {
+        // save to prefs
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         preferences.edit().putLong("selected_project", projectId).apply();
-
-        showHideButtons();
 
         DBProject proj = db.getProject(projectId);
         if (proj == null) {
@@ -1195,44 +1023,8 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 proj = dbProjects.get(0);
                 preferences.edit().putLong("selected_project", proj.getId()).apply();
             } else {
-                itemsMenu.set(1, new NavigationAdapter.NavigationItem("project", getString(R.string.drawer_no_project), null, R.drawable.ic_folder_open_grey600_24dp, false));
-                listNavigationMenu.getAdapter().notifyItemChanged(1);
                 searchText.setText(getString(R.string.action_search));
                 return;
-            }
-        }
-
-        // TODO add isLocal to project
-
-        // we always set selected project text
-        String selText;
-        int icon;
-        // local project
-        if (proj.isLocal()) {
-            selText = proj.getRemoteId();
-            //+ "@local";
-            icon = R.drawable.ic_phone_android_grey_24dp;
-            fabManageProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_phone_android_white_24dp));
-        } else {
-            // remote project
-            selText = (proj.getName() == null || "".equals(proj.getName())) ? proj.getRemoteId() : proj.getName();
-            //selText += "";
-            /*selText = proj.getRemoteId() + "@";
-            selText += proj.getServerUrl()
-                    .replace("https://", "")
-                    .replace("http://", "")
-                    .replace("/index.php/apps/cospend", "");
-             */
-            if (ProjectType.COSPEND.equals(proj.getType())) {
-                icon = R.drawable.ic_cospend_grey_24dp;
-                fabManageProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_cospend_white_24dp));
-                //fabManageCurrencies.show(false);
-                //fabManageCurrencies.setVisibility(VISIBLE);
-            } else {
-                icon = R.drawable.ic_ihm_grey_24dp;
-                fabManageProject.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_ihm_white_24dp));
-                //fabManageCurrencies.hide(false);
-                //fabManageCurrencies.setVisibility(GONE);
             }
         }
 
@@ -1243,10 +1035,10 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             searchText.setText(getString(R.string.action_search_in_project, proj.getName()));
         }
 
-        itemsMenu.set(1, new NavigationAdapter.NavigationItem("project", selText, null, icon, false));
-        listNavigationMenu.getAdapter().notifyItemChanged(1);
-
+        // drawer
         updateLastSyncText();
+        projectAdapter.setSelected(projectId);
+        // XXX: The members list contents and the bills list handled in refreshLists()
     }
 
     // this is just called in setSelectedProject which is called often enough
@@ -1400,7 +1192,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                         showToast(getString(R.string.member_edit_empty_name));
                     }
                 }
-                fabMenuDrawerEdit.close(false);
                 // restore keyboard auto hide behaviour
                 InputMethodManager inputMethodManager = (InputMethodManager) iView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -1410,7 +1201,6 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                fabMenuDrawerEdit.close(false);
                 // restore keyboard auto hide behaviour
                 InputMethodManager inputMethodManager = (InputMethodManager) iView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -1425,7 +1215,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
-    private void setupMembersNavigationList(final String selectedItem) {
+    private void setupDrawerProjectMembers(final String selectedItem) {
         itemAll = new NavigationAdapter.NavigationItem(ADAPTER_KEY_ALL, getString(R.string.label_all_bills), null, R.drawable.ic_allgrey_24dp, false);
 
         adapterMembers = new NavigationAdapter(new NavigationAdapter.ClickListener() {
@@ -1479,7 +1269,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
             }
         });
         adapterMembers.setSelectedItem(selectedItem);
-        listNavigationMembers.setAdapter(adapterMembers);
+        listDrawerMembers.setAdapter(adapterMembers);
         //listNavigationMembers.setNestedScrollingEnabled(false);
     }
 
@@ -1544,76 +1334,12 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
         }
     }
 
-
-    private void setupNavigationMenu() {
-        final NavigationAdapter.NavigationItem itemProjects = new NavigationAdapter.NavigationItem("projects", getString(R.string.action_projects), null, R.drawable.ic_format_list_bulleted_grey_24dp, false);
-        final NavigationAdapter.NavigationItem itemProject = new NavigationAdapter.NavigationItem("project", "", null, R.drawable.ic_folder_grey600_24dp, false);
-        final NavigationAdapter.NavigationItem itemSettings = new NavigationAdapter.NavigationItem("settings", getString(R.string.action_settings), null, R.drawable.ic_settings_grey600_24dp, false);
-
-        itemsMenu = new ArrayList<>();
-        itemsMenu.add(itemProjects);
-        itemsMenu.add(itemProject);
-
-        ArrayList<NavigationAdapter.NavigationItem> itemsSettingMenu = new ArrayList<>();
-        itemsSettingMenu.add(itemSettings);
-
-        NavigationAdapter adapterMenu = new NavigationAdapter(new NavigationAdapter.ClickListener() {
-            @Override
-            public void onItemClick(NavigationAdapter.NavigationItem item) {
-                if (item.id.equals("project") || item.id.equals("projects")) {
-                    if (db.getProjects().size() > 0) {
-                        showProjectSelectionDialog();
-                    } else {
-                        addProject();
-                        drawerLayout.closeDrawers();
-                    }
-                }
-            }
-
-            @Override
-            public void onIconClick(NavigationAdapter.NavigationItem item) {
-                onItemClick(item);
-            }
-        });
-
-        NavigationAdapter adapterSettingMenu = new NavigationAdapter(new NavigationAdapter.ClickListener() {
-            @Override
-            public void onItemClick(NavigationAdapter.NavigationItem item) {
-                if (item == itemSettings) {
-                    Intent settingsIntent = new Intent(getApplicationContext(), PreferencesActivity.class);
-                    serverSettingsLauncher.launch(settingsIntent);
-                }
-            }
-
-            @Override
-            public void onIconClick(NavigationAdapter.NavigationItem item) {
-                onItemClick(item);
-            }
-        });
-
-        adapterMenu.setItems(itemsMenu);
-        listNavigationMenu.setAdapter(adapterMenu);
-        //listNavigationMenu.setNestedScrollingEnabled(false);
-
-        adapterSettingMenu.setItems(itemsSettingMenu);
-        listSettingMenu.setAdapter(adapterSettingMenu);
-
-        // projects
-
-        // restore last selected project
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        long selectedProjectId = preferences.getLong("selected_project", 0);
-
-        Log.v(TAG, "RESTORE PROJECT SELECTION " + selectedProjectId);
-        setSelectedProject(selectedProjectId);
-    }
-
     public void initList() {
         adapter = new ItemAdapter(this, db);
-        listView.setAdapter(adapter);
+        listBillItems.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        listView.setLayoutManager(linearLayoutManager);
-        listView.addItemDecoration(new DividerItemDecoration(listView.getContext(),
+        listBillItems.setLayoutManager(linearLayoutManager);
+        listBillItems.addItemDecoration(new DividerItemDecoration(listBillItems.getContext(),
                 linearLayoutManager.getOrientation()));
         ItemTouchHelper touchHelper = new ItemTouchHelper(new SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -1730,7 +1456,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 getDefaultUIUtil().clearView(((ItemAdapter.BillViewHolder) viewHolder).billSwipeable);
             }
         });
-        touchHelper.attachToRecyclerView(listView);
+        touchHelper.attachToRecyclerView(listBillItems);
     }
 
     private void refreshLists() {
@@ -1783,7 +1509,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                 adapter.setProjectType(projectType);
                 adapter.setItemList(billItems);
                 if(scrollToTop) {
-                    listView.scrollToPosition(0);
+                    listBillItems.scrollToPosition(0);
                 }
             }
         };
@@ -1882,6 +1608,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                                     );
                                 }
                             }
+                            setupDrawerProjects();
                         }
                     });
 
@@ -1918,7 +1645,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                                     Log.d(TAG, "[ACT RESULT CREATED BILL ] " + createdBillId);
                                     //adapter.add(createdBill);
                                 }
-                                listView.scrollToPosition(0);
+                                listBillItems.scrollToPosition(0);
                             }
                         }
                     });
@@ -1967,6 +1694,7 @@ public class BillsListViewActivity extends AppCompatActivity implements ItemAdap
                                     }
                                 }
                             }
+                            setupDrawerProjects();
                         }
                     });
 

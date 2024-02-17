@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_navdrawer_item"
-    android:paddingStart="6dp"
-    android:paddingEnd="8dp">
+    android:paddingHorizontal="12dp">
 
     <ImageView
         android:id="@+id/navigationItemIcon"
@@ -18,22 +18,21 @@
         android:id="@+id/navigationItemCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:padding="8dp"
-        android:textAppearance="@style/NavigationItem" />
+        android:textAppearance="@style/NavigationItem"
+        tools:text="1.0"/>
 
     <TextView
         android:id="@+id/navigationItemLabel"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_toStartOf="@id/navigationItemCount"
-        android:layout_toLeftOf="@id/navigationItemCount"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="44dp"
         android:layout_marginStart="44dp"
         android:ellipsize="end"
-        android:textAppearance="@style/NavigationItem" />
+        android:textAppearance="@style/NavigationItem"
+        tools:text="Label"/>
 
 </RelativeLayout>

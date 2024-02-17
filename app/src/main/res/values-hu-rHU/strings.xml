@@ -282,7 +282,6 @@
     <string name="share_stats_header">TAG_NÉV (FIZETVE | ELKÖLTVE | EGYENLEG)</string>
     <string name="drawer_no_project">Nincs még projekt.\nKattints ide a létrehozáshoz/hozzáadáshoz</string>
     <string name="drawer_no_account">Kattints ide Nextcloud fiókhoz való csatlakozáshoz</string>
-    <string name="choose_project_to_select">Válassz projektet</string>
     <string name="add_bill_impossible_no_member">Legalább egy aktivált tagra van szükség új számla hozzáadásához</string>
     <string name="edit_project_local_impossible">Lehetetlen helyi projektnek</string>
     <string name="choose_account_project_dialog_title">Válassz egy projektet a Nextcloud fiókodból</string>

@@ -282,7 +282,6 @@
     <string name="share_stats_header">MEMBER_NAME (PAID | SPENT | BALANCE)</string>
     <string name="drawer_no_project">Нет проектов.\nНажмите здесь, чтобы создать/добавить проект</string>
     <string name="drawer_no_account">Click here to connect to a Nextcloud account</string>
-    <string name="choose_project_to_select">Выберите проект</string>
     <string name="add_bill_impossible_no_member">At least one activated member is required to add a bill</string>
     <string name="edit_project_local_impossible">Недоступно для локальных проектов</string>
     <string name="choose_account_project_dialog_title">Выберите проект из вашего аккаунта Nextcloud</string>
