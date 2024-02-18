@@ -178,6 +178,7 @@ public class BillsListViewActivity
     AppCompatImageView accountButton;
     MaterialCardView homeToolbar;
     AppBarLayout appBar;
+    View noMembersView;
 
     private final ProjectDrawerAdapter projectAdapter = new ProjectDrawerAdapter(this);
 
@@ -227,7 +228,7 @@ public class BillsListViewActivity
         toolbar = findViewById(R.id.billsListActivityActionBar);
         drawerLayout = findViewById(R.id.drawerLayout);
         configuredAccount = findViewById(R.id.configuredAccount);
-        swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         fabAddBill = findViewById(R.id.fab_add_bill);
         listBillItems = findViewById(R.id.list_bill_items);
         listDrawerProjects = findViewById(R.id.list_drawer_projects);
@@ -241,6 +242,7 @@ public class BillsListViewActivity
         searchText = findViewById(R.id.search_text);
         homeToolbar = findViewById(R.id.home_toolbar);
         appBar = findViewById(R.id.appBar);
+        noMembersView = findViewById(R.id.layout_no_project_members);
 
         lastSyncLayout.setVisibility(GONE);
         lastSyncLayout.setBackgroundColor(ThemeUtils.primaryDarkColor(this));
@@ -249,6 +251,7 @@ public class BillsListViewActivity
 
         setupToolBar();
         setupBillsList();
+        setupBillsListCornerCases();
         setupDrawerButtons();
         setupDrawerProjects();
         setupDrawerProjectMembers(categoryAdapterSelectedItem);
@@ -632,6 +635,14 @@ public class BillsListViewActivity
         }
         fabAddBill.setRippleColor(ThemeUtils.primaryDarkColor(this));
         //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
+    }
+
+    private void setupBillsListCornerCases() {
+        findViewById(R.id.button_no_members_add_member).setOnClickListener((view) -> {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            final long selectedProjectId = preferences.getLong("selected_project", 0);
+            onAddMemberClick(selectedProjectId);
+        });
     }
 
     private void setupDrawerButtons() {
@@ -1513,6 +1524,15 @@ public class BillsListViewActivity
             query = searchView.getQuery();
         }
 
+        int memberCount = db.getMembersOfProject(selectedProjectId, null).size();
+        if (memberCount == 0) {
+            swipeRefreshLayout.setVisibility(View.GONE);
+            noMembersView.setVisibility(View.VISIBLE);
+        } else {
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            noMembersView.setVisibility(View.GONE);
+        }
+
         LoadBillsListTask.BillsLoadedListener callback = new LoadBillsListTask.BillsLoadedListener() {
             @Override
             public void onBillsLoaded(List<Item> billItems, boolean showCategory) {
@@ -1611,11 +1631,7 @@ public class BillsListViewActivity
                                         title = getString(R.string.project_add_success_title);
                                         message = getString(R.string.project_add_success_message, addedProj.getRemoteId());
                                     }
-                                    showDialog(
-                                            message,
-                                            title,
-                                            R.drawable.ic_add_circle_white_24dp
-                                    );
+                                    showDialog(message, title, R.drawable.ic_add_circle_white_24dp);
                                 }
                             }
                             setupDrawerProjects();
@@ -1759,11 +1775,7 @@ public class BillsListViewActivity
         builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
         builder.setTitle(title)
                 .setMessage(msg)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> dialog.dismiss())
                 .setIcon(icon)
                 .show();
     }

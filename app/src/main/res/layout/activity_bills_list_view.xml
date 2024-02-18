@@ -90,23 +90,58 @@
             </com.google.android.material.card.MaterialCardView>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/swiperefreshlayout"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_normal"
-            tools:context="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
-            tools:ignore="MergeRootFrame">
+            android:background="@color/bg_normal">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_bill_items"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_normal"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/fragment_bills_list_bill_item"/>
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:context="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+                tools:ignore="MergeRootFrame">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_bill_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_normal"
+                    android:scrollbars="vertical"
+                    tools:listitem="@layout/fragment_bills_list_bill_item" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_no_project_members"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacer_3x"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_members_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/no_members_text" />
+
+                <Button
+                    android:id="@+id/button_no_members_add_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/fab_add_member" />
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 
