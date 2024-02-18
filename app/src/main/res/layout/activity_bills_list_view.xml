@@ -11,14 +11,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--androidx.appcompat.widget.Toolbar
-            android:id="@+id/billsListActivityActionBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="4dp" /-->
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
@@ -118,32 +110,14 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical">
-
-        <!--com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_bill_list_add_project"
-            style="@style/fab"
-            android:src="@drawable/ic_library_add_white_24dp"
-            android:tint="#ffffff"
-            android:title="@string/action_add_project"
-            android:tooltipText="@string/action_add_project"
-            app:backgroundTint="@color/primary"
-            app:rippleColor="@color/primary_dark" /-->
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_bill"
         style="@style/fab"
         android:src="@drawable/ic_add_dollar_24dp"
         android:tint="#ffffff"
         android:tooltipText="@string/action_create_bill"
+        android:contentDescription="@string/action_create_bill"
         app:backgroundTint="@color/primary"
         app:rippleColor="@color/primary_dark" />
-
-    </LinearLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
