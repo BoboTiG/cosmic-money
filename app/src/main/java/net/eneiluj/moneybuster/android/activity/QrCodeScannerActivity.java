@@ -21,10 +21,10 @@ import com.google.zxing.Result;
 
 import net.eneiluj.moneybuster.R;
 
-public class QrCodeScanner extends AppCompatActivity {
+public class QrCodeScannerActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
-    private static final String TAG = QrCodeScanner.class.getSimpleName();
+    private static final String TAG = QrCodeScannerActivity.class.getSimpleName();
 
     public static final String KEY_QR_CODE = "net.eneiluj.moneybuster.android.activity.key_qr_code";
 

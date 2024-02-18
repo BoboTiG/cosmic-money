@@ -70,7 +70,7 @@
             />
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.QrCodeScanner"
+            android:name="net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity"
             android:label="@string/action_scan_qrcode"
             android:parentActivityName="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
             android:windowSoftInputMode="stateHidden"

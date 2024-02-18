@@ -56,7 +56,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import net.eneiluj.moneybuster.R;
-import net.eneiluj.moneybuster.android.activity.QrCodeScanner;
+import net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity;
 import net.eneiluj.moneybuster.model.DBAccountProject;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBCategory;
@@ -288,7 +288,7 @@ public class NewProjectFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Scan button pressed");
-                Intent createIntent = new Intent(getContext(), QrCodeScanner.class);
+                Intent createIntent = new Intent(getContext(), QrCodeScannerActivity.class);
                 scanQRCodeLauncher.launch(createIntent);
             }
         });
@@ -681,7 +681,7 @@ public class NewProjectFragment extends Fragment {
                             Intent data = result.getData();
                             if (result.getResultCode() == RESULT_OK) {
                                 if (data != null) {
-                                    String scannedUrl = data.getStringExtra(QrCodeScanner.KEY_QR_CODE);
+                                    String scannedUrl = data.getStringExtra(QrCodeScannerActivity.KEY_QR_CODE);
                                     Log.d(TAG, "onActivityResult SCANNED URL : " + scannedUrl);
                                     applyMBLink(Uri.parse(scannedUrl));
                                 }
