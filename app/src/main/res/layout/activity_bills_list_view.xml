@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,14 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <!--androidx.appcompat.widget.Toolbar
-            android:id="@+id/billsListActivityActionBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="4dp" /-->
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
@@ -97,41 +90,125 @@
             </com.google.android.material.card.MaterialCardView>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/swiperefreshlayout"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_normal"
-            tools:context="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
-            tools:ignore="MergeRootFrame">
+            android:background="@color/bg_normal">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_bill_items"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_normal"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/fragment_bills_list_bill_item"/>
+                android:layout_height="match_parent"
+                tools:context="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+                tools:ignore="MergeRootFrame"
+                tools:visibility="visible">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_bill_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_normal"
+                    android:scrollbars="vertical"
+                    tools:listitem="@layout/fragment_bills_list_bill_item" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <!-- No projects help -->
+            <LinearLayout
+                android:id="@+id/layout_no_projects"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacer_3x"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_projects_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/no_projects_text" />
+
+                <Button
+                    android:id="@+id/button_no_projects_configure_nextcloud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/configure_account_choice" />
+
+                <Button
+                    android:id="@+id/button_no_projects_configure_manually"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/add_project_choice" />
+            </LinearLayout>
+
+            <!-- No members help -->
+            <LinearLayout
+                android:id="@+id/layout_no_project_members"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacer_3x"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_members_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/no_members_text" />
+
+                <Button
+                    android:id="@+id/button_no_members_add_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/fab_add_member" />
+            </LinearLayout>
+
+            <!-- No bills help -->
+            <LinearLayout
+                android:id="@+id/layout_no_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacer_3x"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_bills_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/no_bills_text" />
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical">
-
-        <!--com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_bill_list_add_project"
-            style="@style/fab"
-            android:src="@drawable/ic_library_add_white_24dp"
-            android:tint="#ffffff"
-            android:title="@string/action_add_project"
-            android:tooltipText="@string/action_add_project"
-            app:backgroundTint="@color/primary"
-            app:rippleColor="@color/primary_dark" /-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_bill"
@@ -139,10 +216,8 @@
         android:src="@drawable/ic_add_dollar_24dp"
         android:tint="#ffffff"
         android:tooltipText="@string/action_create_bill"
+        android:contentDescription="@string/action_create_bill"
         app:backgroundTint="@color/primary"
         app:rippleColor="@color/primary_dark" />
-
-    </LinearLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -178,6 +178,9 @@ public class BillsListViewActivity
     AppCompatImageView accountButton;
     MaterialCardView homeToolbar;
     AppBarLayout appBar;
+    View noProjectsView;
+    View noMembersView;
+    View noBillsView;
 
     private final ProjectDrawerAdapter projectAdapter = new ProjectDrawerAdapter(this);
 
@@ -227,7 +230,7 @@ public class BillsListViewActivity
         toolbar = findViewById(R.id.billsListActivityActionBar);
         drawerLayout = findViewById(R.id.drawerLayout);
         configuredAccount = findViewById(R.id.configuredAccount);
-        swipeRefreshLayout = findViewById(R.id.swiperefreshlayout);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         fabAddBill = findViewById(R.id.fab_add_bill);
         listBillItems = findViewById(R.id.list_bill_items);
         listDrawerProjects = findViewById(R.id.list_drawer_projects);
@@ -241,6 +244,9 @@ public class BillsListViewActivity
         searchText = findViewById(R.id.search_text);
         homeToolbar = findViewById(R.id.home_toolbar);
         appBar = findViewById(R.id.appBar);
+        noProjectsView = findViewById(R.id.layout_no_projects);
+        noMembersView = findViewById(R.id.layout_no_project_members);
+        noBillsView = findViewById(R.id.layout_no_bills);
 
         lastSyncLayout.setVisibility(GONE);
         lastSyncLayout.setBackgroundColor(ThemeUtils.primaryDarkColor(this));
@@ -249,47 +255,19 @@ public class BillsListViewActivity
 
         setupToolBar();
         setupBillsList();
+        setupBillsListCornerCases();
         setupDrawerButtons();
         setupDrawerProjects();
         setupDrawerProjectMembers(categoryAdapterSelectedItem);
 
         updateUsernameInDrawer();
 
-        // ask user what to do if no project an no account configured
+        // show help if no project and no account configured
         if (db.getProjects().isEmpty() && !MoneyBusterServerSyncHelper.isNextcloudAccountConfigured(this)) {
-            AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
-            selectBuilder.setTitle(getString(R.string.empty_action_dialog_title));
-
-            List<String> options = new ArrayList<>();
-            options.add(getString(R.string.configure_account_choice));
-            options.add(getString(R.string.add_project_choice));
-            CharSequence[] optcs = options.toArray(new CharSequence[options.size()]);
-
-            selectBuilder.setSingleChoiceItems(optcs, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    if (which == 0) {
-                        Intent newProjectIntent = new Intent(getApplicationContext(), AccountActivity.class);
-                        serverSettingsLauncher.launch(newProjectIntent);
-                        dialog.dismiss();
-                    } else if (which == 1) {
-                        Intent newProjectIntent = new Intent(getApplicationContext(), NewProjectActivity.class);
-                        newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_IHM_URL, "https://ihatemoney.org");
-                        newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_NC_URL, "https://mynextcloud.org");
-                        addProjectLauncher.launch(newProjectIntent);
-                        dialog.dismiss();
-                    }
-                }
-            });
-            selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-            selectBuilder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-
-            AlertDialog selectDialog = selectBuilder.create();
-            selectDialog.show();
+            swipeRefreshLayout.setVisibility(View.GONE);
+            noProjectsView.setVisibility(View.VISIBLE);
+            noMembersView.setVisibility(View.GONE);
+            noBillsView.setVisibility(View.GONE);
         }
 
         // select a project if there are some and none is selected
@@ -634,6 +612,26 @@ public class BillsListViewActivity
         //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
     }
 
+    private void setupBillsListCornerCases() {
+        findViewById(R.id.button_no_projects_configure_nextcloud).setOnClickListener((view) -> {
+            Intent newProjectIntent = new Intent(getApplicationContext(), AccountActivity.class);
+            serverSettingsLauncher.launch(newProjectIntent);
+        });
+
+        findViewById(R.id.button_no_projects_configure_manually).setOnClickListener((view) -> {
+            Intent newProjectIntent = new Intent(getApplicationContext(), NewProjectActivity.class);
+            newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_IHM_URL, "https://ihatemoney.org");
+            newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_NC_URL, "https://mynextcloud.org");
+            addProjectLauncher.launch(newProjectIntent);
+        });
+
+        findViewById(R.id.button_no_members_add_member).setOnClickListener((view) -> {
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            final long selectedProjectId = preferences.getLong("selected_project", 0);
+            onAddMemberClick(selectedProjectId);
+        });
+    }
+
     private void setupDrawerButtons() {
         configuredAccount.setOnClickListener((View view) -> {
             Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
@@ -819,7 +817,7 @@ public class BillsListViewActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // user checked an item
-                editMember(members.get(which).getId());
+                editMember(project, members.get(which).getId());
                 dialog.dismiss();
             }
         });
@@ -871,6 +869,18 @@ public class BillsListViewActivity
                                         null, null, null, null, null)
                         );
                         refreshLists();
+                        drawerLayout.closeDrawers();
+
+                        View parent = findViewById(R.id.root_view);
+                        String titleText = getString(R.string.snackbar_member_added, memberName);
+                        String actionText = getString(R.string.snackbar_member_added_add_another);
+                        int actionTextColor = ContextCompat.getColor(BillsListViewActivity.this, android.R.color.white);
+                        Snackbar.make(parent, titleText, 6000)
+                                .setAction(actionText, (view) -> {
+                                    onAddMemberClick(projectId);
+                                })
+                                .setActionTextColor(actionTextColor)
+                                .show();
                     } else {
                         showToast(getString(R.string.member_already_exists));
                     }
@@ -1064,7 +1074,7 @@ public class BillsListViewActivity
         }
     }
 
-    private void editMember(long memberId) {
+    private void editMember(DBProject project, long memberId) {
         final DBMember memberToEdit = db.getMember(memberId);
         Integer r = memberToEdit.getR();
         Integer g = memberToEdit.getG();
@@ -1107,11 +1117,10 @@ public class BillsListViewActivity
 
         TextView tvCol = iView.findViewById(R.id.editMemberColorLabel);
         tvCol.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
-        Button bu = iView.findViewById(R.id.editMemberColor);
-        bu.setBackgroundColor(color);
-        bu.setText("");
+        Button buttonColor = iView.findViewById(R.id.editMemberColor);
+        buttonColor.setBackgroundColor(color);
 
-        bu.setOnClickListener(new View.OnClickListener() {
+        buttonColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View buview) {
                 LayoutInflater inflater = getLayoutInflater();
@@ -1135,7 +1144,7 @@ public class BillsListViewActivity
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 int newColor = lobsterPicker.getColor();
-                                bu.setBackgroundColor(newColor);
+                                buttonColor.setBackgroundColor(newColor);
                             }
                         })
                         .setNegativeButton(getString(R.string.simple_cancel), null)
@@ -1144,10 +1153,6 @@ public class BillsListViewActivity
             }
         });
 
-                    /*final EditText input = new EditText(getApplicationContext());
-                    input.setInputType(InputType.TYPE_CLASS_TEXT);
-                    input.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));
-                    input.setText(memberToEdit.getName());*/
         builder.setView(iView);
 
         // Set up the buttons
@@ -1207,7 +1212,35 @@ public class BillsListViewActivity
             }
         });
 
-        builder.show();
+        AlertDialog dialog = builder.create();
+
+        Button buttonDelete = iView.findViewById(R.id.editMemberDelete);
+        TextView deleteHelpText = iView.findViewById(R.id.editMemberDeleteHelp);
+        boolean isPresentInBills = db.getBillsOfMember(memberId).size() > 0;
+
+        // Setup deletion. This needs the created dialog to be able to dismiss it.
+        if (project.getType() != ProjectType.LOCAL) { // TODO: implement deletion for Cospend and iHateMoney
+            buttonDelete.setEnabled(false);
+            deleteHelpText.setVisibility(View.VISIBLE);
+            deleteHelpText.setText(getString(R.string.member_edit_delete_only_local_project_supported));
+        } else if (isPresentInBills) {
+            buttonDelete.setEnabled(false);
+            deleteHelpText.setVisibility(View.VISIBLE);
+            deleteHelpText.setText(getString(R.string.member_edit_delete_cannot_delete));
+        } else {
+            buttonDelete.setEnabled(true);
+            buttonDelete.setOnClickListener((view) -> {
+                db.deleteMember(memberId);
+                // refresh the member list in the drawer
+                new LoadMembersTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                refreshLists(); // in case this was the last member -> show the No Members screen
+                dialog.dismiss();
+            });
+            deleteHelpText.setVisibility(View.GONE);
+        }
+
+        dialog.show();
+
         nv.setSelectAllOnFocus(true);
         nv.requestFocus();
         // show keyboard
@@ -1274,7 +1307,7 @@ public class BillsListViewActivity
     }
 
 
-    private class LoadCategoryListTask extends AsyncTask<Void, Void, List<NavigationAdapter.NavigationItem>> {
+    private class LoadMembersTask extends AsyncTask<Void, Void, List<NavigationAdapter.NavigationItem>> {
         @Override
         protected List<NavigationAdapter.NavigationItem> doInBackground(Void... voids) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -1506,15 +1539,37 @@ public class BillsListViewActivity
         LoadBillsListTask.BillsLoadedListener callback = new LoadBillsListTask.BillsLoadedListener() {
             @Override
             public void onBillsLoaded(List<Item> billItems, boolean showCategory) {
-                adapter.setProjectType(projectType);
-                adapter.setItemList(billItems);
-                if(scrollToTop) {
-                    listBillItems.scrollToPosition(0);
+                // show help if no members
+                // this needs to be inside the BillsLoader because otherwise the noBillsView
+                // will overwrite the noMembersView (since no members => no bills).
+                int memberCount = db.getMembersOfProject(selectedProjectId, null).size();
+                if (memberCount == 0) {
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    noProjectsView.setVisibility(View.GONE);
+                    noMembersView.setVisibility(View.VISIBLE);
+                    noBillsView.setVisibility(View.GONE);
+                    // show help if no bills
+                } else if (billItems.size() == 0) {
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    noProjectsView.setVisibility(View.GONE);
+                    noMembersView.setVisibility(View.GONE);
+                    noBillsView.setVisibility(View.VISIBLE);
+                } else {
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    noProjectsView.setVisibility(View.GONE);
+                    noMembersView.setVisibility(View.GONE);
+                    noBillsView.setVisibility(View.GONE);
+
+                    adapter.setProjectType(projectType);
+                    adapter.setItemList(billItems);
+                    if (scrollToTop) {
+                        listBillItems.scrollToPosition(0);
+                    }
                 }
             }
         };
         new LoadBillsListTask(getApplicationContext(), callback, navigationSelection, query, projId).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        new LoadCategoryListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new LoadMembersTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public ItemAdapter getItemAdapter() {
@@ -1601,11 +1656,7 @@ public class BillsListViewActivity
                                         title = getString(R.string.project_add_success_title);
                                         message = getString(R.string.project_add_success_message, addedProj.getRemoteId());
                                     }
-                                    showDialog(
-                                            message,
-                                            title,
-                                            R.drawable.ic_add_circle_white_24dp
-                                    );
+                                    showDialog(message, title, R.drawable.ic_add_circle_white_24dp);
                                 }
                             }
                             setupDrawerProjects();
@@ -1749,11 +1800,7 @@ public class BillsListViewActivity
         builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
         builder.setTitle(title)
                 .setMessage(msg)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> dialog.dismiss())
                 .setIcon(icon)
                 .show();
     }

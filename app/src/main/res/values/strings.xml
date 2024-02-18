@@ -46,8 +46,6 @@
     <string name="setting_payment_mode">Payment mode</string>
     <string name="setting_category">Category</string>
     <string name="empty_action_dialog_title">What do you want to do?</string>
-    <string name="configure_account_choice">Configure Nextcloud account</string>
-    <string name="add_project_choice">Manually add a project (IHateMoney, Cospend or local)</string>
     <string name="repeat_no">do not repeat</string>
     <string name="repeat_day">day</string>
     <string name="repeat_week">week</string>
@@ -158,6 +156,8 @@
     <string name="menu_save_bill">Save bill</string>
     <string name="fab_add_project">Add a project</string>
     <string name="fab_add_member">Add a member</string>
+    <string name="snackbar_member_added">Member %s added</string>
+    <string name="snackbar_member_added_add_another">Add another</string>
     <string name="fab_rm_project">Remove current Project</string>
     <string name="remove_project_confirmation">Project %1$s has been removed</string>
     <string name="fab_edit_member">Edit a member</string>
@@ -184,6 +184,9 @@
     <string name="member_edit_name">Name</string>
     <string name="member_edit_color">Color</string>
     <string name="member_edit_weight">Weight</string>
+    <string name="member_edit_delete">Delete member</string>
+    <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+    <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
     <string name="remote_project_operation_no_network">Remote project operations require network connectivity</string>
     <string name="member_edit_weight_error">Member weight is incorrect</string>
     <string name="bill_info_dialog_title">About %s</string>
@@ -297,6 +300,15 @@
     <string name="activity_dialog_title">Activity in project %1$s</string>
     <string name="manage_accounts">Manage accounts</string>
 
+    <!-- Bills list corner cases -->
+    <string name="no_projects_title">No Projects</string>
+    <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+    <string name="configure_account_choice">Configure Nextcloud account</string>
+    <string name="add_project_choice">Manually add a project (IHateMoney, Cospend or local)</string>
+    <string name="no_members_title">No Members</string>
+    <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+    <string name="no_bills_title">No Bills</string>
+    <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
 
     <!-- Certificates -->
     <string name="certificate_notification_connection_security">MoneyBuster - Connection security</string>
