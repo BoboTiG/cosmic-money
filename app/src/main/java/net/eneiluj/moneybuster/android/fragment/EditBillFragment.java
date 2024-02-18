@@ -53,7 +53,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.eneiluj.moneybuster.R;
-import net.eneiluj.moneybuster.android.activity.QrCodeScanner;
+import net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.android.ui.UserAdapter;
 import net.eneiluj.moneybuster.android.ui.UserItem;
@@ -468,7 +468,7 @@ public class EditBillFragment extends Fragment {
                             Intent data = result.getData();
                             if (result.getResultCode() == RESULT_OK) {
                                 if (data != null) {
-                                    String scannedBill = data.getStringExtra(QrCodeScanner.KEY_QR_CODE);
+                                    String scannedBill = data.getStringExtra(QrCodeScannerActivity.KEY_QR_CODE);
                                     Log.d(TAG, "onActivityResult SCANNED BILL : " + scannedBill);
                                     try {
                                         AustrianBillQrCode bill = billParser.parseAustrianBillFromQrCode(scannedBill);
@@ -724,7 +724,7 @@ public class EditBillFragment extends Fragment {
                 return true;
             case R.id.menu_scan:
                 Log.d(TAG, "Scan button pressed");
-                Intent createIntent = new Intent(getContext(), QrCodeScanner.class);
+                Intent createIntent = new Intent(getContext(), QrCodeScannerActivity.class);
                 scanQRCodeLauncher.launch(createIntent);
                 return true;
             default:
