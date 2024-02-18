@@ -8,4 +8,6 @@ captures/
 .*.swp
 projectFilesBackup/
 app/debug/
+app/lint/
 app/release/
+/gradle/verification-keyring.gpg
