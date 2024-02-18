@@ -186,6 +186,9 @@
     <string name="member_edit_name">Name</string>
     <string name="member_edit_color">Color</string>
     <string name="member_edit_weight">Weight</string>
+    <string name="member_edit_delete">Delete member</string>
+    <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+    <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
     <string name="remote_project_operation_no_network">Remote project operations require network connectivity</string>
     <string name="member_edit_weight_error">Member weight is incorrect</string>
     <string name="bill_info_dialog_title">About %s</string>

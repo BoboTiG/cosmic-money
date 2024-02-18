@@ -830,7 +830,7 @@ public class BillsListViewActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // user checked an item
-                editMember(members.get(which).getId());
+                editMember(project, members.get(which).getId());
                 dialog.dismiss();
             }
         });
@@ -1085,7 +1085,7 @@ public class BillsListViewActivity
         }
     }
 
-    private void editMember(long memberId) {
+    private void editMember(DBProject project, long memberId) {
         final DBMember memberToEdit = db.getMember(memberId);
         Integer r = memberToEdit.getR();
         Integer g = memberToEdit.getG();
@@ -1128,11 +1128,10 @@ public class BillsListViewActivity
 
         TextView tvCol = iView.findViewById(R.id.editMemberColorLabel);
         tvCol.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
-        Button bu = iView.findViewById(R.id.editMemberColor);
-        bu.setBackgroundColor(color);
-        bu.setText("");
+        Button buttonColor = iView.findViewById(R.id.editMemberColor);
+        buttonColor.setBackgroundColor(color);
 
-        bu.setOnClickListener(new View.OnClickListener() {
+        buttonColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View buview) {
                 LayoutInflater inflater = getLayoutInflater();
@@ -1156,7 +1155,7 @@ public class BillsListViewActivity
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 int newColor = lobsterPicker.getColor();
-                                bu.setBackgroundColor(newColor);
+                                buttonColor.setBackgroundColor(newColor);
                             }
                         })
                         .setNegativeButton(getString(R.string.simple_cancel), null)
@@ -1165,10 +1164,6 @@ public class BillsListViewActivity
             }
         });
 
-                    /*final EditText input = new EditText(getApplicationContext());
-                    input.setInputType(InputType.TYPE_CLASS_TEXT);
-                    input.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));
-                    input.setText(memberToEdit.getName());*/
         builder.setView(iView);
 
         // Set up the buttons
@@ -1228,7 +1223,35 @@ public class BillsListViewActivity
             }
         });
 
-        builder.show();
+        AlertDialog dialog = builder.create();
+
+        Button buttonDelete = iView.findViewById(R.id.editMemberDelete);
+        TextView deleteHelpText = iView.findViewById(R.id.editMemberDeleteHelp);
+        boolean isPresentInBills = db.getBillsOfMember(memberId).size() > 0;
+
+        // Setup deletion. This needs the created dialog to be able to dismiss it.
+        if (project.getType() != ProjectType.LOCAL) { // TODO: implement deletion for Cospend and iHateMoney
+            buttonDelete.setEnabled(false);
+            deleteHelpText.setVisibility(View.VISIBLE);
+            deleteHelpText.setText(getString(R.string.member_edit_delete_only_local_project_supported));
+        } else if (isPresentInBills) {
+            buttonDelete.setEnabled(false);
+            deleteHelpText.setVisibility(View.VISIBLE);
+            deleteHelpText.setText(getString(R.string.member_edit_delete_cannot_delete));
+        } else {
+            buttonDelete.setEnabled(true);
+            buttonDelete.setOnClickListener((view) -> {
+                db.deleteMember(memberId);
+                // refresh the member list in the drawer
+                new LoadMembersTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                refreshLists(); // in case this was the last member -> show the No Members screen
+                dialog.dismiss();
+            });
+            deleteHelpText.setVisibility(View.GONE);
+        }
+
+        dialog.show();
+
         nv.setSelectAllOnFocus(true);
         nv.requestFocus();
         // show keyboard
@@ -1295,7 +1318,7 @@ public class BillsListViewActivity
     }
 
 
-    private class LoadCategoryListTask extends AsyncTask<Void, Void, List<NavigationAdapter.NavigationItem>> {
+    private class LoadMembersTask extends AsyncTask<Void, Void, List<NavigationAdapter.NavigationItem>> {
         @Override
         protected List<NavigationAdapter.NavigationItem> doInBackground(Void... voids) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -1544,7 +1567,7 @@ public class BillsListViewActivity
             }
         };
         new LoadBillsListTask(getApplicationContext(), callback, navigationSelection, query, projId).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        new LoadCategoryListTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new LoadMembersTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public ItemAdapter getItemAdapter() {
