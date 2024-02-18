@@ -158,6 +158,8 @@
     <string name="menu_save_bill">Save bill</string>
     <string name="fab_add_project">Add a project</string>
     <string name="fab_add_member">Add a member</string>
+    <string name="snackbar_member_added">Member %s added</string>
+    <string name="snackbar_member_added_add_another">Add another</string>
     <string name="fab_rm_project">Remove current Project</string>
     <string name="remove_project_confirmation">Project %1$s has been removed</string>
     <string name="fab_edit_member">Edit a member</string>

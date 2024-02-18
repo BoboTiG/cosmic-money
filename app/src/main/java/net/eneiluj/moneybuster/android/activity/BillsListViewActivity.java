@@ -871,6 +871,16 @@ public class BillsListViewActivity
                                         null, null, null, null, null)
                         );
                         refreshLists();
+                        drawerLayout.closeDrawers();
+
+                        View parent = findViewById(R.id.root_view);
+                        String titleText = getString(R.string.snackbar_member_added, memberName);
+                        String actionText = getString(R.string.snackbar_member_added_add_another);
+                        Snackbar.make(parent, titleText, 6000)
+                                .setAction(actionText, (view) -> {
+                                    onAddMemberClick(projectId);
+                                })
+                                .show();
                     } else {
                         showToast(getString(R.string.member_already_exists));
                     }
