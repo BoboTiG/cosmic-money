@@ -113,6 +113,44 @@
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+            <!-- No projects help -->
+            <LinearLayout
+                android:id="@+id/layout_no_projects"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacer_3x"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_projects_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/no_projects_text" />
+
+                <Button
+                    android:id="@+id/button_no_projects_configure_nextcloud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/configure_account_choice" />
+
+                <Button
+                    android:id="@+id/button_no_projects_configure_manually"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/add_project_choice" />
+            </LinearLayout>
+
             <!-- No members help -->
             <LinearLayout
                 android:id="@+id/layout_no_project_members"
@@ -121,6 +159,7 @@
                 android:layout_margin="@dimen/spacer_3x"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:visibility="gone"
                 tools:visibility="gone">
 
                 <TextView
@@ -151,6 +190,7 @@
                 android:layout_margin="@dimen/spacer_3x"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:visibility="gone"
                 tools:visibility="gone">
 
                 <TextView

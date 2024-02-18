@@ -178,6 +178,7 @@ public class BillsListViewActivity
     AppCompatImageView accountButton;
     MaterialCardView homeToolbar;
     AppBarLayout appBar;
+    View noProjectsView;
     View noMembersView;
     View noBillsView;
 
@@ -243,6 +244,7 @@ public class BillsListViewActivity
         searchText = findViewById(R.id.search_text);
         homeToolbar = findViewById(R.id.home_toolbar);
         appBar = findViewById(R.id.appBar);
+        noProjectsView = findViewById(R.id.layout_no_projects);
         noMembersView = findViewById(R.id.layout_no_project_members);
         noBillsView = findViewById(R.id.layout_no_bills);
 
@@ -260,41 +262,12 @@ public class BillsListViewActivity
 
         updateUsernameInDrawer();
 
-        // ask user what to do if no project an no account configured
+        // show help if no project and no account configured
         if (db.getProjects().isEmpty() && !MoneyBusterServerSyncHelper.isNextcloudAccountConfigured(this)) {
-            AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
-            selectBuilder.setTitle(getString(R.string.empty_action_dialog_title));
-
-            List<String> options = new ArrayList<>();
-            options.add(getString(R.string.configure_account_choice));
-            options.add(getString(R.string.add_project_choice));
-            CharSequence[] optcs = options.toArray(new CharSequence[options.size()]);
-
-            selectBuilder.setSingleChoiceItems(optcs, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    if (which == 0) {
-                        Intent newProjectIntent = new Intent(getApplicationContext(), AccountActivity.class);
-                        serverSettingsLauncher.launch(newProjectIntent);
-                        dialog.dismiss();
-                    } else if (which == 1) {
-                        Intent newProjectIntent = new Intent(getApplicationContext(), NewProjectActivity.class);
-                        newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_IHM_URL, "https://ihatemoney.org");
-                        newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_NC_URL, "https://mynextcloud.org");
-                        addProjectLauncher.launch(newProjectIntent);
-                        dialog.dismiss();
-                    }
-                }
-            });
-            selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
-            selectBuilder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-
-            AlertDialog selectDialog = selectBuilder.create();
-            selectDialog.show();
+            swipeRefreshLayout.setVisibility(View.GONE);
+            noProjectsView.setVisibility(View.VISIBLE);
+            noMembersView.setVisibility(View.GONE);
+            noBillsView.setVisibility(View.GONE);
         }
 
         // select a project if there are some and none is selected
@@ -640,6 +613,18 @@ public class BillsListViewActivity
     }
 
     private void setupBillsListCornerCases() {
+        findViewById(R.id.button_no_projects_configure_nextcloud).setOnClickListener((view) -> {
+            Intent newProjectIntent = new Intent(getApplicationContext(), AccountActivity.class);
+            serverSettingsLauncher.launch(newProjectIntent);
+        });
+
+        findViewById(R.id.button_no_projects_configure_manually).setOnClickListener((view) -> {
+            Intent newProjectIntent = new Intent(getApplicationContext(), NewProjectActivity.class);
+            newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_IHM_URL, "https://ihatemoney.org");
+            newProjectIntent.putExtra(NewProjectFragment.PARAM_DEFAULT_NC_URL, "https://mynextcloud.org");
+            addProjectLauncher.launch(newProjectIntent);
+        });
+
         findViewById(R.id.button_no_members_add_member).setOnClickListener((view) -> {
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             final long selectedProjectId = preferences.getLong("selected_project", 0);
@@ -1558,15 +1543,18 @@ public class BillsListViewActivity
                 int memberCount = db.getMembersOfProject(selectedProjectId, null).size();
                 if (memberCount == 0) {
                     swipeRefreshLayout.setVisibility(View.GONE);
+                    noProjectsView.setVisibility(View.GONE);
                     noMembersView.setVisibility(View.VISIBLE);
                     noBillsView.setVisibility(View.GONE);
                     // show help if no bills
                 } else if (billItems.size() == 0) {
                     swipeRefreshLayout.setVisibility(View.GONE);
+                    noProjectsView.setVisibility(View.GONE);
                     noMembersView.setVisibility(View.GONE);
                     noBillsView.setVisibility(View.VISIBLE);
                 } else {
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    noProjectsView.setVisibility(View.GONE);
                     noMembersView.setVisibility(View.GONE);
                     noBillsView.setVisibility(View.GONE);
 
