@@ -247,9 +247,11 @@ public class SupportUtil {
         return r;
     }
 
+    public static final long SETTLE_OPTIMAL = 0;
+
     public static List<Transaction> settleBills(List<DBMember> members, Map<Long, Double> membersBalance,
                                                        long centerOnMemberId) {
-        if (centerOnMemberId == 0) {
+        if (centerOnMemberId == SETTLE_OPTIMAL) {
             return settleBillsOptimal(members, membersBalance);
         } else {
             List<Transaction> results = new ArrayList<>();

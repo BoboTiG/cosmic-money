@@ -250,6 +250,7 @@
     <string name="settle_who">Who pays?</string>
     <string name="settle_to_whom">To whom?</string>
     <string name="settle_how_much">How much?</string>
+    <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
     <string name="total_payed">Total payed by all the members: %.2f</string>
     <string name="stats_table_title">Statistics table</string>
     <string name="stats_date_min">Minimum date</string>
@@ -269,6 +270,7 @@
     <string name="fab_scan_qrcode_import">Import MB QRCode</string>
     <string name="statistic_dialog_title">Project\'s statistics</string>
     <string name="settle_dialog_title">Settle the project</string>
+    <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
     <string name="share_dialog_title">Share the project</string>
     <string name="share_project_dialog_message">Scan this QRCode with MoneyBuster or a scanner app on an Android device where MoneyBuster is installed. You can also simply send/share the MoneyBuster link above.</string>
     <string name="share_project_public_url_dialog_message">Share this web link to let others access the project with a web browser.</string>

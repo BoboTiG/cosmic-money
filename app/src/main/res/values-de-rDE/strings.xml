@@ -245,6 +245,7 @@
   <string name="settle_who">Wer zahlt?</string>
   <string name="settle_to_whom">An wen?</string>
   <string name="settle_how_much">Wie viel?</string>
+  <string name="settle_member_center_explanation">Abrechnungsmodus: optimal oder auf ein Mitglied zentriert.\nOptimal hat die geringste Anzahl Transaktionen. Zentrieren lässt alle Transaktionen via dieses Mitglied gehen. Dies ist nützlich wenn es einen Kassenwart gibt, der das Geld zentral verwaltet.</string>
   <string name="total_payed">Gesamt von allen Mitgliedern bezahlt: %.2f</string>
   <string name="stats_table_title">Statistiktabelle</string>
   <string name="stats_date_min">Anfangsdatum</string>
@@ -265,6 +266,7 @@
   <string name="statistic_dialog_title">Projektstatistik</string>
   <string name="settle_dialog_title">Projekt abrechnen</string>
   <string name="share_dialog_title">Projekt teilen</string>
+  <string name="settle_dialog_balanced">Die Ausgaben in diesem Projekt sind bereits ausgeglichen. Es gibt nichts zu begleichen!</string>
   <string name="share_project_dialog_message">Scanne diesen QR-Code mit MoneyBuster oder einer Scanner-App auf einem Android-Gerät, auf dem MoneyBuster installiert ist. Du kannst auch den MoneyBuster Link oben senden/teilen.</string>
   <string name="share_project_public_url_dialog_message">Teile diesen Weblink, um anderen mit einem Webbrowser Zugang zum Projekt zu ermöglichen.</string>
   <string name="share_project_public_url_title">Weblink</string>
