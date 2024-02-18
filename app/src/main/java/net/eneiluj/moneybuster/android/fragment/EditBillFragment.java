@@ -66,6 +66,7 @@ import net.eneiluj.moneybuster.model.DBPaymentMode;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.model.parsed.AustrianBillQrCode;
+import net.eneiluj.moneybuster.model.parsed.CroatianBillQrCode;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.util.BillParser;
 import net.eneiluj.moneybuster.util.ICallback;
@@ -78,6 +79,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -151,8 +153,6 @@ public class EditBillFragment extends Fragment {
 
     private SimpleDateFormat sdfDate;
     private SimpleDateFormat sdfTime;
-
-    private BillParser billParser;
 
     private boolean isSpinnerUserAction = false;
     private boolean isSpinnerRepeatAction = false;
@@ -470,16 +470,31 @@ public class EditBillFragment extends Fragment {
                                 if (data != null) {
                                     String scannedBill = data.getStringExtra(QrCodeScannerActivity.KEY_QR_CODE);
                                     Log.d(TAG, "onActivityResult SCANNED BILL : " + scannedBill);
+
                                     try {
-                                        AustrianBillQrCode bill = billParser.parseAustrianBillFromQrCode(scannedBill);
+                                        AustrianBillQrCode bill = BillParser.parseAustrianBillFromQrCode(scannedBill);
                                         calendar.setTimeInMillis(bill.getDate().getTime());
                                         updateDateLabel();
                                         updateTimeLabel();
                                         editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
+                                        return;
                                     } catch (ParseException e) {
-                                        Log.d(TAG, "Could not parse scanned bill : " + scannedBill);
-                                        showToast(getString(R.string.error_scanning_bill_qr_code), Toast.LENGTH_LONG);
                                     }
+
+                                    try {
+                                        CroatianBillQrCode bill = BillParser.parseCroatianBillFromQrCode(scannedBill);
+                                        if (bill.getDate() != null) {
+                                            calendar.setTimeInMillis(bill.getDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+                                            updateDateLabel();
+                                            updateTimeLabel();
+                                        }
+                                        editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
+                                        return;
+                                    } catch (ParseException e) {
+                                    }
+
+                                    Log.d(TAG, "Could not parse scanned bill : " + scannedBill);
+                                    showToast(getString(R.string.error_scanning_bill_qr_code), Toast.LENGTH_LONG);
                                 }
                             }
                         }
@@ -556,8 +571,6 @@ public class EditBillFragment extends Fragment {
 
         sdfDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
         sdfTime = new SimpleDateFormat("HH:mm", Locale.ROOT);
-
-        billParser = new BillParser();
 
         if (savedInstanceState == null) {
             long id = getArguments().getLong(PARAM_BILL_ID);
