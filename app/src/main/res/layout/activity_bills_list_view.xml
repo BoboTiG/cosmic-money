@@ -99,9 +99,9 @@
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 tools:context="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
-                tools:ignore="MergeRootFrame">
+                tools:ignore="MergeRootFrame"
+                tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list_bill_items"
@@ -113,13 +113,15 @@
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+            <!-- No members help -->
             <LinearLayout
                 android:id="@+id/layout_no_project_members"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/spacer_3x"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:visibility="gone">
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Title"
@@ -139,6 +141,29 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacer_1x"
                     android:text="@string/fab_add_member" />
+            </LinearLayout>
+
+            <!-- No bills help -->
+            <LinearLayout
+                android:id="@+id/layout_no_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacer_3x"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:visibility="gone">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_bills_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacer_1x"
+                    android:text="@string/no_bills_text" />
             </LinearLayout>
 
         </FrameLayout>

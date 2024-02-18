@@ -179,6 +179,7 @@ public class BillsListViewActivity
     MaterialCardView homeToolbar;
     AppBarLayout appBar;
     View noMembersView;
+    View noBillsView;
 
     private final ProjectDrawerAdapter projectAdapter = new ProjectDrawerAdapter(this);
 
@@ -243,6 +244,7 @@ public class BillsListViewActivity
         homeToolbar = findViewById(R.id.home_toolbar);
         appBar = findViewById(R.id.appBar);
         noMembersView = findViewById(R.id.layout_no_project_members);
+        noBillsView = findViewById(R.id.layout_no_bills);
 
         lastSyncLayout.setVisibility(GONE);
         lastSyncLayout.setBackgroundColor(ThemeUtils.primaryDarkColor(this));
@@ -1547,22 +1549,32 @@ public class BillsListViewActivity
             query = searchView.getQuery();
         }
 
-        int memberCount = db.getMembersOfProject(selectedProjectId, null).size();
-        if (memberCount == 0) {
-            swipeRefreshLayout.setVisibility(View.GONE);
-            noMembersView.setVisibility(View.VISIBLE);
-        } else {
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
-            noMembersView.setVisibility(View.GONE);
-        }
-
         LoadBillsListTask.BillsLoadedListener callback = new LoadBillsListTask.BillsLoadedListener() {
             @Override
             public void onBillsLoaded(List<Item> billItems, boolean showCategory) {
-                adapter.setProjectType(projectType);
-                adapter.setItemList(billItems);
-                if(scrollToTop) {
-                    listBillItems.scrollToPosition(0);
+                // show help if no members
+                // this needs to be inside the BillsLoader because otherwise the noBillsView
+                // will overwrite the noMembersView (since no members => no bills).
+                int memberCount = db.getMembersOfProject(selectedProjectId, null).size();
+                if (memberCount == 0) {
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    noMembersView.setVisibility(View.VISIBLE);
+                    noBillsView.setVisibility(View.GONE);
+                    // show help if no bills
+                } else if (billItems.size() == 0) {
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    noMembersView.setVisibility(View.GONE);
+                    noBillsView.setVisibility(View.VISIBLE);
+                } else {
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    noMembersView.setVisibility(View.GONE);
+                    noBillsView.setVisibility(View.GONE);
+
+                    adapter.setProjectType(projectType);
+                    adapter.setItemList(billItems);
+                    if (scrollToTop) {
+                        listBillItems.scrollToPosition(0);
+                    }
                 }
             }
         };
