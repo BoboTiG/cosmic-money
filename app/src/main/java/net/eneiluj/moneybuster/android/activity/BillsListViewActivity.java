@@ -874,10 +874,12 @@ public class BillsListViewActivity
                         View parent = findViewById(R.id.root_view);
                         String titleText = getString(R.string.snackbar_member_added, memberName);
                         String actionText = getString(R.string.snackbar_member_added_add_another);
+                        int actionTextColor = ContextCompat.getColor(BillsListViewActivity.this, android.R.color.white);
                         Snackbar.make(parent, titleText, 6000)
                                 .setAction(actionText, (view) -> {
                                     onAddMemberClick(projectId);
                                 })
+                                .setActionTextColor(actionTextColor)
                                 .show();
                     } else {
                         showToast(getString(R.string.member_already_exists));
