@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
+import com.nextcloud.android.sso.QueryParam;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.api.Response;
@@ -1095,13 +1096,13 @@ public class VersatileProjectSyncClient {
     private ResponseData requestServerWithSSO(NextcloudAPI nextcloudAPI, String target, String method, List<String> paramKeys, List<String> paramValues, boolean isOCSRequest) throws TokenMismatchException, NextcloudHttpRequestFailedException {
         StringBuffer result = new StringBuffer();
 
-        Map<String, String> params = null;
+        List<QueryParam> params = null;
         if (paramKeys != null && paramValues != null) {
-            params = new HashMap<>();
+            params = new ArrayList<>();
             for (int i = 0; i < paramKeys.size(); i++) {
                 String key = paramKeys.get(i);
                 String value = paramValues.get(i);
-                params.put(key, value);
+                params.add(new QueryParam(key, value));
             }
         }
 
@@ -1245,7 +1246,7 @@ public class VersatileProjectSyncClient {
             result.append(line);
         }
         if (responseCode >= 400) {
-            throw new NextcloudHttpRequestFailedException(responseCode, new IOException(result.toString()));
+            throw new NextcloudHttpRequestFailedException(context, responseCode, new IOException(result.toString()));
         }
         // create response object
         String etag = con.getHeaderField("ETag");
