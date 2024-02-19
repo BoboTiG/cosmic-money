@@ -3,7 +3,6 @@ package net.eneiluj.moneybuster.android.fragment;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,13 +42,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.opencsv.CSVReader;
@@ -322,7 +321,7 @@ public class NewProjectFragment extends ThemedFragment {
                     acProjIdList.add(accountProject.getId());
                 }
                 // manage account projects list DIALOG
-                AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(view.getContext(), R.style.AppThemeDialog));
+                AlertDialog.Builder selectBuilder = new MaterialAlertDialogBuilder(view.getContext());
                 selectBuilder.setTitle(getString(R.string.choose_account_project_dialog_title));
 
                 if (acProjNameList.size() > 0) {
@@ -342,8 +341,7 @@ public class NewProjectFragment extends ThemedFragment {
                     });
                     selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
 
-                    AlertDialog selectDialog = selectBuilder.create();
-                    selectDialog.show();
+                    selectBuilder.create().show();
                 } else {
                     showToast(getString(R.string.choose_account_project_dialog_impossible), Toast.LENGTH_LONG);
                 }
@@ -831,8 +829,7 @@ public class NewProjectFragment extends ThemedFragment {
         );
         if (isValidUrl(url) && todoCreate && ProjectType.COSPEND.equals(type) &&
                 db.getMoneyBusterServerSyncHelper().canCreateAuthenticatedProject(fakeProj)) {
-            android.app.AlertDialog.Builder builder;
-            builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AppThemeDialog));
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireContext());
             builder.setTitle(getString(R.string.auth_project_creation_title))
                     .setMessage(getString(R.string.warning_auth_project_creation))
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -1142,12 +1139,7 @@ public class NewProjectFragment extends ThemedFragment {
                 long pid = addProjectToDb(getProjectFromFields(false));
                 listener.close(pid, true);
             } else {
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(
-                        new ContextThemeWrapper(
-                                getContext(),
-                                R.style.AppThemeDialog
-                        )
-                );
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireContext());
                 builder.setTitle(getString(R.string.simple_error));
                 builder.setMessage(getString(R.string.error_project_connect_check, message));
                 builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
@@ -1174,12 +1166,7 @@ public class NewProjectFragment extends ThemedFragment {
                 saveRemoteProject(null, usePrivateApi);
                 // listener.close(pid, false);
             } else {
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(
-                        new ContextThemeWrapper(
-                                getContext(),
-                                R.style.AppThemeDialog
-                        )
-                );
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireContext());
                 builder.setTitle(getString(R.string.simple_error));
                 builder.setMessage(getString(R.string.error_create_remote_project_helper, message));
                 // Set up the buttons

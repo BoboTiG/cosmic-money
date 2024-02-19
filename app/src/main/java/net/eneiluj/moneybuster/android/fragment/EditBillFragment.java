@@ -45,11 +45,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.eneiluj.moneybuster.R;
@@ -317,7 +316,7 @@ public class EditBillFragment extends ThemedFragment {
                     currencyIdList.add(currency.getId());
                 }
 
-                AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(v.getContext(), R.style.AppThemeDialog));
+                AlertDialog.Builder selectBuilder = new MaterialAlertDialogBuilder(v.getContext());
                 selectBuilder.setTitle(getString(R.string.currency_dialog_title, mainCurrencyName));
 
                 if (currencyNameList.size() > 0) {
@@ -632,7 +631,7 @@ public class EditBillFragment extends ThemedFragment {
                 }
             }
         };
-        confirmDeleteAlertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this.getActivity(), R.style.AppThemeDialog));
+        confirmDeleteAlertBuilder = new MaterialAlertDialogBuilder(this.getActivity());
         confirmDeleteAlertBuilder.setMessage(getString(R.string.confirm_delete_bill_dialog_title))
                 .setPositiveButton(getString(R.string.simple_yes), deleteDialogClickListener)
                 .setNegativeButton(getString(R.string.simple_no), deleteDialogClickListener);
@@ -701,12 +700,7 @@ public class EditBillFragment extends ThemedFragment {
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                new ContextThemeWrapper(
-                        getContext(),
-                        R.style.AppThemeDialog
-                )
-        );
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(getString(R.string.save_or_discard_bill_dialog_title));
         builder.setMessage(getString(R.string.save_or_discard_bill_dialog_message));
         builder.setPositiveButton(getString(R.string.save_or_discard_bill_dialog_save), new DialogInterface.OnClickListener() {

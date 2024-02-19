@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +23,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBCategory;
@@ -78,7 +79,7 @@ public class ProjectStatisticsDialogBuilder {
     }
 
     public AlertDialog build() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppThemeDialog));
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
 
         view = LayoutInflater.from(context).inflate(R.layout.dialog_project_statistics, null);
 

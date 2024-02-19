@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.Html;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.zxing.WriterException;
 
 import net.eneiluj.moneybuster.R;
@@ -42,7 +42,7 @@ public class ProjectShareDialogBuilder {
     }
 
     public AlertDialog build() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppThemeDialog));
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
 
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_share_project, null);
 
