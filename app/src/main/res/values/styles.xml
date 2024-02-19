@@ -29,7 +29,7 @@
         <item name="android:paddingEnd">@dimen/spacer_activity_sides</item>
     </style>
 
-    <style name="AppThemeDialog" parent="@style/Theme.AppCompat.DayNight.Dialog">
+    <style name="AppThemeDialog" parent="@style/Theme.Material3.DayNight.Dialog">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/primary</item>
@@ -86,7 +86,7 @@
 
     </style>
 
-    <style name="checkboxTheme" parent="Theme.AppCompat">
+    <style name="checkboxTheme" parent="Widget.Material3.CompoundButton.CheckBox">
         <item name="colorAccent">@color/green</item>
         <item name="android:textColorSecondary">@color/red</item>
     </style>
