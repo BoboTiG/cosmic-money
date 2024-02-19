@@ -107,7 +107,7 @@ import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.IRefreshBillsListCallback;
 import net.eneiluj.moneybuster.util.SupportUtil;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -249,7 +249,7 @@ public class BillsListViewActivity
         noBillsView = findViewById(R.id.layout_no_bills);
 
         lastSyncLayout.setVisibility(GONE);
-        lastSyncLayout.setBackgroundColor(ThemeUtils.primaryDarkColor(this));
+        lastSyncLayout.setBackgroundColor(ColorUtils.primaryDarkColor(this));
 
         db = MoneyBusterSQLiteOpenHelper.getInstance(this);
 
@@ -445,7 +445,7 @@ public class BillsListViewActivity
 
     private void setupToolBar() {
         setSupportActionBar(toolbar);
-        int colors[] = {ThemeUtils.primaryColor(this), ThemeUtils.primaryLightColor(this)};
+        int colors[] = {ColorUtils.primaryColor(this), ColorUtils.primaryLightColor(this)};
         GradientDrawable gradientDrawable = new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT, colors);
         drawerLayout.findViewById(R.id.drawer_top_layout).setBackground(gradientDrawable);
@@ -459,9 +459,9 @@ public class BillsListViewActivity
         }
 
         ImageView logoView = drawerLayout.findViewById(R.id.drawer_logo);
-        logoView.setColorFilter(ThemeUtils.primaryColor(this), PorterDuff.Mode.OVERLAY);
+        logoView.setColorFilter(ColorUtils.primaryColor(this), PorterDuff.Mode.OVERLAY);
 
-        int colorsLastSync[] = {ThemeUtils.primaryDarkColor(this), ThemeUtils.primaryColor(this)};
+        int colorsLastSync[] = {ColorUtils.primaryDarkColor(this), ColorUtils.primaryColor(this)};
         GradientDrawable gradientDrawable2 = new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT, colorsLastSync);
         lastSyncLayout.setBackground(gradientDrawable2);
@@ -601,14 +601,14 @@ public class BillsListViewActivity
         // color
         boolean darkTheme = MoneyBuster.isDarkTheme(this);
         // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(this) == Color.BLACK) {
+        if (darkTheme && ColorUtils.primaryColor(this) == Color.BLACK) {
             fabAddBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
             //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
         } else {
-            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
+            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.primaryColor(this)));
             //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
         }
-        fabAddBill.setRippleColor(ThemeUtils.primaryDarkColor(this));
+        fabAddBill.setRippleColor(ColorUtils.primaryDarkColor(this));
         //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
     }
 
@@ -1840,7 +1840,7 @@ public class BillsListViewActivity
                 try {
                     byte[] decodedString = Base64.decode(avatarB64, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    Bitmap rounded = ThemeUtils.getRoundedBitmap(decodedByte, decodedByte.getWidth() / 2);
+                    Bitmap rounded = ColorUtils.getRoundedBitmap(decodedByte, decodedByte.getWidth() / 2);
                     avatarView.setImageBitmap(rounded);
                     accountButton.setImageBitmap(rounded);
                 } catch (Exception e) {

@@ -72,7 +72,7 @@ import net.eneiluj.moneybuster.util.BillParser;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.SupportUtil;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -190,12 +190,12 @@ public class EditBillFragment extends Fragment {
         // color
         boolean darkTheme = MoneyBuster.isDarkTheme(getContext());
         // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(getContext()) == Color.BLACK) {
+        if (darkTheme && ColorUtils.primaryColor(getContext()) == Color.BLACK) {
             fabSaveBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
         } else {
-            fabSaveBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(getContext())));
+            fabSaveBill.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.primaryColor(getContext())));
         }
-        fabSaveBill.setRippleColor(ThemeUtils.primaryDarkColor(getContext()));
+        fabSaveBill.setRippleColor(ColorUtils.primaryDarkColor(getContext()));
 
         fabSaveBill.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -961,7 +961,7 @@ public class EditBillFragment extends Fragment {
                 try {
                     avatar.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     if (member.getAvatar() != null && !member.getAvatar().equals("")) {
-                        avatar.setImageDrawable(ThemeUtils.getMemberAvatarDrawable(
+                        avatar.setImageDrawable(ColorUtils.getMemberAvatarDrawable(
                                 db.getContext(), member.getAvatar(), !member.isActivated()
                         ));
                         ViewGroup.LayoutParams lp = avatar.getLayoutParams();

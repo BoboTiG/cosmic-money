@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
 
@@ -119,7 +119,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                         Drawable td;
                         if (member.getAvatar() != null && !member.getAvatar().equals("")) {
                             // TODO adapt to be able to set size of bitmap (independently from loaded image size)
-                            td = ThemeUtils.getMemberAvatarDrawable(
+                            td = ColorUtils.getMemberAvatarDrawable(
                                     db.getContext(), member.getAvatar(), !member.isActivated()
                             );
                             icon.setPadding(width / 4, height / 4, width / 8, 0);

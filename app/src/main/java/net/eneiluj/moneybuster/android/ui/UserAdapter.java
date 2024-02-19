@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBMember;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -62,7 +62,7 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
                 if (m == null) {
                     viewHolder.avatar.setImageDrawable(null);
                 } else if (m.getAvatar() != null && !m.getAvatar().equals("")) {
-                    viewHolder.avatar.setImageDrawable(ThemeUtils.getMemberAvatarDrawable(
+                    viewHolder.avatar.setImageDrawable(ColorUtils.getMemberAvatarDrawable(
                             view.getContext(), m.getAvatar(), !m.isActivated()
                     ));
                 } else {
@@ -110,7 +110,7 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
                 if (m == null) {
                     viewHolder.avatar.setImageDrawable(null);
                 } else if (m.getAvatar() != null && !m.getAvatar().equals("")) {
-                    viewHolder.avatar.setImageDrawable(ThemeUtils.getMemberAvatarDrawable(
+                    viewHolder.avatar.setImageDrawable(ColorUtils.getMemberAvatarDrawable(
                             view.getContext(), m.getAvatar(), !m.isActivated()
                     ));
                 } else {

@@ -23,7 +23,7 @@ import com.google.zxing.WriterException;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBProject;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 
 public class ProjectShareDialogBuilder {
@@ -86,7 +86,7 @@ public class ProjectShareDialogBuilder {
         hint.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
         ImageView img = view.findViewById(R.id.imageViewShareProject);
         try {
-            Bitmap bitmap = ThemeUtils.encodeAsBitmap(shareUrl);
+            Bitmap bitmap = ColorUtils.encodeAsBitmap(shareUrl);
             img.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();

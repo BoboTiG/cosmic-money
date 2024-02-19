@@ -46,7 +46,7 @@ import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
 import net.eneiluj.moneybuster.util.CospendClientUtil.LoginStatus;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.io.ByteArrayInputStream;
 import java.net.URLDecoder;
@@ -155,8 +155,8 @@ public class AccountActivity extends AppCompatActivity {
         }
         // manage switch color
         if (use_sso_switch.isChecked()) {
-            use_sso_switch.getTrackDrawable().setColorFilter(ThemeUtils.primaryDarkColor(this), PorterDuff.Mode.SRC_IN);
-            use_sso_switch.getThumbDrawable().setColorFilter(ThemeUtils.primaryColor(this), PorterDuff.Mode.MULTIPLY);
+            use_sso_switch.getTrackDrawable().setColorFilter(ColorUtils.primaryDarkColor(this), PorterDuff.Mode.SRC_IN);
+            use_sso_switch.getThumbDrawable().setColorFilter(ColorUtils.primaryColor(this), PorterDuff.Mode.MULTIPLY);
         } else {
             use_sso_switch.getTrackDrawable().setColorFilter(ContextCompat.getColor(this, R.color.fg_default_low), PorterDuff.Mode.SRC_IN);
             use_sso_switch.getThumbDrawable().setColorFilter(ContextCompat.getColor(this, R.color.fg_default_high), PorterDuff.Mode.MULTIPLY);

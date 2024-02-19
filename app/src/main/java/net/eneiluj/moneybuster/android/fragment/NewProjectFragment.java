@@ -71,7 +71,7 @@ import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.IProjectCreationCallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.SupportUtil;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -277,12 +277,12 @@ public class NewProjectFragment extends Fragment {
 
         boolean darkTheme = MoneyBuster.isDarkTheme(getContext());
         // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(getContext()) == Color.BLACK) {
+        if (darkTheme && ColorUtils.primaryColor(getContext()) == Color.BLACK) {
             fabOk.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
         } else {
-            fabOk.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(getContext())));
+            fabOk.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.primaryColor(getContext())));
         }
-        fabOk.setRippleColor(ThemeUtils.primaryDarkColor(getContext()));
+        fabOk.setRippleColor(ColorUtils.primaryDarkColor(getContext()));
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
