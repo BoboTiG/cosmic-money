@@ -70,7 +70,7 @@ public class ProjectSettlementDialogBuilder {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppThemeDialog));
 
         builder.setTitle(context.getString(R.string.settle_dialog_title));
-        builder.setIcon(R.drawable.ic_compare_arrows_white_24dp); // TODO: fix light/dark mode
+        builder.setIcon(R.drawable.ic_compare_arrows_grey_24dp);
         builder.setPositiveButton(R.string.simple_ok, (DialogInterface dialog, int which) -> dialog.dismiss());
 
         String projectName;
