@@ -1656,7 +1656,7 @@ public class BillsListViewActivity
                                         title = getString(R.string.project_add_success_title);
                                         message = getString(R.string.project_add_success_message, addedProj.getRemoteId());
                                     }
-                                    showDialog(message, title, R.drawable.ic_add_circle_white_24dp);
+                                    showDialog(message, title, R.drawable.ic_add_circle_grey_24dp);
                                 }
                             }
                             setupDrawerProjects();
@@ -1796,8 +1796,8 @@ public class BillsListViewActivity
     }
 
     private void showDialog(String msg, String title, int icon) {
-        android.app.AlertDialog.Builder builder;
-        builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
         builder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> dialog.dismiss())
