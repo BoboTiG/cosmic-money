@@ -269,17 +269,16 @@
                             android:id="@+id/owerAllButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_all"
-                            android:drawableLeft="@drawable/ic_all"
-                            android:text="@string/setting_all" />
+                            android:text="@string/setting_all"
+                            app:icon="@drawable/ic_all" />
 
                         <Button
                             android:id="@+id/owerNoneButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_none"
-                            android:drawableLeft="@drawable/ic_none"
-                            android:text="@string/setting_none" />
+                            android:layout_marginStart="@dimen/spacer_1x"
+                            android:text="@string/setting_none"
+                            app:icon="@drawable/ic_none" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -471,8 +470,8 @@
                 android:id="@+id/duplicateBillButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_play_arrow_24"
-                android:text="@string/duplicate_bill" />
+                android:text="@string/duplicate_bill"
+                app:icon="@drawable/ic_baseline_play_arrow_24" />
         </LinearLayout>
 
         </LinearLayout>
