@@ -403,7 +403,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_new_ok"
-        style="@style/fab"
+        style="@style/Fab"
         android:contentDescription="@string/action_save_bill"
         android:src="@drawable/ic_done_white_24dp"
         android:tint="#ffffff"

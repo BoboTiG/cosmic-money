@@ -480,10 +480,10 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_edit_ok"
-        style="@style/fab"
+        style="@style/Fab"
         android:src="@drawable/ic_done_white_24dp"
         android:tint="#ffffff"
         android:title="@string/action_save_bill"
-        app:backgroundTint="@color/primary"
-        app:rippleColor="@color/primary_dark" />
+        android:contentDescription="@string/action_save_bill"
+        app:backgroundTint="@color/primary" />
 </FrameLayout>

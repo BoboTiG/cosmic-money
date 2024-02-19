@@ -11,6 +11,9 @@
         <item name="actionModeStyle">@style/actionModeStyle</item>
         <item name="appBarLayoutStyle">@style/appBarLayoutStyle</item>
         <item name="toolbarStyle">@style/toolbarStyle</item>
+
+        <item name="colorPrimaryContainer">@color/primary</item>
+        <item name="colorOnPrimaryContainer">@android:color/white</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -58,9 +61,8 @@
         <item name="android:textColor">@color/fg_default_low</item>
     </style>
 
-    <style name="fab">
+    <style name="Fab">
         <item name="android:layout_margin">16dp</item>
-        <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">end|bottom</item>
