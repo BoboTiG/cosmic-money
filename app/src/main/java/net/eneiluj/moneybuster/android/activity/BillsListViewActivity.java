@@ -1116,7 +1116,7 @@ public class BillsListViewActivity
         builder.setTitle(getString(R.string.edit_member_dialog_title));
 
         // Set up the inputs
-        final View iView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.items_editmember_dialog, null);
+        final View iView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_edit_member, null);
         EditText nv = iView.findViewById(R.id.editMemberName);
         nv.setText(memberToEdit.getName());
         nv.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -1125,16 +1125,9 @@ public class BillsListViewActivity
         we.setText(String.valueOf(memberToEdit.getWeight()));
         we.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
 
-        TextView tv = iView.findViewById(R.id.editMemberNameLabel);
-        tv.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
-        TextView wv = iView.findViewById(R.id.editMemberWeightLabel);
-        wv.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         CheckBox ch = iView.findViewById(R.id.editMemberActivated);
-        ch.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         ch.setChecked(memberToEdit.isActivated());
 
-        TextView tvCol = iView.findViewById(R.id.editMemberColorLabel);
-        tvCol.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         Button buttonColor = iView.findViewById(R.id.editMemberColor);
         buttonColor.setBackgroundColor(color);
 
