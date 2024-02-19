@@ -69,6 +69,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // implementation 'com.github.nextcloud:Android-SingleSignOn:-SNAPSHOT'
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.6.0'
+    implementation 'com.github.nextcloud.android-common:ui:0.15.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.opencsv:opencsv:5.1'
     implementation 'net.objecthunter:exp4j:0.4.8'
