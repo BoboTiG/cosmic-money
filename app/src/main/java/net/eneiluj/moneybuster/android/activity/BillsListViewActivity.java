@@ -89,6 +89,8 @@ import net.eneiluj.moneybuster.android.dialogs.ProjectStatisticsDialogBuilder;
 import net.eneiluj.moneybuster.android.fragment.NewProjectFragment;
 import net.eneiluj.moneybuster.android.ui.ProjectDrawerAdapter;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
+import net.eneiluj.moneybuster.databinding.ActivityBillsListViewBinding;
+import net.eneiluj.moneybuster.databinding.DrawerLayoutBinding;
 import net.eneiluj.moneybuster.model.Category;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBMember;
@@ -101,6 +103,8 @@ import net.eneiluj.moneybuster.persistence.LoadBillsListTask;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
 import net.eneiluj.moneybuster.service.SyncService;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedActivity;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
 import net.eneiluj.moneybuster.util.ExportUtil;
 import net.eneiluj.moneybuster.util.ICallback;
@@ -126,7 +130,7 @@ import static net.eneiluj.moneybuster.android.activity.EditProjectActivity.PARAM
 import static net.eneiluj.moneybuster.util.SupportUtil.getVersionName;
 
 public class BillsListViewActivity
-        extends AppCompatActivity
+        extends ThemedActivity
         implements ItemAdapter.BillClickListener, IRefreshBillsListCallback, ProjectDrawerAdapter.IOnProjectMenuClick {
 
     private final static int PERMISSION_FOREGROUND = 1;
@@ -182,6 +186,8 @@ public class BillsListViewActivity
     View noMembersView;
     View noBillsView;
 
+    private DrawerLayoutBinding binding;
+
     private final ProjectDrawerAdapter projectAdapter = new ProjectDrawerAdapter(this);
 
     private ItemAdapter adapter = null;
@@ -226,7 +232,10 @@ public class BillsListViewActivity
             categoryAdapterSelectedItem = savedInstanceState.getString(SAVED_STATE_NAVIGATION_ADAPTER_SLECTION);
         }
 
-        setContentView(R.layout.drawer_layout);
+        binding = DrawerLayoutBinding.inflate(getLayoutInflater());
+        View view  = binding.getRoot();
+        setContentView(view);
+
         toolbar = findViewById(R.id.billsListActivityActionBar);
         drawerLayout = findViewById(R.id.drawerLayout);
         configuredAccount = findViewById(R.id.configuredAccount);
@@ -662,6 +671,15 @@ public class BillsListViewActivity
         setSelectedProject(selectedProjectId);
     }
 
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+        utils.material.themeFAB(binding.mainContentView.fabAddBill);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.mainContentView.buttonNoProjectsConfigureNextcloud);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.mainContentView.buttonNoProjectsConfigureManually);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.mainContentView.buttonNoMembersAddMember);
+    }
+
     /* --- Project options --- */
 
     @Override
@@ -871,14 +889,16 @@ public class BillsListViewActivity
                         refreshLists();
                         drawerLayout.closeDrawers();
 
-                        View parent = findViewById(R.id.root_view);
+                        View parent = binding.mainContentView.rootView;
                         String titleText = getString(R.string.snackbar_member_added, memberName);
                         String actionText = getString(R.string.snackbar_member_added_add_another);
-                        Snackbar.make(parent, titleText, 6000)
+                        Snackbar snackbar = Snackbar.make(parent, titleText, 6000)
                                 .setAction(actionText, (view) -> {
                                     onAddMemberClick(projectId);
-                                })
-                                .show();
+                                });
+                        final var utils = ThemeUtils.of(ColorUtils.primaryColor(parent.getContext()), parent.getContext());
+                        utils.material.themeSnackbar(snackbar);
+                        snackbar.show();
                     } else {
                         showToast(getString(R.string.member_already_exists));
                     }

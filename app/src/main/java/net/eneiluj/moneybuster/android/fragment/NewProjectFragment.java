@@ -57,6 +57,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity;
+import net.eneiluj.moneybuster.databinding.ActivityNewProjectBinding;
 import net.eneiluj.moneybuster.model.DBAccountProject;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBCategory;
@@ -67,6 +68,8 @@ import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedFragment;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.IProjectCreationCallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
@@ -85,7 +88,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class NewProjectFragment extends Fragment {
+public class NewProjectFragment extends ThemedFragment {
+
     private static final String TAG = NewProjectFragment.class.getSimpleName();
 
     public static final String PARAM_DEFAULT_IHM_URL = "defaultIhmUrl";
@@ -94,6 +98,8 @@ public class NewProjectFragment extends Fragment {
     public static final String PARAM_DEFAULT_PROJECT_PASSWORD = "defaultProjectPassword";
     public static final String PARAM_DEFAULT_PROJECT_TYPE = "defaultProjectType";
     public static final String PARAM_IS_IMPORT = "isImport";
+
+    private ActivityNewProjectBinding binding;
 
     public interface NewProjectFragmentListener {
         void close(long pid, boolean justAdded);
@@ -160,8 +166,9 @@ public class NewProjectFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
-        View view = inflater.inflate(R.layout.activity_new_project, container, false);
+        binding = ActivityNewProjectBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         FragmentActivity activity = getActivity();
         if (activity != null) {
@@ -416,6 +423,17 @@ public class NewProjectFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.material.themeFAB(binding.newProjectForm.fabNewOk);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectUrlInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectIdInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectPasswordInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectNameInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectEmailInputLayout);
+    }
+
     private void showHideValidationButtons() {
         if (isFormValid()) {
             fabOk.show();
@@ -663,6 +681,12 @@ public class NewProjectFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override

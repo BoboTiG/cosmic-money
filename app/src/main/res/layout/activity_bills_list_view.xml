@@ -136,14 +136,14 @@
                     android:layout_marginTop="@dimen/spacer_1x"
                     android:text="@string/no_projects_text" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_no_projects_configure_nextcloud"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacer_1x"
                     android:text="@string/configure_account_choice" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_no_projects_configure_manually"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -174,12 +174,13 @@
                     android:layout_marginTop="@dimen/spacer_1x"
                     android:text="@string/no_members_text" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_no_members_add_member"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacer_1x"
-                    android:text="@string/fab_add_member" />
+                    android:text="@string/fab_add_member"
+                    app:icon="@drawable/ic_add_white_24dp"/>
             </LinearLayout>
 
             <!-- No bills help -->

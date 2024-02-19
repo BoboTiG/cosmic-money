@@ -16,14 +16,18 @@ import net.eneiluj.moneybuster.android.fragment.about.AboutFragmentContributingT
 import net.eneiluj.moneybuster.android.fragment.about.AboutFragmentCreditsTab;
 import net.eneiluj.moneybuster.android.fragment.about.AboutFragmentLicenseTab;
 import net.eneiluj.moneybuster.databinding.ActivityAboutBinding;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedActivity;
 import net.eneiluj.moneybuster.util.ColorUtils;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends ThemedActivity {
+
+    private ActivityAboutBinding binding;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActivityAboutBinding binding = ActivityAboutBinding.inflate(getLayoutInflater());
+        binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.aboutToolbar);
 
@@ -56,6 +60,12 @@ public class AboutActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
         return true;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+        utils.material.themeTabLayout(binding.aboutTabLayout);
     }
 
     private static class TabsStateAdapter extends FragmentStateAdapter {

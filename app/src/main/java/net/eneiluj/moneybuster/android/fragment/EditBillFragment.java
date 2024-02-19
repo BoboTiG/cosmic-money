@@ -57,6 +57,7 @@ import net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.android.ui.UserAdapter;
 import net.eneiluj.moneybuster.android.ui.UserItem;
+import net.eneiluj.moneybuster.databinding.FragmentEditBillBinding;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBBillOwer;
 import net.eneiluj.moneybuster.model.DBCategory;
@@ -68,6 +69,8 @@ import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.model.parsed.AustrianBillQrCode;
 import net.eneiluj.moneybuster.model.parsed.CroatianBillQrCode;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedFragment;
 import net.eneiluj.moneybuster.util.BillParser;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
@@ -90,7 +93,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class EditBillFragment extends Fragment {
+public class EditBillFragment extends ThemedFragment {
 
     private static final String TAG = EditBillFragment.class.getSimpleName();
     private ProjectType projectType;
@@ -159,9 +162,13 @@ public class EditBillFragment extends Fragment {
     private boolean isSpinnerPaymentModeAction = false;
     private boolean isSpinnerCategoryAction = false;
 
+    private FragmentEditBillBinding binding;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_edit_bill, container, false);
+        binding = FragmentEditBillBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         if (bill.getId() == 0) {
@@ -455,9 +462,19 @@ public class EditBillFragment extends Fragment {
 
         });
 
-        Log.d(TAG, "CREATEVIEW FINISHEDDDDDDD");
-
         return view;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.material.themeFAB(binding.editBillForm.fabEditOk);
+        utils.material.colorTextInputLayout(binding.editBillForm.editWhatWrapper);
+        utils.material.colorTextInputLayout(binding.editBillForm.editAmountWrapper);
+        utils.material.colorTextInputLayout(binding.editBillForm.editCommentWrapper);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.editBillForm.owerAllButton);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.editBillForm.owerNoneButton);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.editBillForm.duplicateBillButton);
     }
 
     private final ActivityResultLauncher<Intent> scanQRCodeLauncher =
@@ -649,6 +666,12 @@ public class EditBillFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override
