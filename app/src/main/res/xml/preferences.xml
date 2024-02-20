@@ -16,7 +16,7 @@
         android:entryValues="@array/nightModeValues"
         android:defaultValue="@string/pref_value_night_mode_system" />
 
-    <CheckBoxPreference
+    <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
         android:icon="@drawable/ic_palette_grey_24dp"
         android:key="@string/pref_key_use_server_color"
         android:title="@string/settings_use_server_color_title"
@@ -61,12 +61,14 @@
             android:targetClass="net.eneiluj.moneybuster.android.activity.AccountActivity"
             android:targetPackage="@string/applicationId" />
     </Preference>
+
     <PreferenceScreen
         android:key="@string/pref_key_certs"
         android:persistent="false"
         android:icon="@drawable/ic_https_grey_24dp"
         android:title="@string/settings_cert_category">
-        <CheckBoxPreference
+
+        <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
             android:defaultValue="true"
             android:key="@string/pref_key_trust_system_certs"
             android:title="@string/settings_cert_trust_system"
@@ -111,18 +113,19 @@
             android:dialogLayout="@layout/preference_edit_text_integer"
             android:title="@string/settings_sync_interval_title" />
 
-        <CheckBoxPreference
+        <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
             android:icon="@drawable/ic_chat_bubble_outline_grey_24dp"
             android:key="@string/pref_key_notify_new"
             android:title="@string/settings_notify_new"
             android:defaultValue="true" />
 
-        <CheckBoxPreference
+        <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
             android:icon="@drawable/ic_chat_bubble_outline_grey_24dp"
             android:key="@string/pref_key_notify_updated"
             android:title="@string/settings_notify_updated"
             android:defaultValue="true" />
-        <CheckBoxPreference
+
+        <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
             android:icon="@drawable/ic_chat_bubble_outline_grey_24dp"
             android:key="@string/pref_key_notify_deleted"
             android:title="@string/settings_notify_deleted"

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.ActionBarContextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.preference.PreferenceCategory
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.nextcloud.android.common.ui.theme.MaterialSchemes
 import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase
@@ -24,6 +25,20 @@ class MoneyBusterViewThemeUtils(
     val material: MaterialViewThemeUtils,
     schemes: MaterialSchemes,
 ) : ViewThemeUtilsBase(schemes) {
+
+    fun themeMaterialCheckBox(materialCheckBox: MaterialCheckBox) {
+        withScheme(materialCheckBox.context) { scheme ->
+            materialCheckBox.buttonTintList = buildColorStateList(
+                android.R.attr.state_checked to scheme.primary,
+                -android.R.attr.state_checked to scheme.outline,
+            )
+
+            materialCheckBox.buttonIconTintList = buildColorStateList(
+                android.R.attr.state_checked to scheme.onPrimary,
+                -android.R.attr.state_checked to android.R.color.transparent,
+            )
+        }
+    }
 
     fun themeMaterialSwitch(materialSwitch: MaterialSwitch) {
         withScheme(materialSwitch.context) { scheme ->

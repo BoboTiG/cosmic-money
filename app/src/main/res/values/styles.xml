@@ -88,9 +88,15 @@
         <item name="android:textColorSecondary">@color/red</item>
     </style>
 
+    <!-- Preferences -->
 
     <style name="ThemeOverlay.App.Preference" parent="PreferenceThemeOverlay">
+        <item name="checkBoxPreferenceStyle">@style/PreferenceMaterialCheckBox</item>
         <item name="switchPreferenceCompatStyle">@style/PreferenceMaterialSwitch</item>
+    </style>
+
+    <style name="PreferenceMaterialCheckBox" parent="@style/Preference.CheckBoxPreference.Material">
+        <item name="widgetLayout">@layout/preference_checkbox</item>
     </style>
 
     <style name="PreferenceMaterialSwitch" parent="@style/Preference.SwitchPreferenceCompat.Material">
