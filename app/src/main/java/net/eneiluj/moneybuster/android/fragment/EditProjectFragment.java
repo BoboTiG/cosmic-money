@@ -26,14 +26,13 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.SupportUtil;
+
 
 public class EditProjectFragment extends PreferenceFragmentCompat {
 
@@ -207,7 +206,7 @@ public class EditProjectFragment extends PreferenceFragmentCompat {
             }
         };
         //confirmDeleteAlertBuilder = new AlertDialog.Builder(getActivity());
-        confirmDeleteAlertBuilder = new MaterialAlertDialogBuilder(requireContext());
+        confirmDeleteAlertBuilder = new ThemedMaterialAlertDialogBuilder(requireContext());
 
         confirmDeleteAlertBuilder.setMessage(getString(R.string.confirm_delete_project_dialog_title))
                 .setPositiveButton(getString(R.string.simple_yes), deleteDialogClickListener)

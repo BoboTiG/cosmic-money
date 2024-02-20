@@ -50,7 +50,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.ActionBarContextView;
@@ -72,9 +71,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
@@ -92,7 +89,6 @@ import net.eneiluj.moneybuster.android.dialogs.ProjectStatisticsDialogBuilder;
 import net.eneiluj.moneybuster.android.fragment.NewProjectFragment;
 import net.eneiluj.moneybuster.android.ui.ProjectDrawerAdapter;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
-import net.eneiluj.moneybuster.databinding.ActivityBillsListViewBinding;
 import net.eneiluj.moneybuster.databinding.DrawerLayoutBinding;
 import net.eneiluj.moneybuster.model.Category;
 import net.eneiluj.moneybuster.model.DBBill;
@@ -108,6 +104,7 @@ import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
 import net.eneiluj.moneybuster.service.SyncService;
 import net.eneiluj.moneybuster.theme.ThemeUtils;
 import net.eneiluj.moneybuster.theme.ThemedActivity;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
 import net.eneiluj.moneybuster.util.ExportUtil;
 import net.eneiluj.moneybuster.util.ICallback;
@@ -311,7 +308,7 @@ public class BillsListViewActivity
 
             String dialogContent = getIntent().getStringExtra(PARAM_DIALOG_CONTENT);
             if (dialogContent != null) {
-                AlertDialog.Builder builder= new MaterialAlertDialogBuilder(this);
+                AlertDialog.Builder builder= new ThemedMaterialAlertDialogBuilder(this);
                 builder.setTitle(this.getString(R.string.activity_dialog_title, project.getName()))
                         .setMessage(dialogContent)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -370,7 +367,7 @@ public class BillsListViewActivity
             // show the dialog
             String dialogTitle = getString(R.string.welcome_dialog_title, getVersionName(this));
 
-            AlertDialog.Builder builder= new MaterialAlertDialogBuilder(this);
+            AlertDialog.Builder builder= new ThemedMaterialAlertDialogBuilder(this);
             builder.setTitle(dialogTitle);
             builder.setMessage(dialogContent);
             // Set up the buttons
@@ -704,7 +701,7 @@ public class BillsListViewActivity
                 getString(R.string.fab_rm_project)
         };
 
-        AlertDialog.Builder selectBuilder = new MaterialAlertDialogBuilder(this);
+        AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(this);
         selectBuilder.setTitle(getString(R.string.choose_project_management_action));
         selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
             @Override
@@ -740,7 +737,7 @@ public class BillsListViewActivity
         if (projectId == 0) return;
         DBProject proj = db.getProject(projectId);
 
-        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(this);
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(this);
         builder.setTitle(getString(R.string.confirm_remove_project_dialog_title));
         if (!proj.isLocal()) {
             builder.setMessage(getString(R.string.confirm_remove_project_dialog_message));
@@ -786,7 +783,7 @@ public class BillsListViewActivity
                 getString(R.string.fab_edit_member)
         };
 
-        AlertDialog.Builder selectBuilder = new MaterialAlertDialogBuilder(this);
+        AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(this);
         selectBuilder.setTitle(getString(R.string.choose_member_management_action));
         selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
             @Override
@@ -821,7 +818,7 @@ public class BillsListViewActivity
         }
         CharSequence[] namescs = memberNames.toArray(new CharSequence[memberNames.size()]);
 
-        AlertDialog.Builder selectBuilder = new MaterialAlertDialogBuilder(this);
+        AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(this);
         selectBuilder.setTitle(getString(R.string.choose_member_to_edit));
         selectBuilder.setSingleChoiceItems(namescs, -1, new DialogInterface.OnClickListener() {
             @Override
@@ -846,7 +843,7 @@ public class BillsListViewActivity
             return;
         }
 
-        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(this);
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(this);
         builder.setTitle(getString(R.string.add_member_dialog_title));
 
         // Set up the input
@@ -933,23 +930,20 @@ public class BillsListViewActivity
     @Override
     public void onProjectStatisticsClick(long projectId) {
         final DBProject proj = db.getProject(projectId);
-        AlertDialog dialog = new ProjectStatisticsDialogBuilder(this, db, proj).build();
-        dialog.show();
+        new ProjectStatisticsDialogBuilder(this, db, proj).show();
     }
 
     @Override
     public void onSettleProjectClick(long projectId) {
         final DBProject proj = db.getProject(projectId);
-        AlertDialog dialog = new ProjectSettlementDialogBuilder(this, db, proj, this).build();
-        dialog.show();
+        new ProjectSettlementDialogBuilder(this, db, proj, this).show();
     }
 
     @Override
     public void onShareProjectClick(long projectId) {
         final DBProject proj = db.getProject(projectId);
         if (projectId != 0 && proj.isShareable()) {
-            AlertDialog dialog = new ProjectShareDialogBuilder(this, proj).build();
-            dialog.show();
+            new ProjectShareDialogBuilder(this, proj).show();
         } else {
             showToast(getString(R.string.share_impossible), Toast.LENGTH_LONG);
         }
@@ -1136,7 +1130,7 @@ public class BillsListViewActivity
                 lobsterPicker.setHistory(color);
                 lobsterPicker.setColor(color);
 
-                new MaterialAlertDialogBuilder(BillsListViewActivity.this)
+                new ThemedMaterialAlertDialogBuilder(BillsListViewActivity.this)
                         .setView(colorView)
                         .setTitle(getString(R.string.settings_colorpicker_title))
                         .setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
@@ -1584,7 +1578,7 @@ public class BillsListViewActivity
         boolean noMoreSearchHelp = preferences.getBoolean(AccountActivity.SETTINGS_NO_MORE_SEARCH_HELP, false);
 
         if (!noMoreSearchHelp) {
-            AlertDialog.Builder helpBuilder = new MaterialAlertDialogBuilder(this);
+            AlertDialog.Builder helpBuilder = new ThemedMaterialAlertDialogBuilder(this);
             helpBuilder.setTitle(getString(R.string.search_help_dialog_title));
             helpBuilder.setMessage(getString(R.string.search_help_dialog_content));
 
@@ -1795,7 +1789,7 @@ public class BillsListViewActivity
     }
 
     private void showDialog(String msg, String title, int icon) {
-        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(this);
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(this);
         builder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> dialog.dismiss())
@@ -2087,7 +2081,7 @@ public class BillsListViewActivity
                         }
                         String dialogContent = getString(R.string.sync_error_dialog_full_content, project.getName(), errorMessage);
 
-                        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(BillsListViewActivity.this);
+                        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(BillsListViewActivity.this);
                         builder.setTitle(getString(R.string.sync_error_dialog_title))
                                 .setMessage(dialogContent)
                                 /*.setPositiveButton(getString(R.string.simple_remove), new DialogInterface.OnClickListener() {

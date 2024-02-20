@@ -18,12 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.zxing.WriterException;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.ColorUtils;
 
 
@@ -42,8 +42,8 @@ public class ProjectShareDialogBuilder {
         this.proj = proj;
     }
 
-    public AlertDialog build() {
-        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
+    public AlertDialog show() {
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(context);
 
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_share_project, null);
 
@@ -120,7 +120,7 @@ public class ProjectShareDialogBuilder {
             }
         });
 
-        return builder.create();
+        return builder.show();
     }
 
 }

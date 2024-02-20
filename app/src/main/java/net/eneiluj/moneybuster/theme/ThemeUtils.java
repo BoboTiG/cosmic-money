@@ -15,6 +15,7 @@ import com.nextcloud.android.common.ui.theme.utils.DialogViewThemeUtils;
 import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils;
 
 import net.eneiluj.moneybuster.R;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -41,7 +42,7 @@ public class ThemeUtils extends ViewThemeUtilsBase {
         this.material = new MaterialViewThemeUtils(schemes, colorUtil);
         this.androidx = new AndroidXViewThemeUtils(schemes, this.platform);
         this.dialog = new DialogViewThemeUtils(schemes);
-        this.moneybuster = new MoneyBusterViewThemeUtils(schemes);
+        this.moneybuster = new MoneyBusterViewThemeUtils(this.material, schemes);
     }
 
     public static ThemeUtils of(@ColorInt int color, @NonNull Context context) {
@@ -49,6 +50,11 @@ public class ThemeUtils extends ViewThemeUtilsBase {
                 MaterialSchemes.Companion.fromColor(c),
                 new ColorUtil(context)
         ));
+    }
+
+    public static ThemeUtils of(@NonNull Context context) {
+        int color = ColorUtils.primaryColor(context);
+        return ThemeUtils.of(color, context);
     }
 
     /**

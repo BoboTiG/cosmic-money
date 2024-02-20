@@ -24,8 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBCategory;
 import net.eneiluj.moneybuster.model.DBMember;
@@ -33,6 +31,7 @@ import net.eneiluj.moneybuster.model.DBPaymentMode;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
 import java.text.DecimalFormat;
@@ -78,8 +77,8 @@ public class ProjectStatisticsDialogBuilder {
         this.selectedProjectId = proj.getId();
     }
 
-    public AlertDialog build() {
-        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
+    public AlertDialog show() {
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(context);
 
         view = LayoutInflater.from(context).inflate(R.layout.dialog_project_statistics, null);
 
@@ -120,7 +119,7 @@ public class ProjectStatisticsDialogBuilder {
 
         updateStatsView(null, null);
 
-        return builder.create();
+        return builder.show();
     }
 
     private void setupCategories() {

@@ -20,8 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.ui.UserAdapter;
 import net.eneiluj.moneybuster.android.ui.UserItem;
@@ -31,6 +29,7 @@ import net.eneiluj.moneybuster.model.DBMember;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.Transaction;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.IRefreshBillsListCallback;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
@@ -67,8 +66,8 @@ public class ProjectSettlementDialogBuilder {
         this.callback = callback;
     }
 
-    public AlertDialog build() {
-        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
+    public AlertDialog show() {
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(context);
 
         builder.setTitle(context.getString(R.string.settle_dialog_title));
         builder.setIcon(R.drawable.ic_compare_arrows_grey_24dp);
@@ -123,7 +122,7 @@ public class ProjectSettlementDialogBuilder {
         if (transactions_check_balanced == null || transactions_check_balanced.size() == 0) {
             view = LayoutInflater.from(context).inflate(R.layout.dialog_project_settlement_balanced, null);
             builder.setView(view);
-            return builder.create();
+            return builder.show();
         }
 
         view = LayoutInflater.from(context).inflate(R.layout.dialog_project_settlement, null);
@@ -204,7 +203,7 @@ public class ProjectSettlementDialogBuilder {
         UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
         updateSettlement(membersBalance, memberIdToName, item.getId());
 
-        return builder.create();
+        return builder.show();
     }
 
     private void updateSettlement(
