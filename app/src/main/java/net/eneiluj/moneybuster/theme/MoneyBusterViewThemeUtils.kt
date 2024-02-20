@@ -1,11 +1,15 @@
 package net.eneiluj.moneybuster.theme
 
 import android.content.res.ColorStateList
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.appcompat.widget.ActionBarContextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.preference.PreferenceCategory
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.nextcloud.android.common.ui.theme.MaterialSchemes
@@ -81,6 +85,19 @@ class MoneyBusterViewThemeUtils(
                 actionMenuItemView.compoundDrawableTintList =
                     ColorStateList.valueOf(scheme.onPrimary)
             }
+        }
+    }
+
+    fun themePreferenceCategory(category: PreferenceCategory) {
+        withScheme(category.context) { scheme ->
+            val text: Spannable = SpannableString(category.title)
+            text.setSpan(
+                ForegroundColorSpan(scheme.primary),
+                0,
+                text.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            category.title = text
         }
     }
 }

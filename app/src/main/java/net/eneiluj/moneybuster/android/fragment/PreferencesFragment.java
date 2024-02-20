@@ -20,6 +20,7 @@ import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -33,6 +34,7 @@ import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.service.SyncService;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 
 import java.util.ArrayList;
@@ -76,6 +78,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
         addPreferencesFromResource(R.xml.preferences);
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        var utils = ThemeUtils.of(requireContext());
+
+        final PreferenceCategory preferenceCategorySyncedFolders =
+                (PreferenceCategory) findPreference("settings_appearance_category");
+        utils.moneybuster.themePreferenceCategory(preferenceCategorySyncedFolders);
 
         Preference resetTrust = findPreference(getString(R.string.pref_key_reset_trust));
         resetTrust.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -150,6 +158,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                 return true;
             }
         });
+
+        final PreferenceCategory preferenceCategoryNetworkCategory =
+                (PreferenceCategory) findPreference("settings_network_category");
+        utils.moneybuster.themePreferenceCategory(preferenceCategoryNetworkCategory);
+
+        final PreferenceCategory preferenceCategorySyncCategory =
+                (PreferenceCategory) findPreference("settings_sync_category");
+        utils.moneybuster.themePreferenceCategory(preferenceCategorySyncCategory);
+
+        final PreferenceCategory preferenceCategoryOther =
+                (PreferenceCategory) findPreference("settings_other_category");
+        utils.moneybuster.themePreferenceCategory(preferenceCategoryOther);
 
         final EditTextPreference syncIntervalPref = (EditTextPreference) findPreference(getString(R.string.pref_key_sync_interval));
         String interval = sp.getString(getString(R.string.pref_key_sync_interval), "15");
