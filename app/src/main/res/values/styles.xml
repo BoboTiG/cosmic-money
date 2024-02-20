@@ -81,8 +81,13 @@
     <style name="fabDrawer">
         <item name="android:layout_margin">0dp</item>
         <item name="android:layout_gravity">end|right</item>
-
     </style>
+
+    <style name="checkboxTheme" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="colorAccent">@color/green</item>
+        <item name="android:textColorSecondary">@color/red</item>
+    </style>
+
 
     <style name="ThemeOverlay.App.Preference" parent="PreferenceThemeOverlay">
         <item name="switchPreferenceCompatStyle">@style/PreferenceMaterialSwitch</item>
