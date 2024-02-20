@@ -87,22 +87,28 @@
 
     <!-- Activated Checkbox -->
     <LinearLayout
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacer_2x"
+            android:src="@drawable/ic_block_grey_24" />
 
         <CheckBox
             android:id="@+id/editMemberActivated"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:textColor="@color/fg_default"
-            app:buttonTint="@color/checkbox_tint"
-            android:text="@string/member_edit_toggle" />
+            android:layout_weight="1"
+            android:paddingStart="@dimen/spacer_1x"
+            android:text="@string/member_edit_toggle"
+            android:theme="@style/checkboxTheme" />
     </LinearLayout>
 
     <!-- Color row -->

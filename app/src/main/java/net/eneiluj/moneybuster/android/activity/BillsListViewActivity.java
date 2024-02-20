@@ -71,6 +71,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -1084,15 +1085,12 @@ public class BillsListViewActivity
 
         int color;
         if (r != null && g != null && b != null) {
-            color = Color.rgb(memberToEdit.getR(), memberToEdit.getG(), memberToEdit.getB());
+            color = Color.rgb(r, g, b);
         } else {
             color = TextDrawable.getColorFromName(memberToEdit.getName());
         }
 
-        Log.v(TAG, "MEMBER ID " + memberId);
-
-        // TODO: This dialog (and its TextViews) are buggy to properly theme with Material 3 :/
-        AlertDialog.Builder builder = new AlertDialog.Builder(
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(
                 new ContextThemeWrapper(
                         BillsListViewActivity.this,
                         R.style.AppThemeDialog
@@ -1205,9 +1203,9 @@ public class BillsListViewActivity
             }
         });
 
-        AlertDialog dialog = builder.create();
+        AlertDialog dialog = builder.show();
 
-        Button buttonDelete = iView.findViewById(R.id.editMemberDelete);
+        MaterialButton buttonDelete = iView.findViewById(R.id.editMemberDelete);
         TextView deleteHelpText = iView.findViewById(R.id.editMemberDeleteHelp);
         boolean isPresentInBills = db.getBillsOfMember(memberId).size() > 0;
 
@@ -1232,7 +1230,10 @@ public class BillsListViewActivity
             deleteHelpText.setVisibility(View.GONE);
         }
 
-        dialog.show();
+        var utils = ThemeUtils.of(this);
+        utils.material.colorTextInputLayout(iView.findViewById(R.id.editMemberNameWrapper));
+        utils.material.colorTextInputLayout(iView.findViewById(R.id.editMemberWeightWrapper));
+        utils.material.colorMaterialButtonPrimaryFilled(buttonDelete);
 
         nv.setSelectAllOnFocus(true);
         nv.requestFocus();
