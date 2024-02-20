@@ -15,18 +15,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputLayout;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
@@ -49,7 +47,6 @@ import net.eneiluj.moneybuster.theme.ThemeUtils;
 import net.eneiluj.moneybuster.theme.ThemedActivity;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
 import net.eneiluj.moneybuster.util.CospendClientUtil.LoginStatus;
-import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.io.ByteArrayInputStream;
 import java.net.URLDecoder;
@@ -91,7 +88,7 @@ public class AccountActivity extends ThemedActivity {
 
     private ActivityAccountBinding binding;
 
-    SwitchMaterial use_sso_switch;
+    MaterialSwitch use_sso_switch;
     EditText field_url;
     TextInputLayout url_wrapper;
     TextInputLayout username_wrapper;
@@ -281,7 +278,7 @@ public class AccountActivity extends ThemedActivity {
     @Override
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
-        utils.moneybuster.themeSwitch(binding.useSsoSwitch);
+        utils.moneybuster.themeMaterialSwitch(binding.useSsoSwitch);
         utils.material.colorTextInputLayout(binding.settingsUrlWrapper);
         utils.material.colorTextInputLayout(binding.settingsUsernameWrapper);
         utils.material.colorTextInputLayout(binding.settingsPasswordWrapper);
