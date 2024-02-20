@@ -53,6 +53,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.ActionBarContextView;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.SearchView;
@@ -1905,6 +1906,10 @@ public class BillsListViewActivity
             mActionMode = startSupportActionMode(new MultiSelectedActionModeCallback());
             int checkedItemCount = adapter.getSelected().size();
             mActionMode.setTitle(getResources().getQuantityString(R.plurals.ab_selected, checkedItemCount, checkedItemCount));
+
+            ActionBarContextView actionBar = findViewById(R.id.action_mode_bar);
+            final var utils = ThemeUtils.of(ColorUtils.primaryColor(v.getContext()), v.getContext());
+            utils.moneybuster.themeActionModeActionBar(actionBar, R.id.menu_select_all, R.id.menu_delete);
         }
         adapter.notifyDataSetChanged();
         return selected;

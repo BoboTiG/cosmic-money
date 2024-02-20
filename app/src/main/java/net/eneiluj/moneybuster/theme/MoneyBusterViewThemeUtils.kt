@@ -1,11 +1,15 @@
 package net.eneiluj.moneybuster.theme
 
+import android.content.res.ColorStateList
 import android.widget.TextView
+import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.appcompat.widget.ActionBarContextView
+import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.nextcloud.android.common.ui.theme.MaterialSchemes
 import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase
 import com.nextcloud.android.common.ui.util.buildColorStateList
-import scheme.Scheme
+import net.eneiluj.moneybuster.R
 
 // TODO: upstream these to android-common:ui library
 class MoneyBusterViewThemeUtils(schemes: MaterialSchemes) : ViewThemeUtilsBase(schemes) {
@@ -30,8 +34,27 @@ class MoneyBusterViewThemeUtils(schemes: MaterialSchemes) : ViewThemeUtilsBase(s
     }
 
     fun themeTextViewLinkColor(textView: TextView) {
-        withScheme(textView.context) {scheme ->
+        withScheme(textView.context) { scheme ->
             textView.setLinkTextColor(scheme.primary)
+        }
+    }
+
+    fun themeActionModeActionBar(actionBar: ActionBarContextView, vararg menuIds: Int) {
+        withScheme(actionBar.context) { scheme ->
+            actionBar.setBackgroundColor(scheme.primary)
+
+            val title = actionBar.findViewById<TextView>(R.id.action_bar_title)
+            title.setTextColor(scheme.onPrimary)
+
+            val closeButton =
+                actionBar.findViewById<AppCompatImageView>(R.id.action_mode_close_button)
+            closeButton.imageTintList = ColorStateList.valueOf(scheme.onPrimary)
+
+            menuIds.forEach { id ->
+                val actionMenuItemView = actionBar.findViewById<ActionMenuItemView>(id)
+                actionMenuItemView.compoundDrawableTintList =
+                    ColorStateList.valueOf(scheme.onPrimary)
+            }
         }
     }
 }
