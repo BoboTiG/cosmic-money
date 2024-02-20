@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-
 import net.eneiluj.moneybuster.R;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedFragment;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
-public class AboutFragmentContributingTab extends Fragment {
+public class AboutFragmentContributingTab extends ThemedFragment {
 
     TextView aboutSource;
     TextView aboutIssues;
@@ -28,5 +28,13 @@ public class AboutFragmentContributingTab extends Fragment {
         SupportUtil.setHtml(aboutIssues, R.string.about_issues, getString(R.string.url_issues));
         SupportUtil.setHtml(aboutTranslate, R.string.about_translate, getString(R.string.url_translations));
         return v;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.moneybuster.themeTextViewLinkColor(aboutSource);
+        utils.moneybuster.themeTextViewLinkColor(aboutIssues);
+        utils.moneybuster.themeTextViewLinkColor(aboutTranslate);
     }
 }

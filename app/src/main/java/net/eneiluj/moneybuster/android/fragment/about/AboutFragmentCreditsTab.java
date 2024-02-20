@@ -1,20 +1,17 @@
 package net.eneiluj.moneybuster.android.fragment.about;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-
 import net.eneiluj.moneybuster.R;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedFragment;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
-public class AboutFragmentCreditsTab extends Fragment {
+public class AboutFragmentCreditsTab extends ThemedFragment {
 
     TextView aboutVersion;
     TextView aboutMaintainer;
@@ -26,10 +23,17 @@ public class AboutFragmentCreditsTab extends Fragment {
         aboutVersion = v.findViewById(R.id.about_version);
         aboutMaintainer = v.findViewById(R.id.about_maintainer);
         aboutTranslators = v.findViewById(R.id.about_translators);
-        String versionName = SupportUtil.getAppVersionName(this.getContext());
+
+        String versionName = SupportUtil.getAppVersionName(requireContext());
         SupportUtil.setHtml(aboutVersion, R.string.about_version, "v" + versionName);
         SupportUtil.setHtml(aboutMaintainer, R.string.about_maintainer);
         SupportUtil.setHtml(aboutTranslators, R.string.about_translators_crowdin, getString(R.string.url_translations));
         return v;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.moneybuster.themeTextViewLinkColor(aboutTranslators);
     }
 }

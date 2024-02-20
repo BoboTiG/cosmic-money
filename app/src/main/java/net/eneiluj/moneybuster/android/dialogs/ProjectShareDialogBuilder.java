@@ -23,6 +23,7 @@ import com.google.zxing.WriterException;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBProject;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
 import net.eneiluj.moneybuster.util.ColorUtils;
 
 
@@ -81,6 +82,10 @@ public class ProjectShareDialogBuilder {
                 Toast.makeText(context, context.getString(R.string.qrcode_link_open_attempt_warning), Toast.LENGTH_SHORT).show();
             }
         });
+
+        final var themeUtils = ThemeUtils.of(ColorUtils.primaryColor(view.getContext()), view.getContext());
+        themeUtils.moneybuster.themeTextViewLinkColor(publicUrl);
+        themeUtils.moneybuster.themeTextViewLinkColor(link);
 
         TextView hint = view.findViewById(R.id.textViewShareProjectHint);
         hint.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));

@@ -6,16 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.theme.ThemeUtils;
-import net.eneiluj.moneybuster.theme.ThemedActivity;
 import net.eneiluj.moneybuster.theme.ThemedFragment;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
@@ -47,5 +43,6 @@ public class AboutFragmentLicenseTab extends ThemedFragment {
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, requireContext());
         utils.material.colorMaterialButtonPrimaryFilled(appLicenseButton);
+        utils.moneybuster.themeTextViewLinkColor(iconsDisclaimer);
     }
 }
