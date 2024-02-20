@@ -11,6 +11,7 @@
         <item name="actionModeStyle">@style/actionModeStyle</item>
         <item name="appBarLayoutStyle">@style/appBarLayoutStyle</item>
         <item name="toolbarStyle">@style/toolbarStyle</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.App.Preference</item>
 
         <item name="colorPrimaryContainer">@color/primary</item>
         <item name="colorOnPrimaryContainer">@android:color/white</item>
@@ -42,11 +43,6 @@
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Preferences" parent="AppTheme">
-        <item name="android:textColor">@color/fg_default</item>
-        <item name="android:textColorSecondary">@color/fg_default_low</item>
     </style>
 
     <style name="NavigationItem">
@@ -92,4 +88,13 @@
         <item name="colorAccent">@color/green</item>
         <item name="android:textColorSecondary">@color/red</item>
     </style>
+
+    <style name="ThemeOverlay.App.Preference" parent="PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/PreferenceMaterialSwitch</item>
+    </style>
+
+    <style name="PreferenceMaterialSwitch" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_switch</item>
+    </style>
+
 </resources>
