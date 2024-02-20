@@ -28,6 +28,7 @@ import androidx.preference.SwitchPreferenceCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
@@ -42,7 +43,7 @@ import java.util.List;
 
 import at.bitfire.cert4android.CustomCertManager;
 
-public class PreferencesFragment extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback{
+public class PreferencesFragment extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 
     public final static String STOP_SYNC_SERVICE = "net.eneiluj.moneybuster.STOP_SYNC_SERVICE";
     public final static String CHANGE_SYNC_INTERVAL = "net.eneiluj.moneybuster.CHANGE_SYNC_INTERVAL";
@@ -183,8 +184,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                 long newInterval;
                 try {
                     newInterval = Long.valueOf(newValueString);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     showToast(getString(R.string.error_invalid_sync_interval), Toast.LENGTH_LONG);
                     return false;
                 }
@@ -213,7 +213,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 Boolean newPeriodicalSync = (Boolean) newValue;
-                Log.d("preference", "PERIOSYNC "+newPeriodicalSync);
+                Log.d("preference", "PERIOSYNC " + newPeriodicalSync);
                 if (newPeriodicalSync) {
                     syncIntervalPref.setVisible(true);
                     notifyNewPref.setVisible(true);

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- Appearance -->
     <PreferenceCategory
         android:title="@string/settings_appearance_category"
         android:key="settings_appearance_category">
@@ -33,18 +34,19 @@
 
     </PreferenceCategory>
 
+    <!-- Network -->
     <PreferenceCategory
         android:title="@string/settings_network_category"
         android:key="settings_network_category">
 
-    <SwitchPreferenceCompat
+    <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
         android:defaultValue="false"
         android:icon="@drawable/ic_sync_grey_24dp"
         android:key="@string/pref_key_offline_mode"
         android:summary="@string/settings_offline_mode_summary"
         android:title="@string/settings_offline_mode_title" />
 
-        <SwitchPreferenceCompat
+        <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
         android:defaultValue="true"
         android:icon="@drawable/ic_nextcloud_logo_grey"
         android:key="@string/pref_key_show_nextcloud_settings"
@@ -78,18 +80,19 @@
 
     </PreferenceCategory>
 
+    <!-- Synchronisation -->
     <PreferenceCategory
         android:title="@string/settings_sync_category"
         android:key="settings_sync_category">
 
-        <SwitchPreferenceCompat
+        <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_sync_grey_24dp"
             android:key="@string/pref_key_periodical_sync"
             android:summary="@string/settings_periodical_sync_summary"
             android:title="@string/settings_periodical_sync_title" />
 
-        <SwitchPreferenceCompat
+        <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_power_settings_new_grey_24dp"
             android:key="@string/pref_key_autostart"
@@ -127,6 +130,7 @@
 
     </PreferenceCategory>
 
+    <!-- Other -->
     <PreferenceCategory
         android:title="@string/settings_other_category"
         android:key="settings_other_category">
