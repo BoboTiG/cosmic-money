@@ -24,16 +24,16 @@
             android:id="@+id/memberNameIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_1x"
+            android:layout_marginTop="@dimen/spacer_1hx"
             android:layout_marginEnd="@dimen/spacer_2x"
             android:src="@drawable/ic_person_grey_24dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editMemberNameWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:theme="@style/AppThemeDialog"
             android:hint="@string/member_edit_name">
 
             <EditText
@@ -41,8 +41,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:padding="@dimen/button_padding"
+                android:minHeight="@dimen/min_size_clickable_area" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -50,10 +51,10 @@
     <!-- Weight row -->
     <LinearLayout
         android:id="@+id/weightLayout"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -61,16 +62,16 @@
             android:id="@+id/weightIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacer_1x"
+            android:layout_marginTop="@dimen/spacer_1hx"
             android:layout_marginEnd="@dimen/spacer_2x"
             android:src="@drawable/ic_line_weight_grey_24dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editMemberWeightWrapper"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:theme="@style/AppThemeDialog"
             android:hint="@string/member_edit_weight">
 
             <EditText
@@ -79,8 +80,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:digits="0123456789.,"
-                android:ems="10"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:padding="@dimen/button_padding"
+                android:minHeight="@dimen/min_size_clickable_area" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -115,10 +117,10 @@
     <!-- Color row -->
     <LinearLayout
         android:id="@+id/colorLayout"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -134,8 +136,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacer_5x"
-            android:textColor="@color/fg_default"
-            android:text="@string/member_edit_color" />
+            android:text="@string/member_edit_color"
+            android:textColor="@color/fg_default" />
 
         <Button
             android:id="@+id/editMemberColor"
