@@ -951,6 +951,7 @@ public class EditBillFragment extends ThemedFragment {
         }
 
         // build ower list
+        var utils = ThemeUtils.of(requireContext());
         owerCheckboxes = new HashMap<>();
         for (DBMember member : memberList) {
             int owerIndex = bill.getBillOwersIds().indexOf(member.getId());
@@ -972,6 +973,7 @@ public class EditBillFragment extends ThemedFragment {
                 if (!member.isActivated()) {
                     cb.setEnabled(false);
                 }
+                utils.platform.themeCheckbox(cb);
 
                 // avatar
                 ImageView avatar = row.findViewById(R.id.avatar);

@@ -1234,6 +1234,7 @@ public class BillsListViewActivity
         utils.material.colorTextInputLayout(iView.findViewById(R.id.editMemberNameWrapper));
         utils.material.colorTextInputLayout(iView.findViewById(R.id.editMemberWeightWrapper));
         utils.material.colorMaterialButtonPrimaryFilled(buttonDelete);
+        utils.platform.themeCheckbox(iView.findViewById(R.id.editMemberActivated));
 
         nv.setSelectAllOnFocus(true);
         nv.requestFocus();
