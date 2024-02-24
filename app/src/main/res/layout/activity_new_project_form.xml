@@ -13,7 +13,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -31,20 +30,19 @@
                     android:id="@+id/whatTodoIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="@dimen/spacer_3x"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_group_work_grey_24dp" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".10"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/whatToDoLabel"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:paddingStart="2dp"
                         android:paddingEnd="0dp"
@@ -52,49 +50,52 @@
                         android:textColor="#9E9E9E"
                         android:textSize="12sp" />
 
-                    <RadioGroup android:id="@+id/whatTodoRadiogroup"
-                        android:layout_width="fill_parent"
-                        android:layout_height="52dp"
-                        android:layout_weight=".60"
-                        android:layout_marginTop="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                    <ToggleButton
-                        android:id="@+id/whatTodoJoin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/todo_join_label"
-                        android:textOff="@string/todo_join_label"
-                        android:textOn="@string/todo_join_label"
-                        android:checked="true"
-                        android:textSize="12sp"
-                        android:tooltipText="@string/todo_join" />
+                        <RadioGroup
+                            android:id="@+id/whatTodoRadiogroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="0dp"
+                            android:orientation="horizontal">
 
-                    <ToggleButton
-                        android:id="@+id/whatTodoCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/todo_create_label"
-                        android:textOff="@string/todo_create_label"
-                        android:textOn="@string/todo_create_label"
-                        android:textSize="12sp"
-                        android:tooltipText="@string/todo_create" />
-                    </RadioGroup>
+                            <ToggleButton
+                                android:id="@+id/whatTodoJoin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="@string/todo_join_label"
+                                android:textOff="@string/todo_join_label"
+                                android:textOn="@string/todo_join_label"
+                                android:textSize="12sp"
+                                android:tooltipText="@string/todo_join" />
+
+                            <ToggleButton
+                                android:id="@+id/whatTodoCreate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/todo_create_label"
+                                android:textOff="@string/todo_create_label"
+                                android:textOn="@string/todo_create_label"
+                                android:textSize="12sp"
+                                android:tooltipText="@string/todo_create" />
+                        </RadioGroup>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/scanButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/spacer_1hx"
+                            android:text="@string/scan_qrcode"
+                            app:icon="@drawable/ic_qrcode" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/scanButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingTop="4dp"
-                    android:paddingLeft="18dp"
-                    android:paddingRight="18dp"
-                    android:layout_gravity="center"
-                    app:tint="#999999"
-                    android:scaleX="2"
-                    android:scaleY="2"
-                    android:src="@drawable/ic_qrcode"
-                    android:tooltipText="@string/scan_qrcode_tooltip" />
             </LinearLayout>
 
             <!-- Location -->
@@ -111,15 +112,13 @@
                     android:id="@+id/whereIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="32dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="@dimen/spacer_3x"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_cloud_grey_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".10"
                     android:orientation="vertical">
 
                     <TextView
@@ -128,6 +127,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
                         android:paddingStart="2dp"
+                        android:paddingEnd="0dp"
                         android:text="@string/new_project_where"
                         android:textColor="#9E9E9E"
                         android:textSize="12sp" />
@@ -135,7 +135,7 @@
                     <RadioGroup android:id="@+id/whereRadiogroup"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <ToggleButton
                             android:id="@+id/whereLocal"
@@ -148,11 +148,6 @@
                             android:textSize="12sp"
                             android:tooltipText="@string/where_local"
                             android:onClick="onToggle" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
                         <ToggleButton
                             android:id="@+id/whereIhm"
@@ -174,38 +169,26 @@
                             android:textOn="@string/where_cospend_short"
                             android:textSize="12sp"
                             android:tooltipText="@string/where_cospend" />
-                        </LinearLayout>
                     </RadioGroup>
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/nextcloudButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingTop="4dp"
-                    android:paddingLeft="18dp"
-                    android:paddingRight="18dp"
-                    android:layout_gravity="center"
-                    app:tint="#999999"
-                    android:scaleX="2"
-                    android:scaleY="2"
-                    android:src="@drawable/ic_nextcloud_logo_white"
-                    android:tooltipText="@string/new_project_from_nextcloud_tooltip" />
-
-                <ImageView
-                    android:id="@+id/importButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingTop="4dp"
-                    android:paddingLeft="18dp"
-                    android:paddingRight="18dp"
-                    android:layout_gravity="center"
-                    app:tint="#999999"
-                    android:scaleX="2"
-                    android:scaleY="2"
-                    android:src="@drawable/ic_folder_open_grey600_24dp"
-                    android:tooltipText="@string/import_tooltip" />
             </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chooseFromNextcloudButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="52dp"
+                android:text="@string/new_project_from_nextcloud_tooltip"
+                app:icon="@drawable/ic_nextcloud_logo_white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/importButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="52dp"
+                android:text="@string/import_tooltip"
+                app:icon="@drawable/ic_folder_open_grey600_24dp" />
 
             <!-- Project URL -->
             <LinearLayout
@@ -221,7 +204,7 @@
                     android:id="@+id/editProjectUrlIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="@dimen/spacer_3x"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_link_grey_24dp" />
 
@@ -242,18 +225,6 @@
                         android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
-                    android:id="@+id/nextcloudCreateButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingTop="4dp"
-                    android:paddingLeft="18dp"
-                    android:paddingRight="18dp"
-                    android:layout_gravity="center"
-                    app:tint="#999999"
-                    android:scaleX="2"
-                    android:scaleY="2"
-                    android:src="@drawable/ic_nextcloud_logo_white" />
             </LinearLayout>
 
             <!-- Project ID -->
@@ -270,7 +241,7 @@
                     android:id="@+id/editProjectIdIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="@dimen/spacer_3x"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_library_books_white_24dp" />
 
@@ -305,7 +276,7 @@
                     android:id="@+id/editProjectPasswordIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="@dimen/spacer_3x"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_lock_grey_24dp" />
 
@@ -341,7 +312,7 @@
                     android:id="@+id/editProjectNameIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="@dimen/spacer_3x"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_title_grey_24dp" />
 
@@ -376,7 +347,7 @@
                     android:id="@+id/editProjectEmailIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="@dimen/spacer_3x"
                     android:paddingTop="8dp"
                     android:src="@drawable/ic_email_grey_24dp" />
 
