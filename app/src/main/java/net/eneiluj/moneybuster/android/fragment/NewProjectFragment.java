@@ -3,7 +3,6 @@ package net.eneiluj.moneybuster.android.fragment;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -69,6 +68,7 @@ import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
 import net.eneiluj.moneybuster.theme.ThemeUtils;
 import net.eneiluj.moneybuster.theme.ThemedFragment;
 import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
+import net.eneiluj.moneybuster.theme.ThemedProgressDialogBuilder;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.IProjectCreationCallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
@@ -144,7 +144,7 @@ public class NewProjectFragment extends ThemedFragment {
     protected String defaultIhmUrl;
     protected String defaultNcUrl;
 
-    private ProgressDialog progress = null;
+    private AlertDialog progress = null;
 
     public static NewProjectFragment newInstance(String defaultIhmUrl, String defaultNCUrl,
                                                  @Nullable String defaultProjectId,
@@ -905,11 +905,11 @@ public class NewProjectFragment extends ThemedFragment {
                 Log.e(TAG, "invalid email");
                 return;
             }
-            progress = new ProgressDialog(getContext());
-            progress.setTitle(getString(R.string.simple_loading));
-            progress.setMessage(getString(R.string.creating_remote_project));
-            progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-            progress.show();
+            AlertDialog.Builder builder = new ThemedProgressDialogBuilder(getContext());
+            builder.setTitle(getString(R.string.simple_loading));
+            builder.setMessage(getString(R.string.creating_remote_project));
+            builder.setCancelable(false); // disable dismiss by tapping outside of the dialog
+            progress = builder.show();
             if (!db.getMoneyBusterServerSyncHelper().createRemoteProject(getRemoteId(), getName(),
                     getEmail(), getPassword(), getUrl(), getProjectType(), createRemoteCallBack)) {
                 //showToast(getString(R.string.remote_project_operation_no_network), Toast.LENGTH_LONG);

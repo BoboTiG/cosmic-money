@@ -13,6 +13,7 @@ import androidx.preference.PreferenceCategory
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.nextcloud.android.common.ui.theme.MaterialSchemes
 import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase
 import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils
@@ -81,6 +82,12 @@ class MoneyBusterViewThemeUtils(
                     this.material.colorMaterialTextButton(button)
                 }
             }
+        }
+    }
+
+    fun colorProgressBar(progressIndicator: CircularProgressIndicator) {
+        withScheme(progressIndicator.context) { scheme ->
+            progressIndicator.setIndicatorColor(scheme.primary)
         }
     }
 

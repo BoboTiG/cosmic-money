@@ -5,9 +5,9 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class ThemedMaterialAlertDialogBuilder(context: Context) : MaterialAlertDialogBuilder(context) {
+open class ThemedMaterialAlertDialogBuilder(context: Context) : MaterialAlertDialogBuilder(context) {
 
-    private val utils = ThemeUtils.of(context)
+    protected val utils = ThemeUtils.of(context)
 
     override fun show(): AlertDialog {
         utils.dialog.colorMaterialAlertDialogBackground(context, this)
