@@ -576,9 +576,6 @@ public class NewProjectFragment extends ThemedFragment {
             whereCospend.setTypeface(Typeface.DEFAULT);
 
             whereIcon.setImageResource(R.drawable.ic_cellphone_grey_24dp);
-            params.gravity = Gravity.TOP;
-            params.topMargin = 40;
-            whereIcon.setLayoutParams(params);
 
             chooseFromNextcloudButton.setVisibility(View.GONE);
             importButton.setVisibility(View.VISIBLE);
@@ -591,10 +588,6 @@ public class NewProjectFragment extends ThemedFragment {
             whereCospend.setTypeface(Typeface.DEFAULT);
 
             whereIcon.setImageResource(R.drawable.ic_ihm_grey_24dp);
-            params.gravity = Gravity.BOTTOM;
-            params.bottomMargin = 25;
-
-            whereIcon.setLayoutParams(params);
 
             if (setDefaultUrl) {
                 newProjectUrl.setText(defaultIhmUrl);
@@ -611,9 +604,6 @@ public class NewProjectFragment extends ThemedFragment {
             whereCospend.setTypeface(Typeface.DEFAULT_BOLD);
 
             whereIcon.setImageResource(R.drawable.ic_cospend_grey_24dp);
-            params.gravity = Gravity.BOTTOM;
-            params.bottomMargin = 25;
-            whereIcon.setLayoutParams(params);
 
             if (setDefaultUrl) {
                 newProjectUrl.setText(defaultNcUrl);
