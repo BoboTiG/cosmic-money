@@ -3,8 +3,6 @@ package net.eneiluj.moneybuster.android.fragment;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,10 +41,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.PreferenceManager;
 
@@ -57,6 +54,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity;
+import net.eneiluj.moneybuster.databinding.ActivityNewProjectBinding;
 import net.eneiluj.moneybuster.model.DBAccountProject;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBCategory;
@@ -67,11 +65,15 @@ import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedFragment;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
+import net.eneiluj.moneybuster.theme.ThemedProgressDialogBuilder;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.IProjectCreationCallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.SupportUtil;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -85,7 +87,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class NewProjectFragment extends Fragment {
+public class NewProjectFragment extends ThemedFragment {
+
     private static final String TAG = NewProjectFragment.class.getSimpleName();
 
     public static final String PARAM_DEFAULT_IHM_URL = "defaultIhmUrl";
@@ -94,6 +97,8 @@ public class NewProjectFragment extends Fragment {
     public static final String PARAM_DEFAULT_PROJECT_PASSWORD = "defaultProjectPassword";
     public static final String PARAM_DEFAULT_PROJECT_TYPE = "defaultProjectType";
     public static final String PARAM_IS_IMPORT = "isImport";
+
+    private ActivityNewProjectBinding binding;
 
     public interface NewProjectFragmentListener {
         void close(long pid, boolean justAdded);
@@ -139,7 +144,7 @@ public class NewProjectFragment extends Fragment {
     protected String defaultIhmUrl;
     protected String defaultNcUrl;
 
-    private ProgressDialog progress = null;
+    private AlertDialog progress = null;
 
     public static NewProjectFragment newInstance(String defaultIhmUrl, String defaultNCUrl,
                                                  @Nullable String defaultProjectId,
@@ -160,8 +165,9 @@ public class NewProjectFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
-        View view = inflater.inflate(R.layout.activity_new_project, container, false);
+        binding = ActivityNewProjectBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         FragmentActivity activity = getActivity();
         if (activity != null) {
@@ -277,12 +283,12 @@ public class NewProjectFragment extends Fragment {
 
         boolean darkTheme = MoneyBuster.isDarkTheme(getContext());
         // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(getContext()) == Color.BLACK) {
+        if (darkTheme && ColorUtils.primaryColor(getContext()) == Color.BLACK) {
             fabOk.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
         } else {
-            fabOk.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(getContext())));
+            fabOk.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.primaryColor(getContext())));
         }
-        fabOk.setRippleColor(ThemeUtils.primaryDarkColor(getContext()));
+        fabOk.setRippleColor(ColorUtils.primaryDarkColor(getContext()));
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,7 +321,7 @@ public class NewProjectFragment extends Fragment {
                     acProjIdList.add(accountProject.getId());
                 }
                 // manage account projects list DIALOG
-                AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(view.getContext(), R.style.AppThemeDialog));
+                AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(view.getContext());
                 selectBuilder.setTitle(getString(R.string.choose_account_project_dialog_title));
 
                 if (acProjNameList.size() > 0) {
@@ -335,8 +341,7 @@ public class NewProjectFragment extends Fragment {
                     });
                     selectBuilder.setNegativeButton(getString(R.string.simple_cancel), null);
 
-                    AlertDialog selectDialog = selectBuilder.create();
-                    selectDialog.show();
+                    selectBuilder.create().show();
                 } else {
                     showToast(getString(R.string.choose_account_project_dialog_impossible), Toast.LENGTH_LONG);
                 }
@@ -414,6 +419,17 @@ public class NewProjectFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.material.themeFAB(binding.newProjectForm.fabNewOk);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectUrlInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectIdInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectPasswordInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectNameInputLayout);
+        utils.material.colorTextInputLayout(binding.newProjectForm.editProjectEmailInputLayout);
     }
 
     private void showHideValidationButtons() {
@@ -666,6 +682,12 @@ public class NewProjectFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "PROJECT SAVE INSTANCE STATE");
@@ -807,8 +829,7 @@ public class NewProjectFragment extends Fragment {
         );
         if (isValidUrl(url) && todoCreate && ProjectType.COSPEND.equals(type) &&
                 db.getMoneyBusterServerSyncHelper().canCreateAuthenticatedProject(fakeProj)) {
-            android.app.AlertDialog.Builder builder;
-            builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AppThemeDialog));
+            AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(requireContext());
             builder.setTitle(getString(R.string.auth_project_creation_title))
                     .setMessage(getString(R.string.warning_auth_project_creation))
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -884,11 +905,11 @@ public class NewProjectFragment extends Fragment {
                 Log.e(TAG, "invalid email");
                 return;
             }
-            progress = new ProgressDialog(getContext());
-            progress.setTitle(getString(R.string.simple_loading));
-            progress.setMessage(getString(R.string.creating_remote_project));
-            progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-            progress.show();
+            AlertDialog.Builder builder = new ThemedProgressDialogBuilder(getContext());
+            builder.setTitle(getString(R.string.simple_loading));
+            builder.setMessage(getString(R.string.creating_remote_project));
+            builder.setCancelable(false); // disable dismiss by tapping outside of the dialog
+            progress = builder.show();
             if (!db.getMoneyBusterServerSyncHelper().createRemoteProject(getRemoteId(), getName(),
                     getEmail(), getPassword(), getUrl(), getProjectType(), createRemoteCallBack)) {
                 //showToast(getString(R.string.remote_project_operation_no_network), Toast.LENGTH_LONG);
@@ -1118,12 +1139,7 @@ public class NewProjectFragment extends Fragment {
                 long pid = addProjectToDb(getProjectFromFields(false));
                 listener.close(pid, true);
             } else {
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(
-                        new ContextThemeWrapper(
-                                getContext(),
-                                R.style.AppThemeDialog
-                        )
-                );
+                AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(requireContext());
                 builder.setTitle(getString(R.string.simple_error));
                 builder.setMessage(getString(R.string.error_project_connect_check, message));
                 builder.setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
@@ -1150,12 +1166,7 @@ public class NewProjectFragment extends Fragment {
                 saveRemoteProject(null, usePrivateApi);
                 // listener.close(pid, false);
             } else {
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(
-                        new ContextThemeWrapper(
-                                getContext(),
-                                R.style.AppThemeDialog
-                        )
-                );
+                AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(requireContext());
                 builder.setTitle(getString(R.string.simple_error));
                 builder.setMessage(getString(R.string.error_create_remote_project_helper, message));
                 // Set up the buttons

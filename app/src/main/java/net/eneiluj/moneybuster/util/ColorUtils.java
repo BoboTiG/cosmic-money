@@ -26,7 +26,7 @@ import com.google.zxing.common.BitMatrix;
 
 import net.eneiluj.moneybuster.R;
 
-public class ThemeUtils {
+public class ColorUtils {
 
     public static int primaryColor(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -125,7 +125,7 @@ public class ThemeUtils {
     public static Drawable getMemberAvatarDrawable(Context context, String avatarB64, boolean disabled) {
         byte[] decodedString = Base64.decode(avatarB64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        Bitmap rounded = ThemeUtils.getRoundedBitmap(decodedByte, decodedByte.getWidth() / 2);
+        Bitmap rounded = ColorUtils.getRoundedBitmap(decodedByte, decodedByte.getWidth() / 2);
         float mRadius = decodedByte.getWidth() / 2;
         if (disabled) {
             Paint mDisabledCircle = new Paint();

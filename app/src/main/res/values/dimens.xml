@@ -7,12 +7,15 @@
     <dimen name="spacer_1x">8dp</dimen>
     <dimen name="spacer_2x">16dp</dimen>
     <dimen name="spacer_3x">24dp</dimen>
+    <dimen name="spacer_4x">32dp</dimen>
     <dimen name="spacer_5x">40dp</dimen>
     <dimen name="spacer_6x">48dp</dimen>
 
     <dimen name="avatar_size">36dp</dimen>
     <dimen name="spacer_activity_sides">0dp</dimen>
     <dimen name="dialog_padding">20dp</dimen>
+
+    <dimen name="min_size_clickable_area">48dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

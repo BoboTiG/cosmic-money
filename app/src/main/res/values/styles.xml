@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/bg_normal</item>
         <item name="colorAccent">@color/accent</item>
@@ -11,6 +11,10 @@
         <item name="actionModeStyle">@style/actionModeStyle</item>
         <item name="appBarLayoutStyle">@style/appBarLayoutStyle</item>
         <item name="toolbarStyle">@style/toolbarStyle</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.App.Preference</item>
+
+        <item name="colorPrimaryContainer">@color/primary</item>
+        <item name="colorOnPrimaryContainer">@android:color/white</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -29,7 +33,7 @@
         <item name="android:paddingEnd">@dimen/spacer_activity_sides</item>
     </style>
 
-    <style name="AppThemeDialog" parent="@style/Theme.AppCompat.DayNight.Dialog">
+    <style name="AppThemeDialog" parent="@style/Theme.Material3.DayNight.Dialog">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/primary</item>
@@ -39,11 +43,6 @@
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Preferences" parent="AppTheme">
-        <item name="android:textColor">@color/fg_default</item>
-        <item name="android:textColorSecondary">@color/fg_default_low</item>
     </style>
 
     <style name="NavigationItem">
@@ -58,9 +57,8 @@
         <item name="android:textColor">@color/fg_default_low</item>
     </style>
 
-    <style name="fab">
+    <style name="Fab">
         <item name="android:layout_margin">16dp</item>
-        <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">end|bottom</item>
@@ -83,11 +81,21 @@
     <style name="fabDrawer">
         <item name="android:layout_margin">0dp</item>
         <item name="android:layout_gravity">end|right</item>
-
     </style>
 
-    <style name="checkboxTheme" parent="Theme.AppCompat">
-        <item name="colorAccent">@color/green</item>
-        <item name="android:textColorSecondary">@color/red</item>
+    <!-- Preferences -->
+
+    <style name="ThemeOverlay.App.Preference" parent="PreferenceThemeOverlay">
+        <item name="checkBoxPreferenceStyle">@style/PreferenceMaterialCheckBox</item>
+        <item name="switchPreferenceCompatStyle">@style/PreferenceMaterialSwitch</item>
     </style>
+
+    <style name="PreferenceMaterialCheckBox" parent="@style/Preference.CheckBoxPreference.Material">
+        <item name="widgetLayout">@layout/preference_checkbox</item>
+    </style>
+
+    <style name="PreferenceMaterialSwitch" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_switch</item>
+    </style>
+
 </resources>

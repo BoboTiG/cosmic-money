@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -25,6 +25,7 @@ import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBCurrency;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.ICallback;
 
 import java.util.List;
@@ -68,8 +69,7 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
     };
 
     private void showDialog(String msg, String title, int icon) {
-        android.app.AlertDialog.Builder builder;
-        builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(this);
         builder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> dialog.dismiss())

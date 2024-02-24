@@ -15,18 +15,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputLayout;
 import com.nextcloud.android.sso.helper.SingleAccountHelper;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
@@ -42,11 +40,13 @@ import at.bitfire.cert4android.CustomCertManager;
 import at.bitfire.cert4android.IOnCertificateDecision;
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.fragment.LoginDialogFragment;
+import net.eneiluj.moneybuster.databinding.ActivityAccountBinding;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedActivity;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
 import net.eneiluj.moneybuster.util.CospendClientUtil.LoginStatus;
-import net.eneiluj.moneybuster.util.ThemeUtils;
 
 import java.io.ByteArrayInputStream;
 import java.net.URLDecoder;
@@ -62,7 +62,7 @@ import java.util.Map;
  * Allows to set Settings like URL, Username and Password for Server-Synchronization
  * Created by stefan on 22.09.15.
  */
-public class AccountActivity extends AppCompatActivity {
+public class AccountActivity extends ThemedActivity {
 
     private static final String TAG = AccountActivity.class.getSimpleName();
     private final static int PERMISSION_GET_ACCOUNTS = 42;
@@ -86,7 +86,9 @@ public class AccountActivity extends AppCompatActivity {
 
     private SharedPreferences preferences = null;
 
-    SwitchMaterial use_sso_switch;
+    private ActivityAccountBinding binding;
+
+    MaterialSwitch use_sso_switch;
     EditText field_url;
     TextInputLayout url_wrapper;
     TextInputLayout username_wrapper;
@@ -107,7 +109,8 @@ public class AccountActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_account, null);
+        binding = ActivityAccountBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
         setContentView(view);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -152,14 +155,6 @@ public class AccountActivity extends AppCompatActivity {
             url_wrapper.setVisibility(View.INVISIBLE);
             urlWarnHttp.setVisibility(View.GONE);
             btn_submit.setVisibility(View.INVISIBLE);
-        }
-        // manage switch color
-        if (use_sso_switch.isChecked()) {
-            use_sso_switch.getTrackDrawable().setColorFilter(ThemeUtils.primaryDarkColor(this), PorterDuff.Mode.SRC_IN);
-            use_sso_switch.getThumbDrawable().setColorFilter(ThemeUtils.primaryColor(this), PorterDuff.Mode.MULTIPLY);
-        } else {
-            use_sso_switch.getTrackDrawable().setColorFilter(ContextCompat.getColor(this, R.color.fg_default_low), PorterDuff.Mode.SRC_IN);
-            use_sso_switch.getThumbDrawable().setColorFilter(ContextCompat.getColor(this, R.color.fg_default_high), PorterDuff.Mode.MULTIPLY);
         }
         field_url.setText(preferences.getString(SETTINGS_URL, DEFAULT_SETTINGS));
         field_username.setText(preferences.getString(SETTINGS_USERNAME, DEFAULT_SETTINGS));
@@ -278,6 +273,16 @@ public class AccountActivity extends AppCompatActivity {
     private void setPasswordHint(boolean hasFocus) {
         boolean unchangedHint = !hasFocus && field_password.getText().toString().isEmpty() && !old_password.isEmpty();
         password_wrapper.setHint(getString(unchangedHint ? R.string.settings_password_unchanged : R.string.settings_password));
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+        utils.moneybuster.themeMaterialSwitch(binding.useSsoSwitch);
+        utils.material.colorTextInputLayout(binding.settingsUrlWrapper);
+        utils.material.colorTextInputLayout(binding.settingsUsernameWrapper);
+        utils.material.colorTextInputLayout(binding.settingsPasswordWrapper);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.settingsSubmit);
     }
 
     private void legacyLogin() {

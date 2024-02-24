@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.Html;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +22,9 @@ import com.google.zxing.WriterException;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.model.DBProject;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 
 public class ProjectShareDialogBuilder {
@@ -41,8 +42,8 @@ public class ProjectShareDialogBuilder {
         this.proj = proj;
     }
 
-    public AlertDialog build() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppThemeDialog));
+    public AlertDialog show() {
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(context);
 
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_share_project, null);
 
@@ -82,11 +83,15 @@ public class ProjectShareDialogBuilder {
             }
         });
 
+        final var themeUtils = ThemeUtils.of(ColorUtils.primaryColor(view.getContext()), view.getContext());
+        themeUtils.moneybuster.themeTextViewLinkColor(publicUrl);
+        themeUtils.moneybuster.themeTextViewLinkColor(link);
+
         TextView hint = view.findViewById(R.id.textViewShareProjectHint);
         hint.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));
         ImageView img = view.findViewById(R.id.imageViewShareProject);
         try {
-            Bitmap bitmap = ThemeUtils.encodeAsBitmap(shareUrl);
+            Bitmap bitmap = ColorUtils.encodeAsBitmap(shareUrl);
             img.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
@@ -115,7 +120,7 @@ public class ProjectShareDialogBuilder {
             }
         });
 
-        return builder.create();
+        return builder.show();
     }
 
 }

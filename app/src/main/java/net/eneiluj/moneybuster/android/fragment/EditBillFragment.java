@@ -45,10 +45,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -57,6 +55,7 @@ import net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.android.ui.UserAdapter;
 import net.eneiluj.moneybuster.android.ui.UserItem;
+import net.eneiluj.moneybuster.databinding.FragmentEditBillBinding;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBBillOwer;
 import net.eneiluj.moneybuster.model.DBCategory;
@@ -68,11 +67,14 @@ import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.model.parsed.AustrianBillQrCode;
 import net.eneiluj.moneybuster.model.parsed.CroatianBillQrCode;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedFragment;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.BillParser;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.SupportUtil;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -90,7 +92,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class EditBillFragment extends Fragment {
+public class EditBillFragment extends ThemedFragment {
 
     private static final String TAG = EditBillFragment.class.getSimpleName();
     private ProjectType projectType;
@@ -159,9 +161,13 @@ public class EditBillFragment extends Fragment {
     private boolean isSpinnerPaymentModeAction = false;
     private boolean isSpinnerCategoryAction = false;
 
+    private FragmentEditBillBinding binding;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_edit_bill, container, false);
+        binding = FragmentEditBillBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         if (bill.getId() == 0) {
@@ -190,12 +196,12 @@ public class EditBillFragment extends Fragment {
         // color
         boolean darkTheme = MoneyBuster.isDarkTheme(getContext());
         // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(getContext()) == Color.BLACK) {
+        if (darkTheme && ColorUtils.primaryColor(getContext()) == Color.BLACK) {
             fabSaveBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
         } else {
-            fabSaveBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(getContext())));
+            fabSaveBill.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.primaryColor(getContext())));
         }
-        fabSaveBill.setRippleColor(ThemeUtils.primaryDarkColor(getContext()));
+        fabSaveBill.setRippleColor(ColorUtils.primaryDarkColor(getContext()));
 
         fabSaveBill.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,7 +316,7 @@ public class EditBillFragment extends Fragment {
                     currencyIdList.add(currency.getId());
                 }
 
-                AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(v.getContext(), R.style.AppThemeDialog));
+                AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(v.getContext());
                 selectBuilder.setTitle(getString(R.string.currency_dialog_title, mainCurrencyName));
 
                 if (currencyNameList.size() > 0) {
@@ -455,9 +461,19 @@ public class EditBillFragment extends Fragment {
 
         });
 
-        Log.d(TAG, "CREATEVIEW FINISHEDDDDDDD");
-
         return view;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.material.themeFAB(binding.editBillForm.fabEditOk);
+        utils.material.colorTextInputLayout(binding.editBillForm.editWhatWrapper);
+        utils.material.colorTextInputLayout(binding.editBillForm.editAmountWrapper);
+        utils.material.colorTextInputLayout(binding.editBillForm.editCommentWrapper);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.editBillForm.owerAllButton);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.editBillForm.owerNoneButton);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.editBillForm.duplicateBillButton);
     }
 
     private final ActivityResultLauncher<Intent> scanQRCodeLauncher =
@@ -615,7 +631,7 @@ public class EditBillFragment extends Fragment {
                 }
             }
         };
-        confirmDeleteAlertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this.getActivity(), R.style.AppThemeDialog));
+        confirmDeleteAlertBuilder = new ThemedMaterialAlertDialogBuilder(this.getActivity());
         confirmDeleteAlertBuilder.setMessage(getString(R.string.confirm_delete_bill_dialog_title))
                 .setPositiveButton(getString(R.string.simple_yes), deleteDialogClickListener)
                 .setNegativeButton(getString(R.string.simple_no), deleteDialogClickListener);
@@ -652,6 +668,12 @@ public class EditBillFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         //saveBill(null);
@@ -678,12 +700,7 @@ public class EditBillFragment extends Fragment {
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                new ContextThemeWrapper(
-                        getContext(),
-                        R.style.AppThemeDialog
-                )
-        );
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(requireContext());
         builder.setTitle(getString(R.string.save_or_discard_bill_dialog_title));
         builder.setMessage(getString(R.string.save_or_discard_bill_dialog_message));
         builder.setPositiveButton(getString(R.string.save_or_discard_bill_dialog_save), new DialogInterface.OnClickListener() {
@@ -934,6 +951,7 @@ public class EditBillFragment extends Fragment {
         }
 
         // build ower list
+        var utils = ThemeUtils.of(requireContext());
         owerCheckboxes = new HashMap<>();
         for (DBMember member : memberList) {
             int owerIndex = bill.getBillOwersIds().indexOf(member.getId());
@@ -955,13 +973,14 @@ public class EditBillFragment extends Fragment {
                 if (!member.isActivated()) {
                     cb.setEnabled(false);
                 }
+                utils.platform.themeCheckbox(cb);
 
                 // avatar
                 ImageView avatar = row.findViewById(R.id.avatar);
                 try {
                     avatar.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     if (member.getAvatar() != null && !member.getAvatar().equals("")) {
-                        avatar.setImageDrawable(ThemeUtils.getMemberAvatarDrawable(
+                        avatar.setImageDrawable(ColorUtils.getMemberAvatarDrawable(
                                 db.getContext(), member.getAvatar(), !member.isActivated()
                         ));
                         ViewGroup.LayoutParams lp = avatar.getLayoutParams();

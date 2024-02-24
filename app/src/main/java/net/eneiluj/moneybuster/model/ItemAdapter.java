@@ -19,7 +19,7 @@ import net.eneiluj.moneybuster.android.activity.BillsListViewActivity;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.util.SupportUtil;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -206,7 +206,7 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         );
                     } else {
                         nvHolder.avatar.setImageDrawable(
-                                ThemeUtils.getMemberAvatarDrawable(
+                                ColorUtils.getMemberAvatarDrawable(
                                         db.getContext(), m.getAvatar(), !m.isActivated()
                                 )
                         );

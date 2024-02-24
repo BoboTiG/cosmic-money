@@ -50,9 +50,9 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.ActionBarContextView;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.SearchView;
@@ -71,6 +71,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -89,6 +90,7 @@ import net.eneiluj.moneybuster.android.dialogs.ProjectStatisticsDialogBuilder;
 import net.eneiluj.moneybuster.android.fragment.NewProjectFragment;
 import net.eneiluj.moneybuster.android.ui.ProjectDrawerAdapter;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
+import net.eneiluj.moneybuster.databinding.DrawerLayoutBinding;
 import net.eneiluj.moneybuster.model.Category;
 import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBMember;
@@ -101,13 +103,16 @@ import net.eneiluj.moneybuster.persistence.LoadBillsListTask;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
 import net.eneiluj.moneybuster.service.SyncService;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedActivity;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.CospendClientUtil;
 import net.eneiluj.moneybuster.util.ExportUtil;
 import net.eneiluj.moneybuster.util.ICallback;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 import net.eneiluj.moneybuster.util.IRefreshBillsListCallback;
 import net.eneiluj.moneybuster.util.SupportUtil;
-import net.eneiluj.moneybuster.util.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -126,7 +131,7 @@ import static net.eneiluj.moneybuster.android.activity.EditProjectActivity.PARAM
 import static net.eneiluj.moneybuster.util.SupportUtil.getVersionName;
 
 public class BillsListViewActivity
-        extends AppCompatActivity
+        extends ThemedActivity
         implements ItemAdapter.BillClickListener, IRefreshBillsListCallback, ProjectDrawerAdapter.IOnProjectMenuClick {
 
     private final static int PERMISSION_FOREGROUND = 1;
@@ -182,6 +187,8 @@ public class BillsListViewActivity
     View noMembersView;
     View noBillsView;
 
+    private DrawerLayoutBinding binding;
+
     private final ProjectDrawerAdapter projectAdapter = new ProjectDrawerAdapter(this);
 
     private ItemAdapter adapter = null;
@@ -226,7 +233,10 @@ public class BillsListViewActivity
             categoryAdapterSelectedItem = savedInstanceState.getString(SAVED_STATE_NAVIGATION_ADAPTER_SLECTION);
         }
 
-        setContentView(R.layout.drawer_layout);
+        binding = DrawerLayoutBinding.inflate(getLayoutInflater());
+        View view  = binding.getRoot();
+        setContentView(view);
+
         toolbar = findViewById(R.id.billsListActivityActionBar);
         drawerLayout = findViewById(R.id.drawerLayout);
         configuredAccount = findViewById(R.id.configuredAccount);
@@ -249,7 +259,7 @@ public class BillsListViewActivity
         noBillsView = findViewById(R.id.layout_no_bills);
 
         lastSyncLayout.setVisibility(GONE);
-        lastSyncLayout.setBackgroundColor(ThemeUtils.primaryDarkColor(this));
+        lastSyncLayout.setBackgroundColor(ColorUtils.primaryDarkColor(this));
 
         db = MoneyBusterSQLiteOpenHelper.getInstance(this);
 
@@ -299,8 +309,7 @@ public class BillsListViewActivity
 
             String dialogContent = getIntent().getStringExtra(PARAM_DIALOG_CONTENT);
             if (dialogContent != null) {
-                android.app.AlertDialog.Builder builder;
-                builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
+                AlertDialog.Builder builder= new ThemedMaterialAlertDialogBuilder(this);
                 builder.setTitle(this.getString(R.string.activity_dialog_title, project.getName()))
                         .setMessage(dialogContent)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -359,12 +368,7 @@ public class BillsListViewActivity
             // show the dialog
             String dialogTitle = getString(R.string.welcome_dialog_title, getVersionName(this));
 
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(
-                    new ContextThemeWrapper(
-                            this,
-                            R.style.AppThemeDialog
-                    )
-            );
+            AlertDialog.Builder builder= new ThemedMaterialAlertDialogBuilder(this);
             builder.setTitle(dialogTitle);
             builder.setMessage(dialogContent);
             // Set up the buttons
@@ -445,7 +449,7 @@ public class BillsListViewActivity
 
     private void setupToolBar() {
         setSupportActionBar(toolbar);
-        int colors[] = {ThemeUtils.primaryColor(this), ThemeUtils.primaryLightColor(this)};
+        int colors[] = {ColorUtils.primaryColor(this), ColorUtils.primaryLightColor(this)};
         GradientDrawable gradientDrawable = new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT, colors);
         drawerLayout.findViewById(R.id.drawer_top_layout).setBackground(gradientDrawable);
@@ -459,9 +463,9 @@ public class BillsListViewActivity
         }
 
         ImageView logoView = drawerLayout.findViewById(R.id.drawer_logo);
-        logoView.setColorFilter(ThemeUtils.primaryColor(this), PorterDuff.Mode.OVERLAY);
+        logoView.setColorFilter(ColorUtils.primaryColor(this), PorterDuff.Mode.OVERLAY);
 
-        int colorsLastSync[] = {ThemeUtils.primaryDarkColor(this), ThemeUtils.primaryColor(this)};
+        int colorsLastSync[] = {ColorUtils.primaryDarkColor(this), ColorUtils.primaryColor(this)};
         GradientDrawable gradientDrawable2 = new GradientDrawable(
                 GradientDrawable.Orientation.LEFT_RIGHT, colorsLastSync);
         lastSyncLayout.setBackground(gradientDrawable2);
@@ -601,14 +605,14 @@ public class BillsListViewActivity
         // color
         boolean darkTheme = MoneyBuster.isDarkTheme(this);
         // if dark theme and main color is black, make fab button lighter/gray
-        if (darkTheme && ThemeUtils.primaryColor(this) == Color.BLACK) {
+        if (darkTheme && ColorUtils.primaryColor(this) == Color.BLACK) {
             fabAddBill.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
             //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
         } else {
-            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
+            fabAddBill.setBackgroundTintList(ColorStateList.valueOf(ColorUtils.primaryColor(this)));
             //fabBillListAddProject.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this)));
         }
-        fabAddBill.setRippleColor(ThemeUtils.primaryDarkColor(this));
+        fabAddBill.setRippleColor(ColorUtils.primaryDarkColor(this));
         //fabBillListAddProject.setRippleColor(ThemeUtils.primaryDarkColor(this));
     }
 
@@ -662,6 +666,15 @@ public class BillsListViewActivity
         setSelectedProject(selectedProjectId);
     }
 
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+        utils.material.themeFAB(binding.mainContentView.fabAddBill);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.mainContentView.buttonNoProjectsConfigureNextcloud);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.mainContentView.buttonNoProjectsConfigureManually);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.mainContentView.buttonNoMembersAddMember);
+    }
+
     /* --- Project options --- */
 
     @Override
@@ -689,7 +702,7 @@ public class BillsListViewActivity
                 getString(R.string.fab_rm_project)
         };
 
-        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+        AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(this);
         selectBuilder.setTitle(getString(R.string.choose_project_management_action));
         selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
             @Override
@@ -725,12 +738,7 @@ public class BillsListViewActivity
         if (projectId == 0) return;
         DBProject proj = db.getProject(projectId);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                new ContextThemeWrapper(
-                        this,
-                        R.style.AppThemeDialog
-                )
-        );
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(this);
         builder.setTitle(getString(R.string.confirm_remove_project_dialog_title));
         if (!proj.isLocal()) {
             builder.setMessage(getString(R.string.confirm_remove_project_dialog_message));
@@ -776,7 +784,7 @@ public class BillsListViewActivity
                 getString(R.string.fab_edit_member)
         };
 
-        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+        AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(this);
         selectBuilder.setTitle(getString(R.string.choose_member_management_action));
         selectBuilder.setSingleChoiceItems(choices, -1, new DialogInterface.OnClickListener() {
             @Override
@@ -811,7 +819,7 @@ public class BillsListViewActivity
         }
         CharSequence[] namescs = memberNames.toArray(new CharSequence[memberNames.size()]);
 
-        AlertDialog.Builder selectBuilder = new AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+        AlertDialog.Builder selectBuilder = new ThemedMaterialAlertDialogBuilder(this);
         selectBuilder.setTitle(getString(R.string.choose_member_to_edit));
         selectBuilder.setSingleChoiceItems(namescs, -1, new DialogInterface.OnClickListener() {
             @Override
@@ -836,15 +844,13 @@ public class BillsListViewActivity
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog)
-        );
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(this);
         builder.setTitle(getString(R.string.add_member_dialog_title));
 
         // Set up the input
         final EditText input = new EditText(new ContextThemeWrapper(
                 BillsListViewActivity.this,
-                R.style.AppThemeDialog
+                R.style.AppTheme
         ));
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
@@ -871,16 +877,16 @@ public class BillsListViewActivity
                         refreshLists();
                         drawerLayout.closeDrawers();
 
-                        View parent = findViewById(R.id.root_view);
+                        View parent = binding.mainContentView.rootView;
                         String titleText = getString(R.string.snackbar_member_added, memberName);
                         String actionText = getString(R.string.snackbar_member_added_add_another);
-                        int actionTextColor = ContextCompat.getColor(BillsListViewActivity.this, android.R.color.white);
-                        Snackbar.make(parent, titleText, 6000)
+                        Snackbar snackbar = Snackbar.make(parent, titleText, 6000)
                                 .setAction(actionText, (view) -> {
                                     onAddMemberClick(projectId);
-                                })
-                                .setActionTextColor(actionTextColor)
-                                .show();
+                                });
+                        final var utils = ThemeUtils.of(ColorUtils.primaryColor(parent.getContext()), parent.getContext());
+                        utils.material.themeSnackbar(snackbar);
+                        snackbar.show();
                     } else {
                         showToast(getString(R.string.member_already_exists));
                     }
@@ -925,23 +931,20 @@ public class BillsListViewActivity
     @Override
     public void onProjectStatisticsClick(long projectId) {
         final DBProject proj = db.getProject(projectId);
-        AlertDialog dialog = new ProjectStatisticsDialogBuilder(this, db, proj).build();
-        dialog.show();
+        new ProjectStatisticsDialogBuilder(this, db, proj).show();
     }
 
     @Override
     public void onSettleProjectClick(long projectId) {
         final DBProject proj = db.getProject(projectId);
-        AlertDialog dialog = new ProjectSettlementDialogBuilder(this, db, proj, this).build();
-        dialog.show();
+        new ProjectSettlementDialogBuilder(this, db, proj, this).show();
     }
 
     @Override
     public void onShareProjectClick(long projectId) {
         final DBProject proj = db.getProject(projectId);
         if (projectId != 0 && proj.isShareable()) {
-            AlertDialog dialog = new ProjectShareDialogBuilder(this, proj).build();
-            dialog.show();
+            new ProjectShareDialogBuilder(this, proj).show();
         } else {
             showToast(getString(R.string.share_impossible), Toast.LENGTH_LONG);
         }
@@ -1082,14 +1085,12 @@ public class BillsListViewActivity
 
         int color;
         if (r != null && g != null && b != null) {
-            color = Color.rgb(memberToEdit.getR(), memberToEdit.getG(), memberToEdit.getB());
+            color = Color.rgb(r, g, b);
         } else {
             color = TextDrawable.getColorFromName(memberToEdit.getName());
         }
 
-        Log.v(TAG, "MEMBER ID " + memberId);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(
                 new ContextThemeWrapper(
                         BillsListViewActivity.this,
                         R.style.AppThemeDialog
@@ -1098,7 +1099,7 @@ public class BillsListViewActivity
         builder.setTitle(getString(R.string.edit_member_dialog_title));
 
         // Set up the inputs
-        final View iView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.items_editmember_dialog, null);
+        final View iView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_edit_member, null);
         EditText nv = iView.findViewById(R.id.editMemberName);
         nv.setText(memberToEdit.getName());
         nv.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -1107,16 +1108,9 @@ public class BillsListViewActivity
         we.setText(String.valueOf(memberToEdit.getWeight()));
         we.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
 
-        TextView tv = iView.findViewById(R.id.editMemberNameLabel);
-        tv.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
-        TextView wv = iView.findViewById(R.id.editMemberWeightLabel);
-        wv.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         CheckBox ch = iView.findViewById(R.id.editMemberActivated);
-        ch.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         ch.setChecked(memberToEdit.isActivated());
 
-        TextView tvCol = iView.findViewById(R.id.editMemberColorLabel);
-        tvCol.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         Button buttonColor = iView.findViewById(R.id.editMemberColor);
         buttonColor.setBackgroundColor(color);
 
@@ -1134,10 +1128,7 @@ public class BillsListViewActivity
                 lobsterPicker.setHistory(color);
                 lobsterPicker.setColor(color);
 
-                new AlertDialog.Builder(new ContextThemeWrapper(
-                        BillsListViewActivity.this,
-                        R.style.AppThemeDialog
-                ))
+                new ThemedMaterialAlertDialogBuilder(BillsListViewActivity.this)
                         .setView(colorView)
                         .setTitle(getString(R.string.settings_colorpicker_title))
                         .setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
@@ -1212,9 +1203,9 @@ public class BillsListViewActivity
             }
         });
 
-        AlertDialog dialog = builder.create();
+        AlertDialog dialog = builder.show();
 
-        Button buttonDelete = iView.findViewById(R.id.editMemberDelete);
+        MaterialButton buttonDelete = iView.findViewById(R.id.editMemberDelete);
         TextView deleteHelpText = iView.findViewById(R.id.editMemberDeleteHelp);
         boolean isPresentInBills = db.getBillsOfMember(memberId).size() > 0;
 
@@ -1239,7 +1230,11 @@ public class BillsListViewActivity
             deleteHelpText.setVisibility(View.GONE);
         }
 
-        dialog.show();
+        var utils = ThemeUtils.of(this);
+        utils.material.colorTextInputLayout(iView.findViewById(R.id.editMemberNameWrapper));
+        utils.material.colorTextInputLayout(iView.findViewById(R.id.editMemberWeightWrapper));
+        utils.material.colorMaterialButtonPrimaryFilled(buttonDelete);
+        utils.platform.themeCheckbox(iView.findViewById(R.id.editMemberActivated));
 
         nv.setSelectAllOnFocus(true);
         nv.requestFocus();
@@ -1585,7 +1580,7 @@ public class BillsListViewActivity
         boolean noMoreSearchHelp = preferences.getBoolean(AccountActivity.SETTINGS_NO_MORE_SEARCH_HELP, false);
 
         if (!noMoreSearchHelp) {
-            AlertDialog.Builder helpBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
+            AlertDialog.Builder helpBuilder = new ThemedMaterialAlertDialogBuilder(this);
             helpBuilder.setTitle(getString(R.string.search_help_dialog_title));
             helpBuilder.setMessage(getString(R.string.search_help_dialog_content));
 
@@ -1656,7 +1651,7 @@ public class BillsListViewActivity
                                         title = getString(R.string.project_add_success_title);
                                         message = getString(R.string.project_add_success_message, addedProj.getRemoteId());
                                     }
-                                    showDialog(message, title, R.drawable.ic_add_circle_white_24dp);
+                                    showDialog(message, title, R.drawable.ic_add_circle_grey_24dp);
                                 }
                             }
                             setupDrawerProjects();
@@ -1796,8 +1791,7 @@ public class BillsListViewActivity
     }
 
     private void showDialog(String msg, String title, int icon) {
-        android.app.AlertDialog.Builder builder;
-        builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeDialog));
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(this);
         builder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> dialog.dismiss())
@@ -1842,7 +1836,7 @@ public class BillsListViewActivity
                 try {
                     byte[] decodedString = Base64.decode(avatarB64, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    Bitmap rounded = ThemeUtils.getRoundedBitmap(decodedByte, decodedByte.getWidth() / 2);
+                    Bitmap rounded = ColorUtils.getRoundedBitmap(decodedByte, decodedByte.getWidth() / 2);
                     avatarView.setImageBitmap(rounded);
                     accountButton.setImageBitmap(rounded);
                 } catch (Exception e) {
@@ -1908,6 +1902,10 @@ public class BillsListViewActivity
             mActionMode = startSupportActionMode(new MultiSelectedActionModeCallback());
             int checkedItemCount = adapter.getSelected().size();
             mActionMode.setTitle(getResources().getQuantityString(R.plurals.ab_selected, checkedItemCount, checkedItemCount));
+
+            ActionBarContextView actionBar = findViewById(R.id.action_mode_bar);
+            final var utils = ThemeUtils.of(ColorUtils.primaryColor(v.getContext()), v.getContext());
+            utils.moneybuster.themeActionModeActionBar(actionBar, R.id.menu_select_all, R.id.menu_delete);
         }
         adapter.notifyDataSetChanged();
         return selected;
@@ -2085,8 +2083,7 @@ public class BillsListViewActivity
                         }
                         String dialogContent = getString(R.string.sync_error_dialog_full_content, project.getName(), errorMessage);
 
-                        android.app.AlertDialog.Builder builder;
-                        builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(BillsListViewActivity.this, R.style.AppThemeDialog));
+                        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(BillsListViewActivity.this);
                         builder.setTitle(getString(R.string.sync_error_dialog_title))
                                 .setMessage(dialogContent)
                                 /*.setPositiveButton(getString(R.string.simple_remove), new DialogInterface.OnClickListener() {

@@ -6,18 +6,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import com.google.android.material.button.MaterialButton;
 
 import net.eneiluj.moneybuster.R;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedFragment;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
-public class AboutFragmentLicenseTab extends Fragment {
+public class AboutFragmentLicenseTab extends ThemedFragment {
 
     TextView iconsDisclaimer;
-    Button appLicenseButton;
+    MaterialButton appLicenseButton;
 
     void openLicense() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_license))));
@@ -36,5 +37,12 @@ public class AboutFragmentLicenseTab extends Fragment {
         //ButterKnife.bind(this, v);
         SupportUtil.setHtml(iconsDisclaimer, R.string.about_icons_disclaimer, getString(R.string.about_app_icon_author));
         return v;
+    }
+
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, requireContext());
+        utils.material.colorMaterialButtonPrimaryFilled(appLicenseButton);
+        utils.moneybuster.themeTextViewLinkColor(iconsDisclaimer);
     }
 }

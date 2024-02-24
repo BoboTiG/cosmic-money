@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +29,7 @@ import net.eneiluj.moneybuster.model.DBMember;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.Transaction;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.IRefreshBillsListCallback;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
@@ -66,11 +66,11 @@ public class ProjectSettlementDialogBuilder {
         this.callback = callback;
     }
 
-    public AlertDialog build() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppThemeDialog));
+    public AlertDialog show() {
+        AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(context);
 
         builder.setTitle(context.getString(R.string.settle_dialog_title));
-        builder.setIcon(R.drawable.ic_compare_arrows_white_24dp); // TODO: fix light/dark mode
+        builder.setIcon(R.drawable.ic_compare_arrows_grey_24dp);
         builder.setPositiveButton(R.string.simple_ok, (DialogInterface dialog, int which) -> dialog.dismiss());
 
         String projectName;
@@ -122,7 +122,7 @@ public class ProjectSettlementDialogBuilder {
         if (transactions_check_balanced == null || transactions_check_balanced.size() == 0) {
             view = LayoutInflater.from(context).inflate(R.layout.dialog_project_settlement_balanced, null);
             builder.setView(view);
-            return builder.create();
+            return builder.show();
         }
 
         view = LayoutInflater.from(context).inflate(R.layout.dialog_project_settlement, null);
@@ -203,7 +203,7 @@ public class ProjectSettlementDialogBuilder {
         UserItem item = (UserItem) centerMemberSpinner.getSelectedItem();
         updateSettlement(membersBalance, memberIdToName, item.getId());
 
-        return builder.create();
+        return builder.show();
     }
 
     private void updateSettlement(
