@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Reorder "New Bill/Edit Bill" screen to show important fields at the top (#126)
 - Auto-focus on "Amount" field rather than "Title" field in "New Bill" screen (#126)
 - Allow 0 as an amount (#125)
+- Use new Cospend API if available
+- Remove smart sync settings since it is always used
+- Use Sdk 34 and make necessary adjustments
+- Import Cert4Android instead of having it as a git submodule
 
 ### Fixed
 
