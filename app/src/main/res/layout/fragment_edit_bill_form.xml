@@ -286,7 +286,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/editRepeatLayout"
+                android:id="@+id/editCategoryLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -295,12 +295,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/repeatIcon"
+                    android:id="@+id/categoryIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="32dp"
                     android:paddingTop="8dp"
-                    android:src="@drawable/ic_calendar_repeat_grey_24dp" />
+                    android:src="@drawable/ic_apps_grey_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -308,7 +308,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/editRepeatLabel"
+                        android:id="@+id/editCategoryLabel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
@@ -316,12 +316,12 @@
                         android:paddingLeft="2dp"
                         android:paddingEnd="0dp"
                         android:paddingRight="0dp"
-                        android:text="@string/setting_project_repetition"
+                        android:text="@string/setting_category"
                         android:textColor="#9E9E9E"
                         android:textSize="12sp" />
 
                     <Spinner
-                        android:id="@+id/editRepeatSpinner"
+                        android:id="@+id/editCategorySpinner"
                         style="@style/Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
@@ -378,7 +378,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/editCategoryLayout"
+                android:id="@+id/editRepeatLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -387,12 +387,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/categoryIcon"
+                    android:id="@+id/repeatIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="32dp"
                     android:paddingTop="8dp"
-                    android:src="@drawable/ic_apps_grey_24dp" />
+                    android:src="@drawable/ic_calendar_repeat_grey_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -400,7 +400,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/editCategoryLabel"
+                        android:id="@+id/editRepeatLabel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
@@ -408,12 +408,12 @@
                         android:paddingLeft="2dp"
                         android:paddingEnd="0dp"
                         android:paddingRight="0dp"
-                        android:text="@string/setting_category"
+                        android:text="@string/setting_project_repetition"
                         android:textColor="#9E9E9E"
                         android:textSize="12sp" />
 
                     <Spinner
-                        android:id="@+id/editCategorySpinner"
+                        android:id="@+id/editRepeatSpinner"
                         style="@style/Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
