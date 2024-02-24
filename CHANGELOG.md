@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Monochrome app icon
+- Ability to delete members of local projects
+- Help texts if the project has no members or no bills (#117)
+- Support for Croatian tax QR codes (#129)
+
+### Changed
+
+- Material 3 design and other UI polishing
+- Show all projects in navigation drawer
+- Reorder "New Bill/Edit Bill" screen to show important fields at the top (#126)
+- Auto-focus on "Amount" field rather than "Title" field in "New Bill" screen (#126)
+- Allow 0 as an amount (#125)
+- Use new Cospend API if available
+- Remove smart sync settings since it is always used
+- Use Sdk 34 and make necessary adjustments
+- Import Cert4Android instead of having it as a git submodule
+
+### Fixed
+
+- Request notification permission on Android 13 + 14 (fixes notifications not shown) (#138, #139)
+- Remove spurious space in CSV export (#111)
+- Autofill for email and password in the "Add project" screen (#119)
+
 ## 0.1.17 – 2024-01-03
 
 ### Changed
