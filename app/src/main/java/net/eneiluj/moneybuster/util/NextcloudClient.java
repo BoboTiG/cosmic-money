@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
+import com.nextcloud.android.sso.QueryParam;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.api.Response;
@@ -29,6 +30,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +116,7 @@ public class NextcloudClient {
         }
     }
 
-    private VersatileProjectSyncClient.ResponseData requestServerWithSSO(NextcloudAPI nextcloudAPI, String target, String method, Map<String, String> params, boolean isOCSRequest) throws TokenMismatchException, NextcloudHttpRequestFailedException {
+    private VersatileProjectSyncClient.ResponseData requestServerWithSSO(NextcloudAPI nextcloudAPI, String target, String method, Collection<QueryParam> params, boolean isOCSRequest) throws TokenMismatchException, NextcloudHttpRequestFailedException {
         StringBuffer result = new StringBuffer();
 
         Map<String, List<String>> headers = new HashMap<>();
@@ -177,7 +179,7 @@ public class NextcloudClient {
         return new VersatileProjectSyncClient.ResponseData(result.toString(), "", 0);
     }
 
-    private VersatileProjectSyncClient.ResponseData imageRequestServerWithSSO(NextcloudAPI nextcloudAPI, String target, String method, Map<String, String> params) throws TokenMismatchException, NextcloudHttpRequestFailedException {
+    private VersatileProjectSyncClient.ResponseData imageRequestServerWithSSO(NextcloudAPI nextcloudAPI, String target, String method, Collection<QueryParam> params) throws TokenMismatchException, NextcloudHttpRequestFailedException {
         StringBuffer result = new StringBuffer();
         String strBase64 = "";
 
@@ -278,7 +280,7 @@ public class NextcloudClient {
             throw new ServerResponse.NotModifiedException();
         }
         if (responseCode >= 400) {
-            throw new NextcloudHttpRequestFailedException(responseCode, new IOException(""));
+            throw new NextcloudHttpRequestFailedException(context, responseCode, new IOException(""));
         }
 
         Log.i(TAG, "METHOD : "+method);
@@ -342,7 +344,7 @@ public class NextcloudClient {
             throw new ServerResponse.NotModifiedException();
         }
         if (responseCode >= 400) {
-            throw new NextcloudHttpRequestFailedException(responseCode, new IOException(""));
+            throw new NextcloudHttpRequestFailedException(context, responseCode, new IOException(""));
         }
 
         Log.i(TAG, "METHOD : "+method);
