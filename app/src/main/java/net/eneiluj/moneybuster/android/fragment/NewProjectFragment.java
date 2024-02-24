@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -134,10 +135,9 @@ public class NewProjectFragment extends ThemedFragment {
     protected LinearLayout newProjectNameLayout;
     protected LinearLayout newProjectEmailLayout;
 
-    protected ImageView scanButton;
-    protected ImageView nextcloudButton;
-    protected ImageView nextcloudCreateButton;
-    protected ImageView importButton;
+    protected Button scanButton;
+    protected Button chooseFromNextcloudButton;
+    protected Button importButton;
 
     protected FloatingActionButton fabOk;
 
@@ -198,8 +198,7 @@ public class NewProjectFragment extends ThemedFragment {
         newProjectNameLayout = view.findViewById(R.id.editProjectNameLayout);
 
         scanButton = view.findViewById(R.id.scanButton);
-        nextcloudButton = view.findViewById(R.id.nextcloudButton);
-        nextcloudCreateButton = view.findViewById(R.id.nextcloudCreateButton);
+        chooseFromNextcloudButton = view.findViewById(R.id.chooseFromNextcloudButton);
         importButton = view.findViewById(R.id.importButton);
 
         fabOk = view.findViewById(R.id.fab_new_ok);
@@ -310,7 +309,7 @@ public class NewProjectFragment extends ThemedFragment {
             }
         });
 
-        nextcloudButton.setOnClickListener(new View.OnClickListener() {
+        chooseFromNextcloudButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 List<DBAccountProject> accountProjects = db.getAccountProjects();
@@ -345,13 +344,6 @@ public class NewProjectFragment extends ThemedFragment {
                 } else {
                     showToast(getString(R.string.choose_account_project_dialog_impossible), Toast.LENGTH_LONG);
                 }
-            }
-        });
-
-        nextcloudCreateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newProjectUrl.setText(MoneyBusterServerSyncHelper.getNextcloudAccountServerUrl(view.getContext()));
             }
         });
 
@@ -430,6 +422,9 @@ public class NewProjectFragment extends ThemedFragment {
         utils.material.colorTextInputLayout(binding.newProjectForm.editProjectPasswordInputLayout);
         utils.material.colorTextInputLayout(binding.newProjectForm.editProjectNameInputLayout);
         utils.material.colorTextInputLayout(binding.newProjectForm.editProjectEmailInputLayout);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.newProjectForm.scanButton);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.newProjectForm.importButton);
+        utils.material.colorMaterialButtonPrimaryFilled(binding.newProjectForm.chooseFromNextcloudButton);
     }
 
     private void showHideValidationButtons() {
@@ -581,12 +576,8 @@ public class NewProjectFragment extends ThemedFragment {
             whereCospend.setTypeface(Typeface.DEFAULT);
 
             whereIcon.setImageResource(R.drawable.ic_cellphone_grey_24dp);
-            params.gravity = Gravity.TOP;
-            params.topMargin = 40;
-            whereIcon.setLayoutParams(params);
 
-            nextcloudButton.setVisibility(View.GONE);
-            nextcloudCreateButton.setVisibility(View.GONE);
+            chooseFromNextcloudButton.setVisibility(View.GONE);
             importButton.setVisibility(View.VISIBLE);
         } else if (type.equals(ProjectType.IHATEMONEY)) {
             whereLocal.setTextSize(10);
@@ -597,17 +588,12 @@ public class NewProjectFragment extends ThemedFragment {
             whereCospend.setTypeface(Typeface.DEFAULT);
 
             whereIcon.setImageResource(R.drawable.ic_ihm_grey_24dp);
-            params.gravity = Gravity.BOTTOM;
-            params.bottomMargin = 25;
-
-            whereIcon.setLayoutParams(params);
 
             if (setDefaultUrl) {
                 newProjectUrl.setText(defaultIhmUrl);
             }
             newProjectUrlInputLayout.setHint(getString(R.string.setting_ihm_project_url));
-            nextcloudButton.setVisibility(View.GONE);
-            nextcloudCreateButton.setVisibility(View.GONE);
+            chooseFromNextcloudButton.setVisibility(View.GONE);
             importButton.setVisibility(View.GONE);
         } else if (type.equals(ProjectType.COSPEND)) {
             whereLocal.setTextSize(10);
@@ -618,9 +604,6 @@ public class NewProjectFragment extends ThemedFragment {
             whereCospend.setTypeface(Typeface.DEFAULT_BOLD);
 
             whereIcon.setImageResource(R.drawable.ic_cospend_grey_24dp);
-            params.gravity = Gravity.BOTTOM;
-            params.bottomMargin = 25;
-            whereIcon.setLayoutParams(params);
 
             if (setDefaultUrl) {
                 newProjectUrl.setText(defaultNcUrl);
@@ -628,8 +611,7 @@ public class NewProjectFragment extends ThemedFragment {
             newProjectUrlInputLayout.setHint(getString(R.string.setting_cospend_project_url));
             boolean isNCC = MoneyBusterServerSyncHelper.isNextcloudAccountConfigured(getContext());
             List<DBAccountProject> accProjs = db.getAccountProjects();
-            nextcloudButton.setVisibility((!todoCreate && isNCC && accProjs.size() > 0) ? View.VISIBLE : View.GONE);
-            nextcloudCreateButton.setVisibility((todoCreate && isNCC) ? View.VISIBLE : View.GONE);
+            chooseFromNextcloudButton.setVisibility((!todoCreate && isNCC && accProjs.size() > 0) ? View.VISIBLE : View.GONE);
             importButton.setVisibility(View.GONE);
             newProjectPasswordLayout.setVisibility(todoCreate ? View.GONE : View.VISIBLE);
         }
