@@ -1099,7 +1099,7 @@ public class BillsListViewActivity
         builder.setTitle(getString(R.string.edit_member_dialog_title));
 
         // Set up the inputs
-        final View iView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_edit_member, null);
+        final View iView = LayoutInflater.from(this).inflate(R.layout.dialog_edit_member, null);
         EditText nv = iView.findViewById(R.id.editMemberName);
         nv.setText(memberToEdit.getName());
         nv.setInputType(InputType.TYPE_CLASS_TEXT);
