@@ -30,4 +30,7 @@ For bigger features/changes, it's better to first [open an issue](https://gitlab
 If you add a new Gradle dependency or update an existing one, you may need to pin the PGP keys and SHA256 checksums.
 To do this, run:
 
-`./gradlew --write-verification-metadata pgp,sha256 --export-keys`
+```
+./gradlew clean
+./gradlew --write-verification-metadata pgp,sha256 --export-keys
+```

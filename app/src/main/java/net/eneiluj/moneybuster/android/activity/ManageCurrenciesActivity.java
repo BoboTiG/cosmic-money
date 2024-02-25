@@ -8,16 +8,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import net.eneiluj.moneybuster.R;
@@ -25,12 +24,14 @@ import net.eneiluj.moneybuster.model.DBBill;
 import net.eneiluj.moneybuster.model.DBCurrency;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedActivity;
 import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.ICallback;
 
 import java.util.List;
 
-public class ManageCurrenciesActivity extends AppCompatActivity {
+public class ManageCurrenciesActivity extends ThemedActivity {
 
     private static final String TAG = ManageCurrenciesActivity.class.getSimpleName();
 
@@ -43,8 +44,8 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
     private EditText newCurrencyRateTextEdit;
     private TextInputLayout newCurrencyRateLayout;
     private EditText newCurrencyNameTextEdit;
-    private Button buttonSaveMainCurrency;
-    private Button buttonAddCurrency;
+    private MaterialButton buttonSaveMainCurrency;
+    private MaterialButton buttonAddCurrency;
     private LinearLayout currenciesTable;
 
     private long selectedProjectID = -1;
@@ -214,6 +215,16 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void applyTheme(int color) {
+        final var utils = ThemeUtils.of(color, this);
+        utils.material.colorMaterialButtonPrimaryFilled(buttonSaveMainCurrency);
+        utils.material.colorMaterialButtonPrimaryFilled(buttonAddCurrency);
+        utils.material.colorTextInputLayout(findViewById(R.id.editTextMainCurrencyNameWrapper));
+        utils.material.colorTextInputLayout(findViewById(R.id.add_currency_name_layout));
+        utils.material.colorTextInputLayout(newCurrencyRateLayout);
+    }
+
     private void checkMainCurrencyTextEdit() {
         if (mainCurrencyTextEdit.getText().toString().length() == 0) {
             buttonSaveMainCurrency.setEnabled(false);
@@ -251,7 +262,7 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
         currenciesDB.addAll(db.getCurrenciesOfProjectWithState(selectedProjectID, DBBill.STATE_EDITED));
         currenciesDB.addAll(db.getCurrenciesOfProjectWithState(selectedProjectID, DBBill.STATE_OK));
         for (DBCurrency currency : currenciesDB) {
-            View row = LayoutInflater.from(getApplicationContext()).inflate(R.layout.currency_row, null);
+            View row = LayoutInflater.from(this).inflate(R.layout.currency_row, null);
             TextView curr_name = row.findViewById(R.id.curr_name);
             //curr_name.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));
             curr_name.setText(currency.getName());
@@ -260,7 +271,7 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
             //curr_rate.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default));
             curr_rate.setText(String.valueOf(currency.getExchangeRate()));
 
-            Button button_delete = row.findViewById(R.id.delete_currency_btn);
+            MaterialButton button_delete = row.findViewById(R.id.delete_currency_btn);
             button_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -268,6 +279,9 @@ public class ManageCurrenciesActivity extends AppCompatActivity {
                     updateCurrenciesList();
                 }
             });
+
+            final var utils = ThemeUtils.of(this);
+            utils.material.colorMaterialButtonPrimaryFilled(button_delete);
 
             currenciesTable.addView(row);
         }
