@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.1.18 – 2024-02-25
+
 ### Added
 
 - Monochrome app icon
