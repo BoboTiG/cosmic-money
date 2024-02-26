@@ -44,11 +44,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
     public final static String CHANGE_SYNC_INTERVAL = "net.eneiluj.moneybuster.CHANGE_SYNC_INTERVAL";
 
     @Override
-    public Fragment getCallbackFragment() {
-        return this;
-    }
-
-    @Override
     public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen pref) {
         caller.setPreferenceScreen(pref);
         return true;
