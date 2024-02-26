@@ -71,28 +71,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = getListView();
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
-
-        var utils = ThemeUtils.of(ColorUtils.primaryColor(requireContext()), requireContext());
-
-        final PreferenceCategory preferenceCategoryAppearance =
-                (PreferenceCategory) findPreference("settings_appearance_category");
-        utils.androidx.themePreferenceCategory(preferenceCategoryAppearance);
 
         Preference resetTrust = findPreference(getString(R.string.pref_key_reset_trust));
         resetTrust.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -167,18 +150,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                 return true;
             }
         });
-
-        final PreferenceCategory preferenceCategoryNetworkCategory =
-                (PreferenceCategory) findPreference("settings_network_category");
-        utils.androidx.themePreferenceCategory(preferenceCategoryNetworkCategory);
-
-        final PreferenceCategory preferenceCategorySyncCategory =
-                (PreferenceCategory) findPreference("settings_sync_category");
-        utils.androidx.themePreferenceCategory(preferenceCategorySyncCategory);
-
-        final PreferenceCategory preferenceCategoryOther =
-                (PreferenceCategory) findPreference("settings_other_category");
-        utils.androidx.themePreferenceCategory(preferenceCategoryOther);
 
         final EditTextPreference syncIntervalPref = (EditTextPreference) findPreference(getString(R.string.pref_key_sync_interval));
         String interval = sp.getString(getString(R.string.pref_key_sync_interval), "15");
@@ -344,5 +315,4 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                 .setNegativeButton(getString(R.string.simple_cancel), null)
                 .show();
     }
-
 }
