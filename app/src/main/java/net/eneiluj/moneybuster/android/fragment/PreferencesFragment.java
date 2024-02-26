@@ -49,11 +49,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen pref) {
         caller.setPreferenceScreen(pref);
         return true;
