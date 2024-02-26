@@ -36,6 +36,7 @@ import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.service.SyncService;
 import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.util.ColorUtils;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 
 import java.util.ArrayList;
@@ -51,6 +52,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
     @Override
     public Fragment getCallbackFragment() {
         return this;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -80,11 +86,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        var utils = ThemeUtils.of(requireContext());
 
-        final PreferenceCategory preferenceCategorySyncedFolders =
+
+        var utils = ThemeUtils.of(ColorUtils.primaryColor(requireContext()), requireContext());
+
+        final PreferenceCategory preferenceCategoryAppearance =
                 (PreferenceCategory) findPreference("settings_appearance_category");
-        utils.androidx.themePreferenceCategory(preferenceCategorySyncedFolders);
+        utils.androidx.themePreferenceCategory(preferenceCategoryAppearance);
 
         Preference resetTrust = findPreference(getString(R.string.pref_key_reset_trust));
         resetTrust.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

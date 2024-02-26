@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Appearance -->
-    <PreferenceCategory
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
         android:title="@string/settings_appearance_category"
         android:key="settings_appearance_category">
 
@@ -32,10 +32,10 @@
         app:colorShape="circle"
         app:showDialog="false" />
 
-    </PreferenceCategory>
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
 
     <!-- Network -->
-    <PreferenceCategory
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
         android:title="@string/settings_network_category"
         android:key="settings_network_category">
 
@@ -80,10 +80,10 @@
             android:summary="@string/settings_cert_reset_summary" />
     </PreferenceScreen>
 
-    </PreferenceCategory>
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
 
     <!-- Synchronisation -->
-    <PreferenceCategory
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
         android:title="@string/settings_sync_category"
         android:key="settings_sync_category">
 
@@ -131,10 +131,10 @@
             android:title="@string/settings_notify_deleted"
             android:defaultValue="true" />
 
-    </PreferenceCategory>
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
 
     <!-- Other -->
-    <PreferenceCategory
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
         android:title="@string/settings_other_category"
         android:key="settings_other_category">
     <Preference
@@ -144,6 +144,6 @@
             android:targetClass="net.eneiluj.moneybuster.android.activity.AboutActivity"
             android:targetPackage="@string/applicationId" />
     </Preference>
-    </PreferenceCategory>
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
 
 </PreferenceScreen>
