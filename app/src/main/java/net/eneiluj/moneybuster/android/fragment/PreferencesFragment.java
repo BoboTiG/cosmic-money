@@ -84,7 +84,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
 
         final PreferenceCategory preferenceCategorySyncedFolders =
                 (PreferenceCategory) findPreference("settings_appearance_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategorySyncedFolders);
+        utils.androidx.themePreferenceCategory(preferenceCategorySyncedFolders);
 
         Preference resetTrust = findPreference(getString(R.string.pref_key_reset_trust));
         resetTrust.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -162,15 +162,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
 
         final PreferenceCategory preferenceCategoryNetworkCategory =
                 (PreferenceCategory) findPreference("settings_network_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategoryNetworkCategory);
+        utils.androidx.themePreferenceCategory(preferenceCategoryNetworkCategory);
 
         final PreferenceCategory preferenceCategorySyncCategory =
                 (PreferenceCategory) findPreference("settings_sync_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategorySyncCategory);
+        utils.androidx.themePreferenceCategory(preferenceCategorySyncCategory);
 
         final PreferenceCategory preferenceCategoryOther =
                 (PreferenceCategory) findPreference("settings_other_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategoryOther);
+        utils.androidx.themePreferenceCategory(preferenceCategoryOther);
 
         final EditTextPreference syncIntervalPref = (EditTextPreference) findPreference(getString(R.string.pref_key_sync_interval));
         String interval = sp.getString(getString(R.string.pref_key_sync_interval), "15");
