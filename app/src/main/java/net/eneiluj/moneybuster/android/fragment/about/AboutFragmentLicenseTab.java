@@ -43,6 +43,6 @@ public class AboutFragmentLicenseTab extends ThemedFragment {
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, requireContext());
         utils.material.colorMaterialButtonPrimaryFilled(appLicenseButton);
-        utils.moneybuster.themeTextViewLinkColor(iconsDisclaimer);
+        utils.platform.colorTextViewLinks(iconsDisclaimer);
     }
 }

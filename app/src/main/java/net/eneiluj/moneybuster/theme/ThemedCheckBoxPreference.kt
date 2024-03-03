@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.CheckBoxPreference
 import androidx.preference.PreferenceViewHolder
-import androidx.preference.R
 import com.google.android.material.checkbox.MaterialCheckBox
+import net.eneiluj.moneybuster.R
 
 
 class ThemedCheckBoxPreference @JvmOverloads constructor(
@@ -26,7 +26,7 @@ class ThemedCheckBoxPreference @JvmOverloads constructor(
             // we need to manually set this based on the mChecked field that our parent class keeps
             checkBox.isChecked = mChecked
 
-            utils.moneybuster.themeMaterialCheckBox(checkBox)
+            utils.material.colorMaterialCheckBox(checkBox)
         }
     }
 }

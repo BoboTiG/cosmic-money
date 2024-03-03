@@ -22,7 +22,7 @@ class ThemedSwitchPreference @JvmOverloads constructor(
 
         val materialSwitch = holder.findViewById(R.id.switchWidget)
         if (materialSwitch is MaterialSwitch) {
-            utils.moneybuster.themeMaterialSwitch(materialSwitch)
+            utils.material.colorMaterialSwitch(materialSwitch)
         }
     }
 }

@@ -1,23 +1,15 @@
 package net.eneiluj.moneybuster.theme
 
 import android.content.res.ColorStateList
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.appcompat.widget.ActionBarContextView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.preference.PreferenceCategory
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.checkbox.MaterialCheckBox
-import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.nextcloud.android.common.ui.theme.MaterialSchemes
 import com.nextcloud.android.common.ui.theme.ViewThemeUtilsBase
 import com.nextcloud.android.common.ui.theme.utils.MaterialViewThemeUtils
-import com.nextcloud.android.common.ui.util.buildColorStateList
 import net.eneiluj.moneybuster.R
 
 
@@ -26,45 +18,6 @@ class MoneyBusterViewThemeUtils(
     val material: MaterialViewThemeUtils,
     schemes: MaterialSchemes,
 ) : ViewThemeUtilsBase(schemes) {
-
-    fun themeMaterialCheckBox(materialCheckBox: MaterialCheckBox) {
-        withScheme(materialCheckBox.context) { scheme ->
-            materialCheckBox.buttonTintList = buildColorStateList(
-                android.R.attr.state_checked to scheme.primary,
-                -android.R.attr.state_checked to scheme.outline,
-            )
-
-            materialCheckBox.buttonIconTintList = buildColorStateList(
-                android.R.attr.state_checked to scheme.onPrimary,
-                -android.R.attr.state_checked to android.R.color.transparent,
-            )
-        }
-    }
-
-    fun themeMaterialSwitch(materialSwitch: MaterialSwitch) {
-        withScheme(materialSwitch.context) { scheme ->
-            materialSwitch.thumbTintList = buildColorStateList(
-                android.R.attr.state_checked to scheme.onPrimary,
-                -android.R.attr.state_checked to scheme.outline,
-            )
-
-            materialSwitch.trackTintList = buildColorStateList(
-                android.R.attr.state_checked to scheme.primary,
-                -android.R.attr.state_checked to scheme.surface, // XXX: specs use surfaceContainerHighest
-            )
-
-            materialSwitch.trackDecorationTintList = buildColorStateList(
-                android.R.attr.state_checked to android.R.color.transparent,
-                -android.R.attr.state_checked to scheme.outline,
-            )
-        }
-    }
-
-    fun themeTextViewLinkColor(textView: TextView) {
-        withScheme(textView.context) { scheme ->
-            textView.setLinkTextColor(scheme.primary)
-        }
-    }
 
     /**
      * Call this AFTER `dialog.show()`, otherwise the buttons will be null!
@@ -82,12 +35,6 @@ class MoneyBusterViewThemeUtils(
                     this.material.colorMaterialTextButton(button)
                 }
             }
-        }
-    }
-
-    fun colorProgressBar(progressIndicator: CircularProgressIndicator) {
-        withScheme(progressIndicator.context) { scheme ->
-            progressIndicator.setIndicatorColor(scheme.primary)
         }
     }
 
@@ -110,16 +57,4 @@ class MoneyBusterViewThemeUtils(
         }
     }
 
-    fun themePreferenceCategory(category: PreferenceCategory) {
-        withScheme(category.context) { scheme ->
-            val text: Spannable = SpannableString(category.title)
-            text.setSpan(
-                ForegroundColorSpan(scheme.primary),
-                0,
-                text.length,
-                Spannable.SPAN_INCLUSIVE_INCLUSIVE
-            )
-            category.title = text
-        }
-    }
 }

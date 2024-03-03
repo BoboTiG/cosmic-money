@@ -278,7 +278,7 @@ public class AccountActivity extends ThemedActivity {
     @Override
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, this);
-        utils.moneybuster.themeMaterialSwitch(binding.useSsoSwitch);
+        utils.material.colorMaterialSwitch(binding.useSsoSwitch);
         utils.material.colorTextInputLayout(binding.settingsUrlWrapper);
         utils.material.colorTextInputLayout(binding.settingsUsernameWrapper);
         utils.material.colorTextInputLayout(binding.settingsPasswordWrapper);

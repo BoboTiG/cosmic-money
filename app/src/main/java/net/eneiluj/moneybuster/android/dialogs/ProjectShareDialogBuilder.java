@@ -84,8 +84,8 @@ public class ProjectShareDialogBuilder {
         });
 
         final var themeUtils = ThemeUtils.of(ColorUtils.primaryColor(view.getContext()), view.getContext());
-        themeUtils.moneybuster.themeTextViewLinkColor(publicUrl);
-        themeUtils.moneybuster.themeTextViewLinkColor(link);
+        themeUtils.platform.colorTextViewLinks(publicUrl);
+        themeUtils.platform.colorTextViewLinks(link);
 
         TextView hint = view.findViewById(R.id.textViewShareProjectHint);
         hint.setTextColor(ContextCompat.getColor(view.getContext(), R.color.fg_default_low));

@@ -1,91 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Appearance -->
-    <PreferenceCategory
-        android:title="@string/settings_appearance_category"
-        android:key="settings_appearance_category">
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
+        android:key="settings_appearance_category"
+        android:title="@string/settings_appearance_category">
 
-    <ListPreference
-        android:icon="@drawable/ic_brightness_2_grey_24dp"
-        android:key="@string/pref_key_night_mode"
-        android:summary=""
-        android:title="@string/settings_night_mode_title"
-        android:entryValues="@array/nightModeValues"
-        android:defaultValue="@string/pref_value_night_mode_system" />
-
-    <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
-        android:icon="@drawable/ic_palette_grey_24dp"
-        android:key="@string/pref_key_use_server_color"
-        android:title="@string/settings_use_server_color_title"
-        android:defaultValue="true"
-        android:summary="@string/settings_use_server_color_subtitle" />
-
-    <com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat
-        android:defaultValue="@color/primary"
-        android:icon="@drawable/ic_palette_grey_24dp"
-        android:key="@string/pref_key_color"
-        android:summary="@string/settings_color_summary"
-        android:title="@string/settings_color_title"
-        app:colorShape="circle"
-        app:showDialog="false" />
-
-    </PreferenceCategory>
-
-    <!-- Network -->
-    <PreferenceCategory
-        android:title="@string/settings_network_category"
-        android:key="settings_network_category">
-
-    <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
-        android:defaultValue="false"
-        android:icon="@drawable/ic_sync_grey_24dp"
-        android:key="@string/pref_key_offline_mode"
-        android:summary="@string/settings_offline_mode_summary"
-        android:title="@string/settings_offline_mode_title" />
-
-        <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
-        android:defaultValue="true"
-        android:icon="@drawable/ic_nextcloud_logo_grey"
-        android:key="@string/pref_key_show_nextcloud_settings"
-        android:summary="@string/settings_show_nextcloud_settings_summary"
-        android:title="@string/settings_show_nextcloud_settings_title" />
-
-        <Preference
-        android:key="@string/pref_key_nextcloud_account_settings"
-        android:icon="@drawable/ic_account_circle_grey_24dp"
-        android:title="@string/settings_server_settings">
-        <intent
-            android:targetClass="net.eneiluj.moneybuster.android.activity.AccountActivity"
-            android:targetPackage="@string/applicationId" />
-    </Preference>
-
-    <PreferenceScreen
-        android:key="@string/pref_key_certs"
-        android:persistent="false"
-        android:icon="@drawable/ic_https_grey_24dp"
-        android:title="@string/settings_cert_category">
+        <ListPreference
+            android:defaultValue="@string/pref_value_night_mode_system"
+            android:entryValues="@array/nightModeValues"
+            android:icon="@drawable/ic_brightness_2_grey_24dp"
+            android:key="@string/pref_key_night_mode"
+            android:summary=""
+            android:title="@string/settings_night_mode_title" />
 
         <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
             android:defaultValue="true"
-            android:key="@string/pref_key_trust_system_certs"
-            android:title="@string/settings_cert_trust_system"
-            android:summaryOn="@string/settings_cert_trust_system_on"
-            android:summaryOff="@string/settings_cert_trust_system_off" />
-        <Preference
-            android:key="@string/pref_key_reset_trust"
-            android:title="@string/settings_cert_reset"
-            android:summary="@string/settings_cert_reset_summary" />
-    </PreferenceScreen>
+            android:icon="@drawable/ic_palette_grey_24dp"
+            android:key="@string/pref_key_use_server_color"
+            android:summary="@string/settings_use_server_color_subtitle"
+            android:title="@string/settings_use_server_color_title" />
 
-    </PreferenceCategory>
+        <com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat
+            android:defaultValue="@color/primary"
+            android:icon="@drawable/ic_palette_grey_24dp"
+            android:key="@string/pref_key_color"
+            android:summary="@string/settings_color_summary"
+            android:title="@string/settings_color_title"
+            app:colorShape="circle"
+            app:showDialog="false" />
+
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
+
+    <!-- Network -->
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
+        android:key="settings_network_category"
+        android:title="@string/settings_network_category">
+
+        <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_sync_grey_24dp"
+            android:key="@string/pref_key_offline_mode"
+            android:summary="@string/settings_offline_mode_summary"
+            android:title="@string/settings_offline_mode_title" />
+
+        <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_nextcloud_logo_grey"
+            android:key="@string/pref_key_show_nextcloud_settings"
+            android:summary="@string/settings_show_nextcloud_settings_summary"
+            android:title="@string/settings_show_nextcloud_settings_title" />
+
+        <Preference
+            android:icon="@drawable/ic_account_circle_grey_24dp"
+            android:key="@string/pref_key_nextcloud_account_settings"
+            android:title="@string/settings_server_settings">
+            <intent
+                android:targetClass="net.eneiluj.moneybuster.android.activity.AccountActivity"
+                android:targetPackage="@string/applicationId" />
+        </Preference>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_https_grey_24dp"
+            android:key="@string/pref_key_certs"
+            android:persistent="false"
+            android:title="@string/settings_cert_category">
+
+            <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
+                android:defaultValue="true"
+                android:key="@string/pref_key_trust_system_certs"
+                android:summaryOff="@string/settings_cert_trust_system_off"
+                android:summaryOn="@string/settings_cert_trust_system_on"
+                android:title="@string/settings_cert_trust_system" />
+            <Preference
+                android:key="@string/pref_key_reset_trust"
+                android:summary="@string/settings_cert_reset_summary"
+                android:title="@string/settings_cert_reset" />
+        </PreferenceScreen>
+
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
 
     <!-- Synchronisation -->
-    <PreferenceCategory
-        android:title="@string/settings_sync_category"
-        android:key="settings_sync_category">
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
+        android:key="settings_sync_category"
+        android:title="@string/settings_sync_category">
 
         <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
             android:defaultValue="false"
@@ -103,47 +102,47 @@
 
         <EditTextPreference
             android:defaultValue="15"
-            android:icon="@drawable/ic_timer_grey_24dp"
+            android:dialogLayout="@layout/preference_edit_text_integer"
             android:dialogMessage="@string/settings_sync_interval_long"
             android:dialogTitle="@string/settings_sync_interval_title"
+            android:icon="@drawable/ic_timer_grey_24dp"
             android:key="@string/pref_key_sync_interval"
-            android:singleLine="true"
-            android:selectAllOnFocus="true"
             android:persistent="true"
-            android:dialogLayout="@layout/preference_edit_text_integer"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
             android:title="@string/settings_sync_interval_title" />
 
         <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_chat_bubble_outline_grey_24dp"
             android:key="@string/pref_key_notify_new"
-            android:title="@string/settings_notify_new"
-            android:defaultValue="true" />
+            android:title="@string/settings_notify_new" />
 
         <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_chat_bubble_outline_grey_24dp"
             android:key="@string/pref_key_notify_updated"
-            android:title="@string/settings_notify_updated"
-            android:defaultValue="true" />
+            android:title="@string/settings_notify_updated" />
 
         <net.eneiluj.moneybuster.theme.ThemedCheckBoxPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_chat_bubble_outline_grey_24dp"
             android:key="@string/pref_key_notify_deleted"
-            android:title="@string/settings_notify_deleted"
-            android:defaultValue="true" />
+            android:title="@string/settings_notify_deleted" />
 
-    </PreferenceCategory>
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
 
     <!-- Other -->
-    <PreferenceCategory
-        android:title="@string/settings_other_category"
-        android:key="settings_other_category">
-    <Preference
-        android:icon="@drawable/ic_info_outline_grey600_24dp"
-        android:title="@string/settings_about">
-        <intent
-            android:targetClass="net.eneiluj.moneybuster.android.activity.AboutActivity"
-            android:targetPackage="@string/applicationId" />
-    </Preference>
-    </PreferenceCategory>
+    <net.eneiluj.moneybuster.theme.ThemedPreferenceCategory
+        android:key="settings_other_category"
+        android:title="@string/settings_other_category">
+        <Preference
+            android:icon="@drawable/ic_info_outline_grey600_24dp"
+            android:title="@string/settings_about">
+            <intent
+                android:targetClass="net.eneiluj.moneybuster.android.activity.AboutActivity"
+                android:targetPackage="@string/applicationId" />
+        </Preference>
+    </net.eneiluj.moneybuster.theme.ThemedPreferenceCategory>
 
 </PreferenceScreen>

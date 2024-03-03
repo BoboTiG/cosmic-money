@@ -34,6 +34,6 @@ public class AboutFragmentCreditsTab extends ThemedFragment {
     @Override
     public void applyTheme(int color) {
         final var utils = ThemeUtils.of(color, requireContext());
-        utils.moneybuster.themeTextViewLinkColor(aboutTranslators);
+        utils.platform.colorTextViewLinks(aboutTranslators);
     }
 }

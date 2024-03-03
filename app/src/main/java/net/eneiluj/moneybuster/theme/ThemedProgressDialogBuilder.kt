@@ -21,7 +21,7 @@ class ThemedProgressDialogBuilder(context: Context) : ThemedMaterialAlertDialogB
         messageTextView = view.findViewById(R.id.message)
         setView(view)
 
-        utils.moneybuster.colorProgressBar(progressIndicator)
+        utils.material.colorProgressBar(progressIndicator)
     }
 
     override fun setMessage(message: CharSequence?): MaterialAlertDialogBuilder {

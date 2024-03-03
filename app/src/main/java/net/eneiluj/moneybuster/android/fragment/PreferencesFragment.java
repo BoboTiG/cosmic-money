@@ -14,28 +14,23 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.materialswitch.MaterialSwitch;
 import com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat;
 import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 
 import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.service.SyncService;
-import net.eneiluj.moneybuster.theme.ThemeUtils;
+import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 
 import java.util.ArrayList;
@@ -49,11 +44,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
     public final static String CHANGE_SYNC_INTERVAL = "net.eneiluj.moneybuster.CHANGE_SYNC_INTERVAL";
 
     @Override
-    public Fragment getCallbackFragment() {
-        return this;
-    }
-
-    @Override
     public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen pref) {
         caller.setPreferenceScreen(pref);
         return true;
@@ -65,26 +55,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = getListView();
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        var utils = ThemeUtils.of(requireContext());
-
-        final PreferenceCategory preferenceCategorySyncedFolders =
-                (PreferenceCategory) findPreference("settings_appearance_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategorySyncedFolders);
 
         Preference resetTrust = findPreference(getString(R.string.pref_key_reset_trust));
         resetTrust.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -159,18 +134,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                 return true;
             }
         });
-
-        final PreferenceCategory preferenceCategoryNetworkCategory =
-                (PreferenceCategory) findPreference("settings_network_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategoryNetworkCategory);
-
-        final PreferenceCategory preferenceCategorySyncCategory =
-                (PreferenceCategory) findPreference("settings_sync_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategorySyncCategory);
-
-        final PreferenceCategory preferenceCategoryOther =
-                (PreferenceCategory) findPreference("settings_other_category");
-        utils.moneybuster.themePreferenceCategory(preferenceCategoryOther);
 
         final EditTextPreference syncIntervalPref = (EditTextPreference) findPreference(getString(R.string.pref_key_sync_interval));
         String interval = sp.getString(getString(R.string.pref_key_sync_interval), "15");
@@ -321,7 +284,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
         lobsterPicker.setHistory(color);
         lobsterPicker.setColor(color);
 
-        new AlertDialog.Builder(getActivity())
+        new ThemedMaterialAlertDialogBuilder(getActivity())
                 .setView(colorView)
                 .setTitle(getString(R.string.settings_colorpicker_title))
                 .setPositiveButton(getString(R.string.simple_ok), new DialogInterface.OnClickListener() {
@@ -336,5 +299,4 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                 .setNegativeButton(getString(R.string.simple_cancel), null)
                 .show();
     }
-
 }
