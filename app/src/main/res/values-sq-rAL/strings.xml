@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">Payment mode</string>
   <string name="setting_category">Category</string>
   <string name="empty_action_dialog_title">What do you want to do?</string>
-  <string name="configure_account_choice">Configure Nextcloud account</string>
-  <string name="add_project_choice">Manually add a project (IHateMoney, Cospend or local)</string>
   <string name="repeat_no">do not repeat</string>
   <string name="repeat_day">day</string>
   <string name="repeat_week">week</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">Save bill</string>
   <string name="fab_add_project">Add a project</string>
   <string name="fab_add_member">Add a member</string>
+  <string name="snackbar_member_added">Member %s added</string>
+  <string name="snackbar_member_added_add_another">Add another</string>
   <string name="fab_rm_project">Remove current Project</string>
   <string name="remove_project_confirmation">Project %1$s has been removed</string>
   <string name="fab_edit_member">Edit a member</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">Export project</string>
   <string name="drawer_last_sync_text">Last sync: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">Scan a Cospend/IHateMoney QRCode</string>
-  <string name="new_project_from_nextcloud_tooltip">Choose project from Nextcloud account</string>
+  <string name="scan_qrcode">Scan QR code</string>
+  <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Import from CSV file</string>
   <string name="import_error_owers">Malformed CSV, bad owers on line %1$d</string>
   <string name="import_error_date">Malformed CSV, bad date on line %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">Name</string>
   <string name="member_edit_color">Color</string>
   <string name="member_edit_weight">Weight</string>
+  <string name="member_edit_delete">Delete member</string>
+  <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+  <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
   <string name="remote_project_operation_no_network">Remote project operations require network connectivity</string>
   <string name="member_edit_weight_error">Member weight is incorrect</string>
   <string name="bill_info_dialog_title">About %s</string>
@@ -245,6 +249,7 @@
   <string name="settle_who">Who pays?</string>
   <string name="settle_to_whom">To whom?</string>
   <string name="settle_how_much">How much?</string>
+  <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
   <string name="total_payed">Total payed by all the members: %.2f</string>
   <string name="stats_table_title">Statistics table</string>
   <string name="stats_date_min">Minimum date</string>
@@ -264,6 +269,7 @@
   <string name="fab_scan_qrcode_import">Import MB QRCode</string>
   <string name="statistic_dialog_title">Project\'s statistics</string>
   <string name="settle_dialog_title">Settle the project</string>
+  <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Share the project</string>
   <string name="share_project_dialog_message">Scan this QRCode with MoneyBuster or a scanner app on an Android device where MoneyBuster is installed. You can also simply send/share the MoneyBuster link above.</string>
   <string name="share_project_public_url_dialog_message">Share this web link to let others access the project with a web browser.</string>
@@ -289,6 +295,14 @@
   <string name="project_activity_notification">Project %1$s</string>
   <string name="activity_dialog_title">Activity in project %1$s</string>
   <string name="manage_accounts">Manage accounts</string>
+  <string name="no_projects_title">No Projects</string>
+  <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+  <string name="configure_account_choice">Configure Nextcloud account</string>
+  <string name="add_project_choice">Manually add a project (IHateMoney, Cospend or local)</string>
+  <string name="no_members_title">No Members</string>
+  <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+  <string name="no_bills_title">No Bills</string>
+  <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
   <string name="certificate_notification_connection_security">MoneyBuster - Connection security</string>
   <string name="trust_certificate_unknown_certificate_found">MoneyBuster has encountered an unknown certificate. Do you want to trust it?</string>
   <string name="error_project_connect_check">Impossible to reach the remote project:\n\n%1$s</string>

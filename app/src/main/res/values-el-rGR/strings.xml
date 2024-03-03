@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">Τρόπος πληρωμής</string>
   <string name="setting_category">Κατηγορία</string>
   <string name="empty_action_dialog_title">Τι θέλετε να κάνετε;</string>
-  <string name="configure_account_choice">Προσαρμογή λογαριασμού Nextcloud</string>
-  <string name="add_project_choice">Χειροκίνητη προσθήκη έργου (IHateMoney, Cospend ή τοπικό)</string>
   <string name="repeat_no">να μην επαναληφθεί</string>
   <string name="repeat_day">μέρα</string>
   <string name="repeat_week">εβδομάδα</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">Αποθήκευση λογαριασμού</string>
   <string name="fab_add_project">Προσθήκη έργου</string>
   <string name="fab_add_member">Προσθήκη μέλους</string>
+  <string name="snackbar_member_added">Member %s added</string>
+  <string name="snackbar_member_added_add_another">Add another</string>
   <string name="fab_rm_project">Αφαίρεση τρέχοντος έργου</string>
   <string name="remove_project_confirmation">Το έργο %1$s έχει αφαιρεθεί</string>
   <string name="fab_edit_member">Επεξεργασία μέλους</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">Εξαγωγή έργου</string>
   <string name="drawer_last_sync_text">Τελευταίος συγχρονισμός: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">Σαρώστε ένα QRCode Cospend/IHateMoney</string>
-  <string name="new_project_from_nextcloud_tooltip">Επιλέξτε ένα έργο από τον λογαριασμό σας Nextcloud</string>
+  <string name="scan_qrcode">Scan QR code</string>
+  <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Εισαγωγή από αρχείο CSV</string>
   <string name="import_error_owers">Λανθασμένη δομή στο CSV, λάθος owers στη γραμμή %1$d</string>
   <string name="import_error_date">Λανθασμένη δομή στο CSV, λάθος date στη γραμμή %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">Όνομα</string>
   <string name="member_edit_color">Χρώμα</string>
   <string name="member_edit_weight">Βάρος</string>
+  <string name="member_edit_delete">Delete member</string>
+  <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+  <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
   <string name="remote_project_operation_no_network">Οι απομακρυσμένες λειτουργίες του έργου απαιτούν σύνδεση δικτύου</string>
   <string name="member_edit_weight_error">Το βάρος μέλους είναι λανθασμένο</string>
   <string name="bill_info_dialog_title">Σχετικά με %s</string>
@@ -245,6 +249,7 @@
   <string name="settle_who">Ποιος πληρώνει;</string>
   <string name="settle_to_whom">Προς ποιον;</string>
   <string name="settle_how_much">Πόσο;</string>
+  <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
   <string name="total_payed">Συνολικό ποσό που καταβλήθηκε από όλα τα μέλη: %.2f</string>
   <string name="stats_table_title">Πίνακας στατιστικών στοιχείων</string>
   <string name="stats_date_min">Ελάχιστη ημερομηνία</string>
@@ -264,6 +269,7 @@
   <string name="fab_scan_qrcode_import">Εισαγωγή MB QRCode</string>
   <string name="statistic_dialog_title">Στατιστικά έργου</string>
   <string name="settle_dialog_title">Εξόφληση έργου</string>
+  <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Κοινοποίηση έργου</string>
   <string name="share_project_dialog_message">Σαρώστε αυτό το QRCode με το MoneyBuster ή μια εφαρμογή σάρωσης σε μια συσκευή Android όπου έχει εγκατασταθεί το MoneyBuster. Μπορείτε επίσης να στείλετε / μοιραστείτε τον σύνδεσμο MoneyBuster.</string>
   <string name="share_project_public_url_dialog_message">Μοιραστείτε αυτόν τον σύνδεσμο για να επιτρέψετε σε άλλους να έχουν πρόσβαση στο έργο με ένα πρόγραμμα περιήγησης ιστού.</string>
@@ -289,6 +295,14 @@
   <string name="project_activity_notification">Έργο %1$s</string>
   <string name="activity_dialog_title">Δραστηριότητα στο έργο %1$s</string>
   <string name="manage_accounts">Διαχείριση λογαριασμών</string>
+  <string name="no_projects_title">No Projects</string>
+  <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+  <string name="configure_account_choice">Προσαρμογή λογαριασμού Nextcloud</string>
+  <string name="add_project_choice">Χειροκίνητη προσθήκη έργου (IHateMoney, Cospend ή τοπικό)</string>
+  <string name="no_members_title">No Members</string>
+  <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+  <string name="no_bills_title">No Bills</string>
+  <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
   <string name="certificate_notification_connection_security">MoneyBuster - Ασφάλεια σύνδεσης</string>
   <string name="trust_certificate_unknown_certificate_found">Το MoneyBuster αντιμετώπισε ένα άγνωστο πιστοποιητικό. Θέλετε να το εμπιστευθείτε;</string>
   <string name="error_project_connect_check">Αδύνατη η πρόσβαση στο απομακρυσμένο έργο:\n\n%1$s</string>

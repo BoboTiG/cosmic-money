@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">Forma de pagament</string>
   <string name="setting_category">Categoria</string>
   <string name="empty_action_dialog_title">Què vols fer?</string>
-  <string name="configure_account_choice">Configurar el compte Nextcloud</string>
-  <string name="add_project_choice">Afegir un projecte manualment (IHateMoney, Cospend o local)</string>
   <string name="repeat_no">no repetir</string>
   <string name="repeat_day">dia</string>
   <string name="repeat_week">setmana</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">Guardar factura</string>
   <string name="fab_add_project">Afegir un projecte</string>
   <string name="fab_add_member">Afegir un membre</string>
+  <string name="snackbar_member_added">Member %s added</string>
+  <string name="snackbar_member_added_add_another">Add another</string>
   <string name="fab_rm_project">Eliminar Projecte actual</string>
   <string name="remove_project_confirmation">S\'ha eliminat el projecte %1$s</string>
   <string name="fab_edit_member">Edita un membre</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">Exporta el projecte</string>
   <string name="drawer_last_sync_text">Darrera sincronització: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">Escanejar un codi QR de Cospend/IHateMoney</string>
-  <string name="new_project_from_nextcloud_tooltip">Triï el projecte del compte Nextcloud</string>
+  <string name="scan_qrcode">Scan QR code</string>
+  <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Importar des del fitxer CSV</string>
   <string name="import_error_owers">CSV mal format, error a la línia %1$d</string>
   <string name="import_error_date">CSV mal format, data incorrecta a la línia %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">Nom</string>
   <string name="member_edit_color">Color</string>
   <string name="member_edit_weight">Pes</string>
+  <string name="member_edit_delete">Delete member</string>
+  <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+  <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
   <string name="remote_project_operation_no_network">Les operacions en projectes remots requereixen conexió de xarxa</string>
   <string name="member_edit_weight_error">El pes del membre és incorrecte</string>
   <string name="bill_info_dialog_title">En quant a %s</string>
@@ -245,6 +249,7 @@
   <string name="settle_who">Qui paga?</string>
   <string name="settle_to_whom">A qui?</string>
   <string name="settle_how_much">Quant?</string>
+  <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
   <string name="total_payed">Total pagat per tots els membres: %.2f</string>
   <string name="stats_table_title">Taula d\'estadístiques</string>
   <string name="stats_date_min">Data mínima</string>
@@ -264,6 +269,7 @@
   <string name="fab_scan_qrcode_import">Importar MB codi QR</string>
   <string name="statistic_dialog_title">Estadístiques del projecte</string>
   <string name="settle_dialog_title">Liquidar el projecte</string>
+  <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Compartir el projecte</string>
   <string name="share_project_dialog_message">Escanejar aquest Codi QR amb MoneyBuster o una aplicació per escanejar en un dispositiu Android on MoneyBuster estigui instal·lat. També pot enviar/compartir l\'enllaç MoneyBuster de sota.</string>
   <string name="share_project_public_url_dialog_message">Compartir l\'enllaç web per permetre que altres accedeixin al projecte amb un navegador web.</string>
@@ -289,6 +295,14 @@
   <string name="project_activity_notification">Projecte %1$s</string>
   <string name="activity_dialog_title">Activitat al projecte %1$s</string>
   <string name="manage_accounts">Gestionar comptes</string>
+  <string name="no_projects_title">No Projects</string>
+  <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+  <string name="configure_account_choice">Configurar el compte Nextcloud</string>
+  <string name="add_project_choice">Afegir un projecte manualment (IHateMoney, Cospend o local)</string>
+  <string name="no_members_title">No Members</string>
+  <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+  <string name="no_bills_title">No Bills</string>
+  <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
   <string name="certificate_notification_connection_security">MoneyBuster - Seguretat de conexió</string>
   <string name="trust_certificate_unknown_certificate_found">MoneyBuster ha trobat un certificat desconegut. Voleu confiar-hi?</string>
   <string name="error_project_connect_check">Impossible arribar al projecte remot:\n\n%1$s</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="swipe_left">Nothing yet</string>
+  <string name="swipe_left">Keine Aktion</string>
   <string name="label_all_bills">Alle Ausgaben</string>
   <string name="action_create_bill">Neue Rechnung</string>
   <string name="action_settings">App-Einstellungen</string>
@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">Zahlungsmittel</string>
   <string name="setting_category">Kategorie</string>
   <string name="empty_action_dialog_title">Was möchtest du tun?</string>
-  <string name="configure_account_choice">Nextcloud-Konto konfigurieren</string>
-  <string name="add_project_choice">Ein Projekt manuell hinzufügen (IHateMoney, Cospend oder lokal)</string>
   <string name="repeat_no">nicht wiederholen</string>
   <string name="repeat_day">Tag</string>
   <string name="repeat_week">Woche</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">Ausgabe speichern</string>
   <string name="fab_add_project">Projekt hinzufügen</string>
   <string name="fab_add_member">Mitglied hinzufügen</string>
+  <string name="snackbar_member_added">Mitglied %s hinzugefügt</string>
+  <string name="snackbar_member_added_add_another">Weiteres hinzufügen</string>
   <string name="fab_rm_project">Aktuelles Projekt entfernen</string>
   <string name="remove_project_confirmation">Projekt %1$s wurde entfernt</string>
   <string name="fab_edit_member">Mitglied bearbeiten</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">Projekt exportieren</string>
   <string name="drawer_last_sync_text">Letzter Sync: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">QR-Code von Cospend/IHateMoney scannen</string>
-  <string name="new_project_from_nextcloud_tooltip">Wähle ein Projekt aus deinem Nextcloud Konto</string>
+  <string name="scan_qrcode">QR-Code scannen</string>
+  <string name="new_project_from_nextcloud_tooltip">Aus Nextcloud Konto wählen</string>
   <string name="import_tooltip">CSV-Datei importieren</string>
   <string name="import_error_owers">Fehlerhafte CSV, inkorrekte Schuldner in Zeile %1$d</string>
   <string name="import_error_date">Fehlerhafte CSV, falsches Datum auf der Linie %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">Name</string>
   <string name="member_edit_color">Farbe</string>
   <string name="member_edit_weight">Gewichtung</string>
+  <string name="member_edit_delete">Mitglied entfernen</string>
+  <string name="member_edit_delete_cannot_delete">Mitglied kann nicht gelöscht werden, da es Teil einiger Rechnungen ist.</string>
+  <string name="member_edit_delete_only_local_project_supported">Das Löschen ist derzeit nur für lokale Projekte implementiert.</string>
   <string name="remote_project_operation_no_network">Projektoperationen erfordern eine Netzwerkverbindung</string>
   <string name="member_edit_weight_error">Mitgliedergewichtung ist ungültig</string>
   <string name="bill_info_dialog_title">Über %s</string>
@@ -245,7 +249,7 @@
   <string name="settle_who">Wer zahlt?</string>
   <string name="settle_to_whom">An wen?</string>
   <string name="settle_how_much">Wie viel?</string>
-  <string name="settle_member_center_explanation">Abrechnungsmodus: optimal oder auf ein Mitglied zentriert.\nOptimal hat die geringste Anzahl Transaktionen. Zentrieren lässt alle Transaktionen via dieses Mitglied gehen. Dies ist nützlich wenn es einen Kassenwart gibt, der das Geld zentral verwaltet.</string>
+  <string name="settle_member_center_explanation">Abrechnungsmodus: optimal oder zentriert auf ein Mitglied.\nOptimal hat die geringste Anzahl an Transaktionen. Das Zentrieren auf ein Mitglied lässt alle Transaktionen via dieses Mitglied gehen. Dies ist nützlich, wenn ein Kassenwart zentral das Geld verwaltet.</string>
   <string name="total_payed">Gesamt von allen Mitgliedern bezahlt: %.2f</string>
   <string name="stats_table_title">Statistiktabelle</string>
   <string name="stats_date_min">Anfangsdatum</string>
@@ -265,8 +269,8 @@
   <string name="fab_scan_qrcode_import">MB QR-Code importieren</string>
   <string name="statistic_dialog_title">Projektstatistik</string>
   <string name="settle_dialog_title">Projekt abrechnen</string>
-  <string name="share_dialog_title">Projekt teilen</string>
   <string name="settle_dialog_balanced">Die Ausgaben in diesem Projekt sind bereits ausgeglichen. Es gibt nichts zu begleichen!</string>
+  <string name="share_dialog_title">Projekt teilen</string>
   <string name="share_project_dialog_message">Scanne diesen QR-Code mit MoneyBuster oder einer Scanner-App auf einem Android-Gerät, auf dem MoneyBuster installiert ist. Du kannst auch den MoneyBuster Link oben senden/teilen.</string>
   <string name="share_project_public_url_dialog_message">Teile diesen Weblink, um anderen mit einem Webbrowser Zugang zum Projekt zu ermöglichen.</string>
   <string name="share_project_public_url_title">Weblink</string>
@@ -291,6 +295,14 @@
   <string name="project_activity_notification">Projekt %1$s</string>
   <string name="activity_dialog_title">Aktivität im Projekt %1$s</string>
   <string name="manage_accounts">Konten verwalten</string>
+  <string name="no_projects_title">Keine Projekte</string>
+  <string name="no_projects_text">Sie haben noch keine Projekte. Wenn Sie Cospend auf einem Nextcloud Server installiert haben, können Sie Ihr Nextcloud Konto konfigurieren. Alternativ können Sie auch manuell Projekte hinzufügen.</string>
+  <string name="configure_account_choice">Nextcloud-Konto konfigurieren</string>
+  <string name="add_project_choice">Ein Projekt manuell hinzufügen (IHateMoney, Cospend oder lokal)</string>
+  <string name="no_members_title">Keine Mitglieder</string>
+  <string name="no_members_text">Dieses Projekt hat keine Mitglieder. Um Rechnungen zu erstellen, müssen Sie mindestens ein Mitglied hinzufügen (besser zwei oder mehr).</string>
+  <string name="no_bills_title">Keine Rechnungen</string>
+  <string name="no_bills_text">Dieses Projekt hat keine Rechnungen. Klicken Sie auf die Schaltfläche unten, um Ihre erste Rechnung hinzuzufügen.</string>
   <string name="certificate_notification_connection_security">MoneyBuster - Verbindungssicherheit</string>
   <string name="trust_certificate_unknown_certificate_found">MoneyBuster hat ein unbekanntes Zertifikat erkannt. Möchtest du diesem vertrauen?</string>
   <string name="error_project_connect_check">Das remote Projekt konnte nicht erreicht werden:\n\n%1$s</string>
@@ -377,5 +389,5 @@
     <item quantity="one">%d ausgewählt</item>
     <item quantity="other">%d ausgewählt</item>
   </plurals>
-  <string name="fab_manage_currencies">Manage currencies</string>
+  <string name="fab_manage_currencies">Währungen verwalten</string>
 </resources>

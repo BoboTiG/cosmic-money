@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">Начин на плащане</string>
   <string name="setting_category">Категория</string>
   <string name="empty_action_dialog_title">Какво искате да правите?</string>
-  <string name="configure_account_choice">Конфигуриране на акаунта в Nextcloud</string>
-  <string name="add_project_choice">Ръчно добавяне на проект (IHateMoney, Cospend или на устройството)</string>
   <string name="repeat_no">без повтаряне</string>
   <string name="repeat_day">ден</string>
   <string name="repeat_week">седмица</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">Записване на сметката</string>
   <string name="fab_add_project">Добавяне на проект</string>
   <string name="fab_add_member">Добавяне на участник</string>
+  <string name="snackbar_member_added">Member %s added</string>
+  <string name="snackbar_member_added_add_another">Add another</string>
   <string name="fab_rm_project">Премахване на текущия проект</string>
   <string name="remove_project_confirmation">Проектът %1$s е бил преименован</string>
   <string name="fab_edit_member">Редактиране на участник</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">Изнасяне на проекта</string>
   <string name="drawer_last_sync_text">Последно синхронизиране: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">Сканиране на QR кода в Cospend/IHateMoney</string>
-  <string name="new_project_from_nextcloud_tooltip">Избиране на проект от акаунт в Nextcloud</string>
+  <string name="scan_qrcode">Scan QR code</string>
+  <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Внасяне от CSV файл</string>
   <string name="import_error_owers">Неправилно създаден CSV, невалидни длъжници онлайн %1$d</string>
   <string name="import_error_date">Неправилно създаден CSV, невалидна дата онлайн %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">Име</string>
   <string name="member_edit_color">Цвят</string>
   <string name="member_edit_weight">Тегло</string>
+  <string name="member_edit_delete">Delete member</string>
+  <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+  <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
   <string name="remote_project_operation_no_network">Действията, свързани с дистанционния проект, изискват свързване в мрежа</string>
   <string name="member_edit_weight_error">Теглото на участник е неправилно</string>
   <string name="bill_info_dialog_title">Относно %s</string>
@@ -245,6 +249,7 @@
   <string name="settle_who">Кой плаща?</string>
   <string name="settle_to_whom">До кого?</string>
   <string name="settle_how_much">Колко?</string>
+  <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
   <string name="total_payed">Общо платено от всички участници: %.2f</string>
   <string name="stats_table_title">Таблица статистика</string>
   <string name="stats_date_min">Минимална дата</string>
@@ -264,6 +269,7 @@
   <string name="fab_scan_qrcode_import">Внеси MB QR код</string>
   <string name="statistic_dialog_title">Статистика на проекта</string>
   <string name="settle_dialog_title">Изплати проекта</string>
+  <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Споделяне на проекта</string>
   <string name="share_project_dialog_message">Сканирай този QR код с MoneyBuster или с приложение за скенер на устройство с Android, на което е инсталирано приложението MoneyBuster. Също така можете просто да изпратите/споделите горната хипервръзка към MoneyBuster.</string>
   <string name="share_project_public_url_dialog_message">Споделете тази хипервръзка, за да позволите на останалите да влизат в проекта от уеббраузър.</string>
@@ -289,6 +295,14 @@
   <string name="project_activity_notification">Проект %1$s</string>
   <string name="activity_dialog_title">Дейност в проект %1$s</string>
   <string name="manage_accounts">Управление на акаунтите</string>
+  <string name="no_projects_title">No Projects</string>
+  <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+  <string name="configure_account_choice">Конфигуриране на акаунта в Nextcloud</string>
+  <string name="add_project_choice">Ръчно добавяне на проект (IHateMoney, Cospend или на устройството)</string>
+  <string name="no_members_title">No Members</string>
+  <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+  <string name="no_bills_title">No Bills</string>
+  <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
   <string name="certificate_notification_connection_security">Сигурност на връзката с MoneyBuster</string>
   <string name="trust_certificate_unknown_certificate_found">MoneyBuster попадна на неизвестен сертификат. Искате ли да му се доверите?</string>
   <string name="error_project_connect_check">Impossible to reach the remote project:\n\n%1$s</string>

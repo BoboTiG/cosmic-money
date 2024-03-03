@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">Начин на плаќање</string>
   <string name="setting_category">Категорија</string>
   <string name="empty_action_dialog_title">Што сакаш да правиш?</string>
-  <string name="configure_account_choice">Конфигурирај Nextcloud сметка</string>
-  <string name="add_project_choice">Рачно додади проект (IHateMoney, Cospend или локално)</string>
   <string name="repeat_no">не поворувај</string>
   <string name="repeat_day">ден</string>
   <string name="repeat_week">недела</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">Зачувај сметка</string>
   <string name="fab_add_project">Додај проект</string>
   <string name="fab_add_member">Додади член</string>
+  <string name="snackbar_member_added">Member %s added</string>
+  <string name="snackbar_member_added_add_another">Add another</string>
   <string name="fab_rm_project">Избриши проект</string>
   <string name="remove_project_confirmation">Проектот %1$s е избришан</string>
   <string name="fab_edit_member">Измени член</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">Извези проект</string>
   <string name="drawer_last_sync_text">Последна синхронизација: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">Scan a Cospend/IHateMoney QRCode</string>
-  <string name="new_project_from_nextcloud_tooltip">Choose project from Nextcloud account</string>
+  <string name="scan_qrcode">Scan QR code</string>
+  <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Import from CSV file</string>
   <string name="import_error_owers">Неправилна форма на CSV, неправилни должници на линија %1$d</string>
   <string name="import_error_date">Неправилна форма на CSV, неправилен датум на линија %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">Име</string>
   <string name="member_edit_color">Боја</string>
   <string name="member_edit_weight">Тежина</string>
+  <string name="member_edit_delete">Delete member</string>
+  <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+  <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
   <string name="remote_project_operation_no_network">На далечинскиот проект му е потребно активно мрежно поврзување</string>
   <string name="member_edit_weight_error">Тежината на членот е неточна</string>
   <string name="bill_info_dialog_title">За %s</string>
@@ -245,6 +249,7 @@
   <string name="settle_who">Кој плаќа?</string>
   <string name="settle_to_whom">За кого?</string>
   <string name="settle_how_much">Колку?</string>
+  <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
   <string name="total_payed">Вклупно платено од сите членови: %.2f</string>
   <string name="stats_table_title">Табела со статистика</string>
   <string name="stats_date_min">Минимален датум</string>
@@ -264,6 +269,7 @@
   <string name="fab_scan_qrcode_import">Увези MB QR Код</string>
   <string name="statistic_dialog_title">Статистика за проектот</string>
   <string name="settle_dialog_title">Подмири го проектот</string>
+  <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Сподели проект</string>
   <string name="share_project_dialog_message">Скенирај го овој QR Код со MoneyBuster или со апликација на андроид уред каде апликацијата MoneyBuster е инсталирана. Или едноставно можете да го испратите/споделите MoneyBuster линкот подолу.</string>
   <string name="share_project_public_url_dialog_message">Споделете го овој Web линк за други да имаат пристап преку прелистувач.</string>
@@ -289,6 +295,14 @@
   <string name="project_activity_notification">Проект %1$s</string>
   <string name="activity_dialog_title">Активност во проектот %1$s</string>
   <string name="manage_accounts">Уреди сметки</string>
+  <string name="no_projects_title">No Projects</string>
+  <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+  <string name="configure_account_choice">Конфигурирај Nextcloud сметка</string>
+  <string name="add_project_choice">Рачно додади проект (IHateMoney, Cospend или локално)</string>
+  <string name="no_members_title">No Members</string>
+  <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+  <string name="no_bills_title">No Bills</string>
+  <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
   <string name="certificate_notification_connection_security">MoneyBuster - Безбедност на врската</string>
   <string name="trust_certificate_unknown_certificate_found">MoneyBuster наиде на непознат сертификат. Дали сакате да му верувате?</string>
   <string name="error_project_connect_check">Impossible to reach the remote project:\n\n%1$s</string>

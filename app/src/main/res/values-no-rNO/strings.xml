@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">Betalingsmåte</string>
   <string name="setting_category">Kategori</string>
   <string name="empty_action_dialog_title">Hva ønsker du å gjøre?</string>
-  <string name="configure_account_choice">Konfigurer Nextcloud konto</string>
-  <string name="add_project_choice">Legg til et prosjekt manuelt (IHateMoney, Cospend eller lokalt)</string>
   <string name="repeat_no">ikke gjenta</string>
   <string name="repeat_day">repeter_dag</string>
   <string name="repeat_week">uke</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">Lagre regningen</string>
   <string name="fab_add_project">Legg til et prosjekt</string>
   <string name="fab_add_member">Legg til et medlem</string>
+  <string name="snackbar_member_added">Member %s added</string>
+  <string name="snackbar_member_added_add_another">Add another</string>
   <string name="fab_rm_project">Fjern gjeldende prosjekt</string>
   <string name="remove_project_confirmation">Prosjekt %1$s har blitt fjernet</string>
   <string name="fab_edit_member">Rediger et medlem</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">Eksporter prosjekt</string>
   <string name="drawer_last_sync_text">Siste synkronisering: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">Skanne en Cospend/IHateMoney QRCode</string>
-  <string name="new_project_from_nextcloud_tooltip">Velg prosjekt fra Nextcloud konto</string>
+  <string name="scan_qrcode">Scan QR code</string>
+  <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Importer fra CSV-fil</string>
   <string name="import_error_owers">Feilformet CSV, ugyldige skyldnere på linje %1$d</string>
   <string name="import_error_date">Feilformet CSV, ugyldig dato på linje %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">Navn</string>
   <string name="member_edit_color">Farge</string>
   <string name="member_edit_weight">Vekting</string>
+  <string name="member_edit_delete">Delete member</string>
+  <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+  <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
   <string name="remote_project_operation_no_network">Fjernarbeid med prosjekter krever nettverkstilkobling</string>
   <string name="member_edit_weight_error">Medlemmets vekttall er feil</string>
   <string name="bill_info_dialog_title">Om %s</string>
@@ -245,6 +249,7 @@
   <string name="settle_who">Hvem betaler?</string>
   <string name="settle_to_whom">Til hvem?</string>
   <string name="settle_how_much">Hvor mye?</string>
+  <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
   <string name="total_payed">Totalt betalt av alle medlemmene: %.2f</string>
   <string name="stats_table_title">Statistikktabell</string>
   <string name="stats_date_min">Minimum dato</string>
@@ -264,6 +269,7 @@
   <string name="fab_scan_qrcode_import">Importer MB QRCode</string>
   <string name="statistic_dialog_title">Prosjektstatistikk</string>
   <string name="settle_dialog_title">Gjør opp prosjektet</string>
+  <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Del prosjektet</string>
   <string name="share_project_dialog_message">Skann denne QRCode med MoneyBuster eller en skanner-app på en Android-enhet hvor MoneyBuster er installert. Du kan også bare sende/dele koblingen MoneyBuster ovenfor.</string>
   <string name="share_project_public_url_dialog_message">Del denne nettlenken for å la andre få tilgang til prosjektet med en nettleser.</string>
@@ -289,6 +295,14 @@
   <string name="project_activity_notification">Prosjekt %1$s</string>
   <string name="activity_dialog_title">Aktivitet i prosjekt %1$s</string>
   <string name="manage_accounts">Administrere kontoer</string>
+  <string name="no_projects_title">No Projects</string>
+  <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+  <string name="configure_account_choice">Konfigurer Nextcloud konto</string>
+  <string name="add_project_choice">Legg til et prosjekt manuelt (IHateMoney, Cospend eller lokalt)</string>
+  <string name="no_members_title">No Members</string>
+  <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+  <string name="no_bills_title">No Bills</string>
+  <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
   <string name="certificate_notification_connection_security">MoneyBuster - Tilkoblingssikkerhet</string>
   <string name="trust_certificate_unknown_certificate_found">MoneyBuster har funnet et ukjent sertifikat. Vil du stole på det?</string>
   <string name="error_project_connect_check">Umulig å nå det eksterne prosjektet:\n\n%1$s</string>

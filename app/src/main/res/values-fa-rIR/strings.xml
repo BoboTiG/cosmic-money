@@ -45,8 +45,6 @@
   <string name="setting_payment_mode">شیوه پرداخت</string>
   <string name="setting_category">دسته‌بندی</string>
   <string name="empty_action_dialog_title">چه کار می‌خواهید بکنید؟</string>
-  <string name="configure_account_choice">پیکربندی حساب Nextcloud</string>
-  <string name="add_project_choice">افزودن دستی پروژه (IHateMoney, Cospend یا محلی)</string>
   <string name="repeat_no">تکرار نکن</string>
   <string name="repeat_day">روز</string>
   <string name="repeat_week">هفته</string>
@@ -157,6 +155,8 @@
   <string name="menu_save_bill">ذخیره رسید</string>
   <string name="fab_add_project">افزودن پروژه</string>
   <string name="fab_add_member">افزودن عضو</string>
+  <string name="snackbar_member_added">Member %s added</string>
+  <string name="snackbar_member_added_add_another">Add another</string>
   <string name="fab_rm_project">حذف پروژه کنونی</string>
   <string name="remove_project_confirmation">پروژه %1$s حذف شد</string>
   <string name="fab_edit_member">ویرایش عضو</string>
@@ -166,7 +166,8 @@
   <string name="fab_export_project">برون‌بری پروژه</string>
   <string name="drawer_last_sync_text">آخرین هم‌رسانی: %1$02d:%2$02d</string>
   <string name="scan_qrcode_tooltip">Scan a Cospend/IHateMoney QRCode</string>
-  <string name="new_project_from_nextcloud_tooltip">Choose project from Nextcloud account</string>
+  <string name="scan_qrcode">Scan QR code</string>
+  <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Import from CSV file</string>
   <string name="import_error_owers">Malformed CSV, bad owers on line %1$d</string>
   <string name="import_error_date">Malformed CSV, bad date on line %1$d</string>
@@ -183,6 +184,9 @@
   <string name="member_edit_name">نام</string>
   <string name="member_edit_color">رنگ</string>
   <string name="member_edit_weight">وزن</string>
+  <string name="member_edit_delete">Delete member</string>
+  <string name="member_edit_delete_cannot_delete">Member cannot be deleted because it is part of some bills.</string>
+  <string name="member_edit_delete_only_local_project_supported">Deletion is currently only implemented for local projects.</string>
   <string name="remote_project_operation_no_network">عملیات پروژه از راه دور نیازمند اتصال اینترنت است</string>
   <string name="member_edit_weight_error">وزن عضو نادرست است</string>
   <string name="bill_info_dialog_title">درباره %s</string>
@@ -245,6 +249,7 @@
   <string name="settle_who">چه کسی پرداخت می‌کند؟</string>
   <string name="settle_to_whom">به چه کسی؟</string>
   <string name="settle_how_much">چقدر؟</string>
+  <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
   <string name="total_payed">کل پرداخت شده توسط همه اعضا: %.2f</string>
   <string name="stats_table_title">جدول آمار</string>
   <string name="stats_date_min">کمترین تاریخ</string>
@@ -264,6 +269,7 @@
   <string name="fab_scan_qrcode_import">واردکردن MB QRCode</string>
   <string name="statistic_dialog_title">آمار پروژه</string>
   <string name="settle_dialog_title">تسویه حساب این پروژه</string>
+  <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">هم‌رسانی پروژه</string>
   <string name="share_project_dialog_message">این کد QR را با MoneyBuster یا با یک برنامه اسکنر روی یک دستگاه اندرویدی که که در آن MoneyBuster نصب شده، اسکن کنید. همچنین می‌توانید به سادگی پیوند MoneyBuster را در بالا ارسال یا به اشتراک بگذارید.</string>
   <string name="share_project_public_url_dialog_message">این پیوند وب را به اشتراک بگذارید تا دیگران بتوانند با یک مرورگر وب به پروژه دسترسی پیدا کنند.</string>
@@ -289,6 +295,14 @@
   <string name="project_activity_notification">پروژه %1$s</string>
   <string name="activity_dialog_title">فعالیت در پروژه %1$s</string>
   <string name="manage_accounts">مدیریت حساب‌ها</string>
+  <string name="no_projects_title">No Projects</string>
+  <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
+  <string name="configure_account_choice">پیکربندی حساب Nextcloud</string>
+  <string name="add_project_choice">افزودن دستی پروژه (IHateMoney, Cospend یا محلی)</string>
+  <string name="no_members_title">No Members</string>
+  <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
+  <string name="no_bills_title">No Bills</string>
+  <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
   <string name="certificate_notification_connection_security">MoneyBuster - امنیت اتصال</string>
   <string name="trust_certificate_unknown_certificate_found">MoneyBuster با یک گواهی ناشناخته روبه‌رو شده است. آیا می‌خواهید به آن اعتماد کنید؟</string>
   <string name="error_project_connect_check">Impossible to reach the remote project:\n\n%1$s</string>
