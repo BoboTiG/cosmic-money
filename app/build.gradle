@@ -54,6 +54,9 @@ android {
         disable 'MissingTranslation'
     }
     namespace 'net.eneiluj.moneybuster'
+    androidResources {
+        generateLocaleConfig true
+    }
 }
 
 dependencies {
