@@ -231,23 +231,13 @@ public class EditBillFragment extends ThemedFragment {
             }
 
         });
+
         duplicateButton = view.findViewById(R.id.duplicateBillButton);
         duplicateLayout = view.findViewById(R.id.duplicateBillLayout);
         if (bill.getId() == 0) {
             duplicateLayout.setVisibility(View.GONE);
         }
-        duplicateButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                listener.closeAndDuplicate(bill.getId());
-            }
-
-        });
-        if (darkTheme) {
-            bAll.setTextColor(ColorStateList.valueOf(Color.BLACK));
-            bNone.setTextColor(ColorStateList.valueOf(Color.BLACK));
-        }
+        duplicateButton.setOnClickListener(v -> listener.closeAndDuplicate(bill.getId()));
 
         calendar = Calendar.getInstance();
 

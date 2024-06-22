@@ -94,7 +94,6 @@ public class EditBillActivity extends AppCompatActivity implements EditBillFragm
      *
      * @param billId ID of the existing bill.
      */
-
     protected void launchExistingBill(long billId) {
         Fragment.SavedState savedState = null;
         if (fragment != null) {
@@ -109,17 +108,16 @@ public class EditBillActivity extends AppCompatActivity implements EditBillFragm
 
     /**
      * Starts the {@link EditBillFragment} with a new bill.
-     *
      */
     protected void launchNewBill(long projectId) {
         Intent intent = getIntent();
 
         long billIdToDuplicate = intent.getLongExtra(PARAM_BILL_ID_TO_DUPLICATE, 0);
+        long timeNowSeconds = System.currentTimeMillis() / 1000;
 
         DBBill newBill;
         if (billIdToDuplicate == 0) {
-            long newTimestamp = System.currentTimeMillis() / 1000;
-            newBill = new DBBill(0, 0, projectId, 0, 0, newTimestamp,
+            newBill = new DBBill(0, 0, projectId, 0, 0, timeNowSeconds,
                     "", DBBill.STATE_ADDED, DBBill.NON_REPEATED,
                     DBBill.PAYMODE_NONE, DBBill.CATEGORY_NONE, "", DBBill.PAYMODE_ID_NONE);
             fragment = EditBillFragment.newInstanceWithNewBill(newBill, getProjectType());
@@ -127,7 +125,7 @@ public class EditBillActivity extends AppCompatActivity implements EditBillFragm
             db = MoneyBusterSQLiteOpenHelper.getInstance(this);
             DBBill btd = db.getBill(billIdToDuplicate);
             newBill = new DBBill(0, 0, projectId, btd.getPayerId(), btd.getAmount(),
-                    btd.getTimestamp() + 1, btd.getWhat(), DBBill.STATE_ADDED,
+                    timeNowSeconds, btd.getWhat(), DBBill.STATE_ADDED,
                     btd.getRepeat(), btd.getPaymentMode(), btd.getCategoryRemoteId(),
                     btd.getComment(), btd.getPaymentModeRemoteId());
             List<DBBillOwer> btdOwers = btd.getBillOwers();
