@@ -94,7 +94,7 @@
             android:title="@string/settings_periodical_sync_title" />
 
         <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:icon="@drawable/ic_power_settings_new_grey_24dp"
             android:key="@string/pref_key_autostart"
             android:summary="@string/settings_autostart_summary"

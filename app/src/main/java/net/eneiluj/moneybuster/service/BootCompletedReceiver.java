@@ -25,7 +25,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean autoStart = prefs.getBoolean(context.getString(R.string.pref_key_autostart), false);
+        boolean autoStart = prefs.getBoolean(context.getString(R.string.pref_key_autostart), true);
         if (autoStart && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             SyncWorker.submitWork(context);
         }
