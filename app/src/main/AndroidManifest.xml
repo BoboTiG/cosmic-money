@@ -142,12 +142,6 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name="net.eneiluj.moneybuster.service.SyncService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
-
         <receiver
             android:name="net.eneiluj.moneybuster.service.BootCompletedReceiver"
             android:enabled="true"

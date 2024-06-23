@@ -29,7 +29,7 @@ import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 
 import net.eneiluj.moneybuster.R;
-import net.eneiluj.moneybuster.service.SyncService;
+import net.eneiluj.moneybuster.service.SyncWorker;
 import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.MoneyBuster;
 
@@ -156,13 +156,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                     return false;
                 } else {
                     preference.setSummary((CharSequence) newValue);
-                    Intent intent = new Intent(getContext(), SyncService.class);
-                    intent.putExtra(CHANGE_SYNC_INTERVAL, newInterval);
-                    getContext().startService(intent);
+                    SyncWorker.submitWork(requireContext());
                     return true;
                 }
             }
-
         });
 
         final CheckBoxPreference notifyNewPref = (CheckBoxPreference) findPreference(getString(R.string.pref_key_notify_new));
@@ -183,16 +180,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                     notifyUpdatedPref.setVisible(true);
                     notifyDeletedPref.setVisible(true);
                     autostartPref.setVisible(true);
-                    // launch service
-                    if (!SyncService.isRunning()) {
-                        Log.d("preference", "not running => launch");
-                        Intent intent = new Intent(getContext(), SyncService.class);
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                            getContext().startService(intent);
-                        } else {
-                            getContext().startForegroundService(intent);
-                        }
-                    }
+
+                    Log.d("preference", "not running => launch");
+                    SyncWorker.submitWork(requireContext());
                 } else {
                     syncIntervalPref.setVisible(false);
                     notifyNewPref.setVisible(false);
@@ -200,12 +190,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                     notifyDeletedPref.setVisible(false);
                     autostartPref.setVisible(false);
                     autostartPref.setChecked(false);
-                    if (SyncService.isRunning()) {
-                        Log.d("preference", "running => stop");
-                        Intent intent = new Intent(getContext(), SyncService.class);
-                        intent.putExtra(STOP_SYNC_SERVICE, true);
-                        getContext().startService(intent);
-                    }
+
+                    Log.d("preference", "running => stop");
+                    SyncWorker.cancelWork(requireContext());
                 }
                 return true;
             }
