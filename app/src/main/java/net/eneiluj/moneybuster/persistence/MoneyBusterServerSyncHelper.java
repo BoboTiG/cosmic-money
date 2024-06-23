@@ -316,7 +316,7 @@ public class MoneyBusterServerSyncHelper {
             Log.i(getClass().getSimpleName(), "SYNC TASK project : " + project.getRemoteId());
             this.project = project;
 
-            createNotificationChannels();
+            createNotificationChannels(appContext, dbHelper);
         }
 
         public void addCallbacks(List<ICallback> callbacks) {
@@ -1090,18 +1090,17 @@ public class MoneyBusterServerSyncHelper {
         return message;
     }
 
-    private void createNotificationChannels() {
+    public static void createNotificationChannels(Context context, MoneyBusterSQLiteOpenHelper db) {
         // main channel
-        SupportUtil.createNotificationChannel(MAIN_CHANNEL_ID, appContext.getString(R.string.permanent_notification_title), true, appContext);
+        SupportUtil.createNotificationChannel(MAIN_CHANNEL_ID, context.getString(R.string.permanent_notification_title), true, context);
 
         // one channel per project
-        List<DBProject> projs = dbHelper.getProjects();
+        List<DBProject> projs = db.getProjects();
         long channelId;
         for (DBProject p : projs) {
-            if (!p.getType().equals(ProjectType.LOCAL)) {
+            if (!p.isLocal()) {
                 channelId = MAIN_CHANNEL_ID + p.getId();
-                //Log.e("LLL", "channel ID : "+channelId+" name "+p.getRemoteId());
-                SupportUtil.createNotificationChannel(channelId, p.getRemoteId(), false, appContext);
+                SupportUtil.createNotificationChannel(channelId, p.getRemoteId(), false, context);
             }
         }
     }
