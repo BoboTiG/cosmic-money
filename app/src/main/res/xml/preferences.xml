@@ -101,7 +101,7 @@
             android:title="@string/settings_autostart_title" />
 
         <EditTextPreference
-            android:defaultValue="15"
+            android:defaultValue="60"
             android:dialogLayout="@layout/preference_edit_text_integer"
             android:dialogMessage="@string/settings_sync_interval_long"
             android:dialogTitle="@string/settings_sync_interval_title"

@@ -136,7 +136,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
         });
 
         final EditTextPreference syncIntervalPref = (EditTextPreference) findPreference(getString(R.string.pref_key_sync_interval));
-        String interval = sp.getString(getString(R.string.pref_key_sync_interval), "15");
+        String interval = sp.getString(getString(R.string.pref_key_sync_interval), "60");
         syncIntervalPref.setSummary(interval);
         syncIntervalPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 

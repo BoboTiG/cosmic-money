@@ -37,8 +37,8 @@ class SyncWorker(
         private fun getIntervalMins(context: Context): Long {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val intervalStr =
-                prefs.getString(context.getString(R.string.pref_key_sync_interval), "15")
-            val intervalMins = intervalStr?.toLongOrNull() ?: 15
+                prefs.getString(context.getString(R.string.pref_key_sync_interval), "60")
+            val intervalMins = intervalStr?.toLongOrNull() ?: 60
             return intervalMins
         }
 
