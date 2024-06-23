@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Triï un projecte del seu compte Nextcloud</string>
   <string name="choose_account_project_dialog_impossible">No hi ha cap projecte Cospend al seu compte Nextcloud</string>
   <string name="sync_notification_message">Sincronitzat a les %1$s (cada %2$d min)</string>
-  <string name="error_invalid_sync_interval">L\'interval de sincronització ha de ser entre 5 i 1440 (24h)</string>
+  <string name="error_invalid_sync_interval">L\'interval de sincronització ha de ser entre 15 i 1440 (24h)</string>
   <string name="project_activity_notification">Projecte %1$s</string>
   <string name="activity_dialog_title">Activitat al projecte %1$s</string>
   <string name="manage_accounts">Gestionar comptes</string>

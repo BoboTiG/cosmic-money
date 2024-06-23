@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Επιλέξτε ένα έργο από τον λογαριασμό σας Nextcloud</string>
   <string name="choose_account_project_dialog_impossible">Δεν υπάρχει κανένα έργο Cospend στον λογαριασμό σας Nextcloud</string>
   <string name="sync_notification_message">Συγχρονισμός στις %1$s (κάθε %2$d λεπτά)</string>
-  <string name="error_invalid_sync_interval">Το μεσοδιάστημα συγχρονισμού πρέπει να είναι μεταξύ 5 και 1440 (24 ώρες)</string>
+  <string name="error_invalid_sync_interval">Το μεσοδιάστημα συγχρονισμού πρέπει να είναι μεταξύ 15 και 1440 (24 ώρες)</string>
   <string name="project_activity_notification">Έργο %1$s</string>
   <string name="activity_dialog_title">Δραστηριότητα στο έργο %1$s</string>
   <string name="manage_accounts">Διαχείριση λογαριασμών</string>

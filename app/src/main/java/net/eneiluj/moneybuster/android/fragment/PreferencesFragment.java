@@ -151,7 +151,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                     showToast(getString(R.string.error_invalid_sync_interval), Toast.LENGTH_LONG);
                     return false;
                 }
-                if (newInterval > 1440 || newInterval < 5) {
+                if (newInterval > 1440 || newInterval < 15) {
                     showToast(getString(R.string.error_invalid_sync_interval), Toast.LENGTH_LONG);
                     return false;
                 } else {

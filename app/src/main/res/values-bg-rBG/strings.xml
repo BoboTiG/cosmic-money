@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Изберете проект от акаунта си в Nextcloud</string>
   <string name="choose_account_project_dialog_impossible">В акаунта ви Nextcloud няма проект Cospend</string>
   <string name="sync_notification_message">Synced at %1$s (every %2$d min)</string>
-  <string name="error_invalid_sync_interval">Интервалите на синхронизация трябва да бъдат между 5 и 1440 (24 ч.)</string>
+  <string name="error_invalid_sync_interval">Интервалите на синхронизация трябва да бъдат между 15 и 1440 (24 ч.)</string>
   <string name="project_activity_notification">Проект %1$s</string>
   <string name="activity_dialog_title">Дейност в проект %1$s</string>
   <string name="manage_accounts">Управление на акаунтите</string>

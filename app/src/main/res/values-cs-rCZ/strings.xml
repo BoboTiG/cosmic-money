@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Vyberte projekt ze svého Nextcloud účtu</string>
   <string name="choose_account_project_dialog_impossible">Ve vašem Nextcloud účtu není žádný Cospend projekt</string>
   <string name="sync_notification_message">Synchronizováno v %1$s (každých %2$d min)</string>
-  <string name="error_invalid_sync_interval">Je třeba, aby interval synchronizace byl z rozmezí 5 až 1440 (24h)</string>
+  <string name="error_invalid_sync_interval">Je třeba, aby interval synchronizace byl z rozmezí 15 až 1440 (24h)</string>
   <string name="project_activity_notification">Projekt %1$s</string>
   <string name="activity_dialog_title">Aktivita v projektu %1$s</string>
   <string name="manage_accounts">Spravovat účty</string>

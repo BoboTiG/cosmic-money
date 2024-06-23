@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Wähle ein Projekt aus deinem Nextcloud Konto</string>
   <string name="choose_account_project_dialog_impossible">Es gibt kein Cospend-Projekt in deinem Nextcloud Konto</string>
   <string name="sync_notification_message">Synchronisiert um %1$s (alle %2$d Minuten)</string>
-  <string name="error_invalid_sync_interval">Sync-Intervall muss zwischen 5 und 1440 (24h) liegen</string>
+  <string name="error_invalid_sync_interval">Sync-Intervall muss zwischen 15 und 1440 (24h) liegen</string>
   <string name="project_activity_notification">Projekt %1$s</string>
   <string name="activity_dialog_title">Aktivität im Projekt %1$s</string>
   <string name="manage_accounts">Konten verwalten</string>
