@@ -10,23 +10,15 @@ import androidx.preference.PreferenceManager;
 import net.eneiluj.moneybuster.R;
 
 
-/**
- * Receiver for boot completed broadcast
- */
 public class BootCompletedReceiver extends BroadcastReceiver {
 
-    /**
-     * Broadcast received on system boot completed.
-     * Starts background logging service
-     *
-     * @param context Context
-     * @param intent  Intent
-     */
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean backgroundSyncEnabled = prefs.getBoolean(context.getString(R.string.pref_key_periodical_sync), false);
         boolean autoStart = prefs.getBoolean(context.getString(R.string.pref_key_autostart), true);
-        if (autoStart && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+
+        if (backgroundSyncEnabled && autoStart && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             SyncWorker.submitWork(context);
         }
     }

@@ -189,7 +189,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Pre
                     notifyUpdatedPref.setVisible(false);
                     notifyDeletedPref.setVisible(false);
                     autostartPref.setVisible(false);
-                    autostartPref.setChecked(false);
 
                     Log.d("preference", "running => stop");
                     SyncWorker.cancelWork(requireContext());
