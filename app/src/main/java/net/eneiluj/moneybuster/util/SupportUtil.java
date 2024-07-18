@@ -61,8 +61,7 @@ public class SupportUtil {
 
     public static final NumberFormat normalNumberFormat = NumberFormat.getInstance();
     static {
-        normalNumberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
-        normalNumberFormat.setGroupingUsed(false);
+        normalNumberFormat.setMaximumFractionDigits(2);
     }
 
     public static final NumberFormat dotNumberFormat = NumberFormat.getNumberInstance(Locale.UK);
