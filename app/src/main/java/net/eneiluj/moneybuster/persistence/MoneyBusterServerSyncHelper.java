@@ -41,7 +41,6 @@ import net.eneiluj.moneybuster.model.DBMember;
 import net.eneiluj.moneybuster.model.DBPaymentMode;
 import net.eneiluj.moneybuster.model.DBProject;
 import net.eneiluj.moneybuster.model.ProjectType;
-import net.eneiluj.moneybuster.service.SyncService;
 import net.eneiluj.moneybuster.util.NextcloudClient;
 import net.eneiluj.moneybuster.util.CospendClientUtil.LoginStatus;
 import net.eneiluj.moneybuster.util.ICallback;
@@ -82,6 +81,7 @@ public class MoneyBusterServerSyncHelper {
     public static final String BROADCAST_AVATAR_UPDATED_MEMBER = "net.eneiluj.moneybuster.broadcast.avatar_updated_for_member";
 
     private static int NOTIFICATION_ID = 1526756699;
+    public static final int MAIN_CHANNEL_ID = 1234567890;
 
     private final SharedPreferences preferences;
 
@@ -246,7 +246,7 @@ public class MoneyBusterServerSyncHelper {
      *
      * @param onlyLocalChanges Whether to only push local changes to the server or to also load the project info
      */
-    public void scheduleSync(boolean onlyLocalChanges, long projId) {
+    public @Nullable SyncTask scheduleSync(boolean onlyLocalChanges, long projId) {
         Log.d(getClass().getSimpleName(), "Sync requested (" + (onlyLocalChanges ? "onlyLocalChanges" : "full") + "; " + (syncActive ? "sync active" : "sync NOT active") + ") ...");
         Log.d(getClass().getSimpleName(), "(network:" + networkConnected + "; cert4android:" + cert4androidReady + ")");
         updateNetworkStatus();
@@ -261,7 +261,7 @@ public class MoneyBusterServerSyncHelper {
                     syncTask.addCallbacks(callbacksPull);
                     callbacksPull = new ArrayList<>();
                 }
-                syncTask.execute();
+                return (SyncTask) syncTask.execute();
             } else {
                 Log.d(getClass().getSimpleName(), "sync asked for project " + projId + " which does not exist : DOING NOTHING");
             }
@@ -277,6 +277,7 @@ public class MoneyBusterServerSyncHelper {
                 callback.onScheduled();
             }
         }
+        return null;
     }
 
     private void updateNetworkStatus() {
@@ -295,7 +296,7 @@ public class MoneyBusterServerSyncHelper {
      * SyncTask is an AsyncTask which performs the synchronization in a background thread.
      * Synchronization consists of two parts: pushLocalChanges and pullRemoteChanges.
      */
-    private class SyncTask extends AsyncTask<Void, Void, LoginStatus> {
+    public class SyncTask extends AsyncTask<Void, Void, LoginStatus> {
         private final boolean onlyLocalChanges;
         private final DBProject project;
         private final List<ICallback> callbacks = new ArrayList<>();
@@ -314,6 +315,8 @@ public class MoneyBusterServerSyncHelper {
             this.onlyLocalChanges = onlyLocalChanges;
             Log.i(getClass().getSimpleName(), "SYNC TASK project : " + project.getRemoteId());
             this.project = project;
+
+            createNotificationChannels(appContext, dbHelper);
         }
 
         public void addCallbacks(List<ICallback> callbacks) {
@@ -344,7 +347,7 @@ public class MoneyBusterServerSyncHelper {
             Log.i(getClass().getSimpleName(), "Syncing, cospend version is: " + version);
 
             client = createVersatileProjectSyncClient(version);
-            Log.i(getClass().getSimpleName(), "STARTING SYNCHRONIZATION with Cospend version("+version+")");
+            Log.i(getClass().getSimpleName(), "STARTING SYNCHRONIZATION with Cospend version(" + version + ")");
             //dbHelper.debugPrintFullDB();
             LoginStatus status = LoginStatus.OK;
 
@@ -1034,7 +1037,7 @@ public class MoneyBusterServerSyncHelper {
                 boolean notifyNew = preferences.getBoolean(appContext.getString(R.string.pref_key_notify_new), true);
                 boolean notifyUpdated = preferences.getBoolean(appContext.getString(R.string.pref_key_notify_new), true);
                 boolean notifyDeleted = preferences.getBoolean(appContext.getString(R.string.pref_key_notify_new), true);
-                if (SyncService.isRunning() && !BillsListViewActivity.isActivityVisible()) {
+                if (!BillsListViewActivity.isActivityVisible()) {
                     String dialogContent = "";
                     String notificationContent = "";
                     if (notifyNew && nbPulledNewBills > 0) {
@@ -1087,13 +1090,28 @@ public class MoneyBusterServerSyncHelper {
         return message;
     }
 
+    public static void createNotificationChannels(Context context, MoneyBusterSQLiteOpenHelper db) {
+        // main channel
+        SupportUtil.createNotificationChannel(MAIN_CHANNEL_ID, context.getString(R.string.permanent_notification_title), true, context);
+
+        // one channel per project
+        List<DBProject> projs = db.getProjects();
+        long channelId;
+        for (DBProject p : projs) {
+            if (!p.isLocal()) {
+                channelId = MAIN_CHANNEL_ID + p.getId();
+                SupportUtil.createNotificationChannel(channelId, p.getRemoteId(), false, context);
+            }
+        }
+    }
+
     public void notifyProjectEvent(String dialogContent, String notificationContent, long projectId) {
         // intent of notification
         Intent ptIntent = new Intent(appContext.getApplicationContext(), BillsListViewActivity.class);
         ptIntent.putExtra(BillsListViewActivity.PARAM_DIALOG_CONTENT, dialogContent);
         ptIntent.putExtra(BillsListViewActivity.PARAM_PROJECT_TO_SELECT, projectId);
 
-        String chanId = String.valueOf(SyncService.MAIN_CHANNEL_ID + projectId);
+        String chanId = String.valueOf(MAIN_CHANNEL_ID + projectId);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(appContext, chanId)
                 .setSmallIcon(R.drawable.ic_dollar_grey_24dp)
                 .setContentTitle(appContext.getString(R.string.app_name))

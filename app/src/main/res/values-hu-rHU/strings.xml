@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Válassz egy projektet a Nextcloud fiókodból</string>
   <string name="choose_account_project_dialog_impossible">Nincs Cospend projekt a Nextcloud fiókodban</string>
   <string name="sync_notification_message">Szinkronizálva %1$s (%2$d percenként)</string>
-  <string name="error_invalid_sync_interval">A szinkronizációs intervallum 5 és 1440 (24óra) között kell, hogy legyen</string>
+  <string name="error_invalid_sync_interval">A szinkronizációs intervallum 15 és 1440 (24óra) között kell, hogy legyen</string>
   <string name="project_activity_notification">Projekt %1$s</string>
   <string name="activity_dialog_title">Tevékenység %1$s projektben</string>
   <string name="manage_accounts">Fiókok kezelése</string>

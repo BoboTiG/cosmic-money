@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Escolha um planeamento da sua conta Nextcloud</string>
   <string name="choose_account_project_dialog_impossible">Não há quaisquer planeamentos Cospend na sua conta Nextcloud</string>
   <string name="sync_notification_message">Sincronizado em %1$s (a cada %2$d minutos)</string>
-  <string name="error_invalid_sync_interval">O intervalo de sincronização tem que ser entre 5 e 1440 (24h)</string>
+  <string name="error_invalid_sync_interval">O intervalo de sincronização tem que ser entre 15 e 1440 (24h)</string>
   <string name="project_activity_notification">Planeamento %1$s</string>
   <string name="activity_dialog_title">Trabalho no planeamento %1$s</string>
   <string name="manage_accounts">Gerir contas</string>

@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">Nextcloudアカウントからプロジェクトを選択</string>
   <string name="choose_account_project_dialog_impossible">NextcloudアカウントにCospendプロジェクトはありません</string>
   <string name="sync_notification_message">%1$s に同期しました（%2$d 分毎）</string>
-  <string name="error_invalid_sync_interval">同期間隔は5〜1440 (24時間) でなければなりません</string>
+  <string name="error_invalid_sync_interval">同期間隔は15〜1440 (24時間) でなければなりません</string>
   <string name="project_activity_notification">プロジェクト %1$s</string>
   <string name="activity_dialog_title">プロジェクト %1$sのアクティビティ</string>
   <string name="manage_accounts">アカウントを管理</string>

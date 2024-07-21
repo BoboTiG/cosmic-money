@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">从您的 Nextcloud 帐户中选择一个项目</string>
   <string name="choose_account_project_dialog_impossible">您的 Nextcloud 帐户中没有 Cospend 项目</string>
   <string name="sync_notification_message">同步于 %1$s (每 %2$d 分钟)</string>
-  <string name="error_invalid_sync_interval">同步间隔必须介于 5 到 1440 (24小时)</string>
+  <string name="error_invalid_sync_interval">同步间隔必须介于 15 到 1440 (24小时)</string>
   <string name="project_activity_notification">项目 %1$s</string>
   <string name="activity_dialog_title">项目 %1$s 中的活动</string>
   <string name="manage_accounts">管理账户</string>

@@ -291,7 +291,7 @@
   <string name="choose_account_project_dialog_title">یک پروژه را از حساب Nextcloud خود انتخاب کنید</string>
   <string name="choose_account_project_dialog_impossible">هیچ پروژه Cospend در حساب Nextcloud شما وجود ندارد</string>
   <string name="sync_notification_message">Synced at %1$s (every %2$d min)</string>
-  <string name="error_invalid_sync_interval">فاصله هم‌گام‌سازی باید بین 5 تا 1440 باشد (24ساعت)</string>
+  <string name="error_invalid_sync_interval">فاصله هم‌گام‌سازی باید بین 15 تا 1440 باشد (24ساعت)</string>
   <string name="project_activity_notification">پروژه %1$s</string>
   <string name="activity_dialog_title">فعالیت در پروژه %1$s</string>
   <string name="manage_accounts">مدیریت حساب‌ها</string>

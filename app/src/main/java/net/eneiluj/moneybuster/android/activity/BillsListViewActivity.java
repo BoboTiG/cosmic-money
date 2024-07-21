@@ -102,7 +102,7 @@ import net.eneiluj.moneybuster.model.ProjectType;
 import net.eneiluj.moneybuster.persistence.LoadBillsListTask;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.persistence.MoneyBusterServerSyncHelper;
-import net.eneiluj.moneybuster.service.SyncService;
+import net.eneiluj.moneybuster.service.SyncWorker;
 import net.eneiluj.moneybuster.theme.ThemeUtils;
 import net.eneiluj.moneybuster.theme.ThemedActivity;
 import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
@@ -293,13 +293,9 @@ public class BillsListViewActivity
 
         checkAndRequestPermissions();
 
-        if (!SyncService.isRunning() && preferences.getBoolean(getString(R.string.pref_key_periodical_sync), false)) {
-            Intent intent = new Intent(this, SyncService.class);
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                startService(intent);
-            } else {
-                startForegroundService(intent);
-            }
+        boolean backgroundSyncEnabled = preferences.getBoolean(getString(R.string.pref_key_periodical_sync), false);
+        if (backgroundSyncEnabled) {
+            SyncWorker.submitWork(this);
         }
 
         long projectToSelect = getIntent().getLongExtra(PARAM_PROJECT_TO_SELECT, 0);

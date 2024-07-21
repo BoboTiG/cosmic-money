@@ -94,14 +94,14 @@
             android:title="@string/settings_periodical_sync_title" />
 
         <net.eneiluj.moneybuster.theme.ThemedSwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:icon="@drawable/ic_power_settings_new_grey_24dp"
             android:key="@string/pref_key_autostart"
             android:summary="@string/settings_autostart_summary"
             android:title="@string/settings_autostart_title" />
 
         <EditTextPreference
-            android:defaultValue="15"
+            android:defaultValue="60"
             android:dialogLayout="@layout/preference_edit_text_integer"
             android:dialogMessage="@string/settings_sync_interval_long"
             android:dialogTitle="@string/settings_sync_interval_title"
