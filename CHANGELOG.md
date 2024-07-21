@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.1.19 – 2024-07-21
+
+### Added
+
+- Add support for per-app language preference @thgoebel [!56](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/56)
+
+### Changed
+
+- Bump AGP to 8.3.0 @AndyScherzinger [!53](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/53)
+- Bump cmd tools and compile target to latest @AndyScherzinger [!54](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/54)
+- Update dependencies and AGP @AndyScherzinger [!55](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/55)
+- Replace foreground SyncService with SyncWorker @thgoebel [!58](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/58)
+- Set timestamp of duplicated bill to now @thgoebel [!57](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/57)
+
 ## 0.1.18 – 2024-02-25
 
 ### Added
