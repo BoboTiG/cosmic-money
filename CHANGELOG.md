@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.1.20 – 2024-08-11
+
+### Changed
+
+- Remove declaring foreground service permissions @thgoebel [!60](https://gitlab.com/eneiluj/moneybuster/-/merge_requests/60)
+
 ## 0.1.19 – 2024-07-21
 
 ### Added
