@@ -12,3 +12,5 @@ app/lint/
 app/release/
 /gradle/verification-keyring.gpg
 /crowdin.*
+app/dev/
+app/normal/

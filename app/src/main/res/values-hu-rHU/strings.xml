@@ -5,7 +5,7 @@
   <string name="action_create_bill">Új számla</string>
   <string name="action_settings">Alkalmazás beállításai</string>
   <string name="action_projects">Projektek</string>
-  <string name="action_scan_qrcode">Cospend/MoneyBuster QR-kód beolvasása</string>
+  <string name="action_scan_qrcode">Cosmic Money QR-kód beolvasása</string>
   <string name="action_add_project">Projekt hozzáadása</string>
   <string name="action_save_bill">Számla mentése</string>
   <string name="action_edit_project">Projekt szerkesztése</string>
@@ -73,23 +73,23 @@
   <string name="category_transport">Közlekedés</string>
   <string name="category_sport">Sport</string>
   <string name="project_type_local">Helyi projekt</string>
-  <string name="project_type_ihatemoney">IHateMoney projekt</string>
+  <string name="project_type_ilovemoney">ILoveMoney projekt</string>
   <string name="project_type_nextcloud_cospend">Nextcloud Cospend projekt</string>
   <string name="new_project_what_todo">Mit szeretnél tenni?</string>
   <string name="new_project_where">Hol?</string>
   <string name="where_local">Csak a telefonom (helyi)</string>
-  <string name="where_ihm">IHateMoney szerver</string>
+  <string name="where_ihm">ILoveMoney szerver</string>
   <string name="where_cospend">Cospend Nextcloud app</string>
   <string name="where_local_short">Helyi</string>
-  <string name="where_ihm_short">IHateMoney</string>
+  <string name="where_ihm_short">ILoveMoney</string>
   <string name="where_cospend_short">Cospend</string>
-  <string name="new_project_scan">MoneyBuster QR-kód beolvasása</string>
+  <string name="new_project_scan">Cosmic Money QR-kód beolvasása</string>
   <string name="todo_join">Csatlakozás már létező projekthez</string>
   <string name="todo_join_label">Csatlakozás</string>
   <string name="todo_create_label">Létrehozás</string>
   <string name="todo_create">Projekt létrehozása</string>
-  <string name="setting_ihm_project_url_long">A projektnek otthont adó IHateMoney szerver címe</string>
-  <string name="setting_ihm_project_url">IHateMoney címe</string>
+  <string name="setting_ihm_project_url_long">A projektnek otthont adó ILoveMoney szerver címe</string>
+  <string name="setting_ihm_project_url">ILoveMoney címe</string>
   <string name="setting_cospend_project_url_long">A Cospend projektnek otthont adó Nextcloud szerver címe</string>
   <string name="setting_cospend_project_url">Nextcloud Cospend címe</string>
   <string name="setting_project_name">Projekt neve (távoli)</string>
@@ -108,7 +108,7 @@
   <string name="setting_create_project_summary">Csak akkor működik, ha a névtelen projekt létrehozás engedélyezve van a rendszeren</string>
   <string name="setting_email_long">Kapcsolat email</string>
   <string name="setting_email">Email cím (távoli)</string>
-  <string name="project_added_success">Projekt sikeresen hozzáadva a MoneyBuster-hez</string>
+  <string name="project_added_success">Projekt sikeresen hozzáadva a Cosmic Money-hez</string>
   <string name="action_search">Keresés</string>
   <string name="action_search_in_project">Keresés ebben %s</string>
   <string name="simple_error">Hiba</string>
@@ -116,7 +116,7 @@
   <string name="simple_loading">Betöltés</string>
   <string name="simple_remove">Eltávolítás</string>
   <string name="sync_error_dialog_title">Projekt szinkronizációja sikertelen</string>
-  <string name="sync_error_dialog_full_content">A %1$s projekt szinkronizációja sikertelen. Hibaüzenet:\n\n%2$s\n\nA kapcsolt távoli projekt talán már nem létezik. Ha így van, eltávolíthatod ezt a projektet a MoneyBusterből.</string>
+  <string name="sync_error_dialog_full_content">A %1$s projekt szinkronizációja sikertelen. Hibaüzenet:\n\n%2$s\n\nA kapcsolt távoli projekt talán már nem létezik. Ha így van, eltávolíthatod ezt a projektet a Cosmic Moneyből.</string>
   <string name="error_maintenance_mode">A Nextcloud szerver valószínűleg karbantartási módban van</string>
   <string name="error_400">400 Hibás kérés</string>
   <string name="error_401">401 Jogosulatlan hozzáférés</string>
@@ -132,7 +132,7 @@
   <string name="simple_add">Hozzáadás</string>
   <string name="simple_edit_bill">Számla szerkesztése</string>
   <string name="simple_new_bill">Új számla</string>
-  <string name="simple_add_project">Projekt hozzáadása MoneyBuster-ben</string>
+  <string name="simple_add_project">Projekt hozzáadása Cosmic Money-ben</string>
   <string name="simple_edit_project">Projekt szerkesztése</string>
   <string name="simple_about">Névjegy</string>
   <string name="share_impossible">Nem lehet megosztani ezt a projektet</string>
@@ -140,7 +140,7 @@
   <string name="simple_create_bills">Számlák létrehozása</string>
   <string name="settle_bill_what">Elszámolási számla</string>
   <string name="simple_stats_share">Statisztika megosztása</string>
-  <string name="simple_share_share">MoneyBuster hivatkozás megosztása</string>
+  <string name="simple_share_share">Cosmic Money hivatkozás megosztása</string>
   <string name="action_bill_deleted">Számla törölve</string>
   <string name="action_bill_restored">Számla visszaállítva</string>
   <string name="action_undo">Visszavonás</string>
@@ -165,7 +165,7 @@
   <string name="fab_manage_members">Tagok kezelése</string>
   <string name="fab_export_project">Projekt exportálása</string>
   <string name="drawer_last_sync_text">Utolsó szinkronizálás: %1$02d:%2$02d</string>
-  <string name="scan_qrcode_tooltip">Cospend/IHateMoney QR-kód beolvasása</string>
+  <string name="scan_qrcode_tooltip">ILoveMoney QR-kód beolvasása</string>
   <string name="scan_qrcode">Scan QR code</string>
   <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Importálás CSV fájlból</string>
@@ -190,10 +190,10 @@
   <string name="remote_project_operation_no_network">Távoli projekt műveletekhez internet kapcsolat szükséges</string>
   <string name="member_edit_weight_error">A tag súlya helytelen</string>
   <string name="bill_info_dialog_title">Névjegy %s</string>
-  <string name="welcome_dialog_title">Üdvözöllek a MoneyBuster v%s - ban</string>
+  <string name="welcome_dialog_title">Üdvözöllek a Cosmic Money v%s - ban</string>
   <string name="welcome_dialog_content_v12">Mi új?\n\n* QR-kód beolvasás\n* Jobb kezelőfelület\n* Projekt importálása Nextcloud fiókból\n* Továbbfejlesztett statisztikák\n* És még sok más :-)</string>
   <string name="welcome_dialog_content_v13">Újdonságok?\n\n* Szűrők a statisztikában\n* Automatikus elszámolószámla létrehozása\n* Keresés tartozó alapján\n* És sok más :-)</string>
-  <string name="first_welcome_dialog_content">Először állítsd be a Nextcloud fiókodat vagy készíts/csatlakozz egy projekthez (IHateMoney vagy Nextcloud Cospend), majd adj hozzá néhány tagot és/vagy készíts pár számlát!\n\nEgyéb teendők:\n* Készíts elszámolást a projekthez visszafizetési terv generálása céljából\n* Nézd meg a projekt statisztikáit\n* Megosztás: készíts QR-kódot, melyet mások be tudnak olvasni, hogy csatlakozzanak a projekthez\n\nAndroid &gt;= 8.0 esetén az akciógombok hosszú megnyomásával súgót jeleníthetsz meg.</string>
+  <string name="first_welcome_dialog_content">Először állítsd be a Nextcloud fiókodat vagy készíts/csatlakozz egy projekthez (ILoveMoney vagy Nextcloud Cospend), majd adj hozzá néhány tagot és/vagy készíts pár számlát!\n\nEgyéb teendők:\n* Készíts elszámolást a projekthez visszafizetési terv generálása céljából\n* Nézd meg a projekt statisztikáit\n* Megosztás: készíts QR-kódot, melyet mások be tudnak olvasni, hogy csatlakozzanak a projekthez\n\nAndroid &gt;= 8.0 esetén az akciógombok hosszú megnyomásával súgót jeleníthetsz meg.</string>
   <string name="changelog">Változásnapló</string>
   <string name="changelog_url">https://gitlab.com/eneiluj/moneybuster/blob/master/CHANGELOG.md#change-log</string>
   <string name="permanent_notification_title">Folytonos szinkronizáció</string>
@@ -202,7 +202,7 @@
   <string name="settings_network_category">Hálózat</string>
   <string name="settings_sync_category">Szinkronizálás</string>
   <string name="settings_other_category">Egyéb</string>
-  <string name="settings_about">A MoneyBusterről</string>
+  <string name="settings_about">A Cosmic Moneyről</string>
   <string name="settings_server_settings">Nextcloud fiók</string>
   <string name="settings_url">Szerver címe</string>
   <string name="settings_url_warn_http">FIGYELEM: a \"http\" nem biztonságos. Kérlek használj \"https\"-t.</string>
@@ -215,7 +215,7 @@
   <string name="settings_night_mode_title">Téma</string>
   <string name="settings_offline_mode_title">Offline mód</string>
   <string name="settings_offline_mode_summary">Ne szinkronizáljon magától. Csak a felhasználó kérésére.</string>
-  <string name="settings_show_nextcloud_settings_summary">Tiltsd ezt le, ha nem használsz Nextcloudot és Cospendet, csak IHateMoney és helyi projekteket.</string>
+  <string name="settings_show_nextcloud_settings_summary">Tiltsd ezt le, ha nem használsz Nextcloudot és Cospendet, csak ILoveMoney és helyi projekteket.</string>
   <string name="settings_show_nextcloud_settings_title">Nextcloud beállítások mutatása</string>
   <string name="settings_color_title">Alkalmazás fő színe</string>
   <string name="settings_color_summary">Szín a műveletsávokhoz, térkép gombokhoz stb...</string>
@@ -264,20 +264,20 @@
   <string name="project_create_success_message">%1$s projektet sikeresen létrehoztuk</string>
   <string name="project_add_success_title">Projekt hozzáadva</string>
   <string name="project_create_success_title">Projekt létrehozva</string>
-  <string name="import_bad_url">Sérült MoneyBuster hivatkozás, importálása lehetetlen</string>
+  <string name="import_bad_url">Sérült Cosmic Money hivatkozás, importálása lehetetlen</string>
   <string name="import_no_data">Valami hiba történt a projekt hozzáadásakor</string>
   <string name="fab_scan_qrcode_import">MB QR-kód importálása</string>
   <string name="statistic_dialog_title">Projektstatisztika</string>
   <string name="settle_dialog_title">Projekt elszámolása</string>
   <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Projekt megosztása</string>
-  <string name="share_project_dialog_message">Olvasd be ezt a QR-kódot MoneyBusterrel vagy más beolvasó alkalmazással azon az eszközön, ahol a MoneyBuster telepítve van. Mindemellett egyszerűen megoszthatod/elküldheted a fenti MoneyBuster hivatkozást is.</string>
+  <string name="share_project_dialog_message">Olvasd be ezt a QR-kódot Cosmic Moneyrel vagy más beolvasó alkalmazással azon az eszközön, ahol a Cosmic Money telepítve van. Mindemellett egyszerűen megoszthatod/elküldheted a fenti Cosmic Money hivatkozást is.</string>
   <string name="share_project_public_url_dialog_message">Oszd meg ezt a webes hivatkozást, hogy mások böngésző segítségével hozzáférjenek a projekthez.</string>
   <string name="share_project_public_url_title">Webes hivatkozás</string>
-  <string name="share_project_public_qrcode_title">MoneyBuster hivatkozás</string>
-  <string name="qrcode_link_open_attempt_warning">Oszd meg ezt a hivatkozást egy MoneyBuster felhasználóval.</string>
-  <string name="share_share_intent_title">%1$s MoneyBuster hivatkozása</string>
-  <string name="share_share_chooser_title">%1$s MoneyBuster hivatkozásának megosztása</string>
+  <string name="share_project_public_qrcode_title">Cosmic Money hivatkozás</string>
+  <string name="qrcode_link_open_attempt_warning">Oszd meg ezt a hivatkozást egy Cosmic Money felhasználóval.</string>
+  <string name="share_share_intent_title">%1$s Cosmic Money hivatkozása</string>
+  <string name="share_share_chooser_title">%1$s Cosmic Money hivatkozásának megosztása</string>
   <string name="share_settle_intro">Így számold el a %1$s projektet:</string>
   <string name="share_settle_sentence">%1$s tartozik %3$.2f neki: %2$s</string>
   <string name="share_settle_title">%1$s projekt elszámolása</string>
@@ -298,13 +298,13 @@
   <string name="no_projects_title">No Projects</string>
   <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
   <string name="configure_account_choice">Nextcloud fiók beállítása</string>
-  <string name="add_project_choice">Kézi projekt hozzáadása (IHateMoney, Cospend vagy helyi)</string>
+  <string name="add_project_choice">Kézi projekt hozzáadása (ILoveMoney, Cospend vagy helyi)</string>
   <string name="no_members_title">No Members</string>
   <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
   <string name="no_bills_title">No Bills</string>
   <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
-  <string name="certificate_notification_connection_security">MoneyBuster - Kapcsolat biztonsága</string>
-  <string name="trust_certificate_unknown_certificate_found">MoneyBuster egy ismeretlen tanúsítvánnyal találkozott. Megbízol benne?</string>
+  <string name="certificate_notification_connection_security">Cosmic Money - Kapcsolat biztonsága</string>
+  <string name="trust_certificate_unknown_certificate_found">Cosmic Money egy ismeretlen tanúsítvánnyal találkozott. Megbízol benne?</string>
   <string name="error_project_connect_check">Lehetetlen elérni a távoli projektet:\n\n%1$s</string>
   <string name="error_sync">Projekt-szinkronizáció sikertelen: %1$s</string>
   <string name="error_invalid_login">Érvénytelen bejelentkezés: %1$s</string>
@@ -334,11 +334,11 @@
   <string name="about_version_title">Verzió</string>
   <string name="about_version">Jelenleg ezt használod: &lt;strong&gt;%1$s&lt;/strong&gt;</string>
   <string name="about_maintainer_title">Karbantartó</string>
-  <string name="about_maintainer">Julien Veyssier</string>
+  <string name="about_maintainer">Mickaël Schoentgen • &lt;a href="https://github.com/BoboTiG/cosmic-money">Code Source&lt;/a></string>
   <string name="about_developers_title">Fejlesztők</string>
   <string name="about_developers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_translators_title">Fordítók</string>
-  <string name="about_translators_crowdin">MoneyBuster közösség &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
+  <string name="about_translators_crowdin">Cosmic Money közösség &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
   <string name="about_testers_title">Tesztelők</string>
   <string name="about_testers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_source_title">Forráskód</string>
@@ -346,7 +346,7 @@
   <string name="about_issues_title">Hibajelentések</string>
   <string name="about_issues">Jelezhetsz hibákat, fejlesztési lehetőségeket és jövőbeni kéréseket a Gitlab hibakövetőjében: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_translate_title">Fordítás</string>
-  <string name="about_translate">Csatlakozz a MoneyBuster csapatához Crowdin-on és segíts az app fodításában: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
+  <string name="about_translate">Csatlakozz a Cosmic Money csapatához Crowdin-on és segíts az app fodításában: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_app_license_title">App licenc</string>
   <string name="about_app_license">Ez az alkalmazás a GNU GENERAL PUBLIC LICENSE v3+ alatt van licencelve.</string>
   <string name="about_app_license_button">Licenc megtekintése</string>

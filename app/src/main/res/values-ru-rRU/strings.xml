@@ -73,23 +73,23 @@
   <string name="category_transport">Транспорт</string>
   <string name="category_sport">Спорт</string>
   <string name="project_type_local">Личный проект</string>
-  <string name="project_type_ihatemoney">Проект IHateMoney</string>
+  <string name="project_type_ilovemoney">Проект ILoveMoney</string>
   <string name="project_type_nextcloud_cospend">Проект затрат для экспорта в Nextcloud</string>
   <string name="new_project_what_todo">Что вы хотите сделать?</string>
   <string name="new_project_where">Где?</string>
   <string name="where_local">Только на моем телефоне (локально)</string>
-  <string name="where_ihm">Сервер IHateMoney</string>
+  <string name="where_ihm">Сервер ILoveMoney</string>
   <string name="where_cospend">Приложение Cospend для Nextcloud</string>
   <string name="where_local_short">Локально</string>
-  <string name="where_ihm_short">IHateMoney</string>
+  <string name="where_ihm_short">ILoveMoney</string>
   <string name="where_cospend_short">Cospend</string>
-  <string name="new_project_scan">Сканировать QRCode для MoneyBuster</string>
+  <string name="new_project_scan">Сканировать QRCode для Cosmic Money</string>
   <string name="todo_join">Присоединиться к существующему проекту</string>
   <string name="todo_join_label">Присоединиться</string>
   <string name="todo_create_label">Создать</string>
   <string name="todo_create">Создать проект</string>
-  <string name="setting_ihm_project_url_long">Адрес сервера IHateMoney, на котором находится проект</string>
-  <string name="setting_ihm_project_url">Адрес IHateMoney</string>
+  <string name="setting_ihm_project_url_long">Адрес сервера ILoveMoney, на котором находится проект</string>
+  <string name="setting_ihm_project_url">Адрес ILoveMoney</string>
   <string name="setting_cospend_project_url_long">Адрес сервера Nextcloud, на котором находится проект Cospend</string>
   <string name="setting_cospend_project_url">Адрес сервера Nextcloud</string>
   <string name="setting_project_name">Заголовок проекта (удаленный)</string>
@@ -108,7 +108,7 @@
   <string name="setting_create_project_summary">Работает только если разрешено создание проекта анонимно</string>
   <string name="setting_email_long">Контактный e-mail</string>
   <string name="setting_email">E-mail (внешний)</string>
-  <string name="project_added_success">Проект успешно добавлен в MoneyBuster</string>
+  <string name="project_added_success">Проект успешно добавлен в Cosmic Money</string>
   <string name="action_search">Поиск</string>
   <string name="action_search_in_project">Поиск в %s</string>
   <string name="simple_error">Ошибка</string>
@@ -116,7 +116,7 @@
   <string name="simple_loading">Загружается</string>
   <string name="simple_remove">Удалить</string>
   <string name="sync_error_dialog_title">Не удалось синхронизировать проект</string>
-  <string name="sync_error_dialog_full_content">Не удалось синхронизировать с проектом %1$s. Сообщение об ошибке:\n\n%2$s\n\nВозможно, связанный удаленный проект больше не существует. Если это так, то вы можете удалить этот проект из MoneyBuster.</string>
+  <string name="sync_error_dialog_full_content">Не удалось синхронизировать с проектом %1$s. Сообщение об ошибке:\n\n%2$s\n\nВозможно, связанный удаленный проект больше не существует. Если это так, то вы можете удалить этот проект из Cosmic Money.</string>
   <string name="error_maintenance_mode">Экземпляр Nextcloud вероятно находится в режиме обслуживания</string>
   <string name="error_400">400 Неверный запрос</string>
   <string name="error_401">401 Неавторизовано</string>
@@ -132,7 +132,7 @@
   <string name="simple_add">Добавить</string>
   <string name="simple_edit_bill">Редактировать счет</string>
   <string name="simple_new_bill">Новый счет</string>
-  <string name="simple_add_project">Добавить проект в MoneyBuster</string>
+  <string name="simple_add_project">Добавить проект в Cosmic Money</string>
   <string name="simple_edit_project">Редактировать проект</string>
   <string name="simple_about">О программе</string>
   <string name="share_impossible">Невозможно поделиться этим проектом</string>
@@ -140,7 +140,7 @@
   <string name="simple_create_bills">Создать счета</string>
   <string name="settle_bill_what">Счет для окончательного расчета</string>
   <string name="simple_stats_share">Поделиться статистикой</string>
-  <string name="simple_share_share">Поделиться ссылкой MoneyBuster</string>
+  <string name="simple_share_share">Поделиться ссылкой Cosmic Money</string>
   <string name="action_bill_deleted">Счет удален</string>
   <string name="action_bill_restored">Счет восстановлен</string>
   <string name="action_undo">Отмена</string>
@@ -165,7 +165,7 @@
   <string name="fab_manage_members">Управление участниками</string>
   <string name="fab_export_project">Экспорт проекта</string>
   <string name="drawer_last_sync_text">Последняя синхронизация: %1$02d:%2$02d</string>
-  <string name="scan_qrcode_tooltip">Сканируйте стоимость/IHateMoney QRCode</string>
+  <string name="scan_qrcode_tooltip">Сканируйте стоимость/ILoveMoney QRCode</string>
   <string name="scan_qrcode">Scan QR code</string>
   <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Импорт из CSV файла</string>
@@ -190,10 +190,10 @@
   <string name="remote_project_operation_no_network">Операции с внешними проектами требуют сетевого подключения</string>
   <string name="member_edit_weight_error">Некорректный вес участника</string>
   <string name="bill_info_dialog_title">О %s</string>
-  <string name="welcome_dialog_title">Добро пожаловать на MoneyBuster v%s</string>
+  <string name="welcome_dialog_title">Добро пожаловать на Cosmic Money v%s</string>
   <string name="welcome_dialog_content_v12">Что нового?\n\n* Сканирование QRCode \n* Улучшенный интерфейс\n* Импорт проекта Nextcloud\n* Улучшенная статистика\n* И многое другое :-)</string>
   <string name="welcome_dialog_content_v13">Что нового?\n\n* Фильтры в статистике\n* Автоматическое создание счетов по расчету\n* Поиск по имени владельца\n* И многое другое :-)</string>
-  <string name="first_welcome_dialog_content">Сначала настройте учетную запись Nextcloud или создайте/присоединитесь к проекту (IHateMoney или Nextcloud Cospend), затем добавьте участников и/или создайте счета!\n\nДругие основные действия:\n* Сделать расчет по проекту для создания общего плана погашения\n* Показать статистику проекта\n* Как поделиться: сгенерируйте QRCode, который другие могут отсканировать, чтобы присоединиться к проекту\n\nНа Android &gt;= 8.0 вы можете использовать долгое нажатие кнопок для отображения подсказки.</string>
+  <string name="first_welcome_dialog_content">Сначала настройте учетную запись Nextcloud или создайте/присоединитесь к проекту (ILoveMoney или Nextcloud Cospend), затем добавьте участников и/или создайте счета!\n\nДругие основные действия:\n* Сделать расчет по проекту для создания общего плана погашения\n* Показать статистику проекта\n* Как поделиться: сгенерируйте QRCode, который другие могут отсканировать, чтобы присоединиться к проекту\n\nНа Android &gt;= 8.0 вы можете использовать долгое нажатие кнопок для отображения подсказки.</string>
   <string name="changelog">Список изменений</string>
   <string name="changelog_url">https://gitlab.com/eneiluj/moneybuster/blob/master/CHANGELOG.md#change-log</string>
   <string name="permanent_notification_title">Постоянная синхронизация</string>
@@ -202,7 +202,7 @@
   <string name="settings_network_category">Сеть</string>
   <string name="settings_sync_category">Синхронизация</string>
   <string name="settings_other_category">Другое</string>
-  <string name="settings_about">О программе MoneyBuster</string>
+  <string name="settings_about">О программе Cosmic Money</string>
   <string name="settings_server_settings">Аккаунт Nextcloud</string>
   <string name="settings_url">Адрес сервера</string>
   <string name="settings_url_warn_http">ВНИМАНИЕ: Протокол «http» небезопасен. Пожалуйста, используйте «https».</string>
@@ -215,7 +215,7 @@
   <string name="settings_night_mode_title">Оформление</string>
   <string name="settings_offline_mode_title">Автономный режим</string>
   <string name="settings_offline_mode_summary">Не синхронизировать автоматически. Синхронизировать только по запросу пользователя.</string>
-  <string name="settings_show_nextcloud_settings_summary">Отключите это, если вы не используете Nextcloud и Cospend и просто хотите создать/присоединиться к IHateMoney и локальным проектам.</string>
+  <string name="settings_show_nextcloud_settings_summary">Отключите это, если вы не используете Nextcloud и Cospend и просто хотите создать/присоединиться к ILoveMoney и локальным проектам.</string>
   <string name="settings_show_nextcloud_settings_title">Показать настройки Nextcloud</string>
   <string name="settings_color_title">Основной цвет приложения</string>
   <string name="settings_color_summary">Цвет панелей, кнопок и т.д...</string>
@@ -264,20 +264,20 @@
   <string name="project_create_success_message">Проект %1$s успешно создан</string>
   <string name="project_add_success_title">Проект добавлен</string>
   <string name="project_create_success_title">Проект создан</string>
-  <string name="import_bad_url">Неправильная ссылка MoneyBuster, невозможно импортировать</string>
+  <string name="import_bad_url">Неправильная ссылка Cosmic Money, невозможно импортировать</string>
   <string name="import_no_data">Что-то пошло не так при добавлении нового проекта</string>
   <string name="fab_scan_qrcode_import">Импортировать MB QRCode</string>
   <string name="statistic_dialog_title">Статистика проекта</string>
   <string name="settle_dialog_title">Расчитать проект</string>
   <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Поделиться этим проектом</string>
-  <string name="share_project_dialog_message">Сканируйте этот QRCode с помощью MoneyBuster или приложения сканирования на устройстве Android, где установлен MoneyBuster. Вы также можете просто отправить/поделиться ссылкой на MoneyBuster выше.</string>
+  <string name="share_project_dialog_message">Сканируйте этот QRCode с помощью Cosmic Money или приложения сканирования на устройстве Android, где установлен Cosmic Money. Вы также можете просто отправить/поделиться ссылкой на Cosmic Money выше.</string>
   <string name="share_project_public_url_dialog_message">Поделитесь этой ссылкой, чтобы другие пользователи могли получить доступ к проекту через веб-браузер.</string>
   <string name="share_project_public_url_title">Ссылка</string>
-  <string name="share_project_public_qrcode_title">Ссылка на MoneyBuster</string>
-  <string name="qrcode_link_open_attempt_warning">Поделитесь этой ссылкой с пользователем MoneyBuster.</string>
-  <string name="share_share_intent_title">Ссылка MoneyBuster для %1$s</string>
-  <string name="share_share_chooser_title">Поделиться ссылкой MoneyBuster на %1$s</string>
+  <string name="share_project_public_qrcode_title">Ссылка на Cosmic Money</string>
+  <string name="qrcode_link_open_attempt_warning">Поделитесь этой ссылкой с пользователем Cosmic Money.</string>
+  <string name="share_share_intent_title">Ссылка Cosmic Money для %1$s</string>
+  <string name="share_share_chooser_title">Поделиться ссылкой Cosmic Money на %1$s</string>
   <string name="share_settle_intro">Как рассчитаться по проекту %1$s:</string>
   <string name="share_settle_sentence">%1$s должен %3$.2f %2$s</string>
   <string name="share_settle_title">Расчитать проект %1$s</string>
@@ -298,12 +298,12 @@
   <string name="no_projects_title">No Projects</string>
   <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
   <string name="configure_account_choice">Настроить Nextcloud</string>
-  <string name="add_project_choice">Создать свой проект (IHateMoney, Cospend или локальный)</string>
+  <string name="add_project_choice">Создать свой проект (ILoveMoney, Cospend или локальный)</string>
   <string name="no_members_title">No Members</string>
   <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
   <string name="no_bills_title">No Bills</string>
   <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
-  <string name="certificate_notification_connection_security">MoneyBuster - безопасность соединения</string>
+  <string name="certificate_notification_connection_security">Cosmic Money - безопасность соединения</string>
   <string name="trust_certificate_unknown_certificate_found">PhoneTrack обнаружил неизвестный сертификат. Вы хотите доверить ему?</string>
   <string name="error_project_connect_check">Невозможно достичь удаленного проекта:\n\n%1$s</string>
   <string name="error_sync">Не удалось синхронизировать проект: %1$s</string>
@@ -334,11 +334,11 @@
   <string name="about_version_title">Версия</string>
   <string name="about_version">Сейчас вы используете &lt;strong&gt;%1$s&lt;/strong&gt;</string>
   <string name="about_maintainer_title">Сопровождающий</string>
-  <string name="about_maintainer">Julien Veyssier</string>
+  <string name="about_maintainer">Mickaël Schoentgen • &lt;a href="https://github.com/BoboTiG/cosmic-money">Code Source&lt;/a></string>
   <string name="about_developers_title">Разработчики</string>
   <string name="about_developers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_translators_title">Переводчики</string>
-  <string name="about_translators_crowdin">Сообщество MoneyBuster на &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
+  <string name="about_translators_crowdin">Сообщество Cosmic Money на &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
   <string name="about_testers_title">Тестировщики</string>
   <string name="about_testers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_source_title">Исходный код</string>
@@ -346,7 +346,7 @@
   <string name="about_issues_title">Проблемы</string>
   <string name="about_issues">Вы можете сообщать об ошибках, и предлагать улучшения и новые функции в системе отслеживания Gitlab : &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_translate_title">Перевести</string>
-  <string name="about_translate">Присоединяйтесь к команде MoneyBuster на Crowdin, чтобы помочь нам перевести это приложение: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
+  <string name="about_translate">Присоединяйтесь к команде Cosmic Money на Crowdin, чтобы помочь нам перевести это приложение: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_app_license_title">Лицензия</string>
   <string name="about_app_license">Это приложение распространяется под лицензией GNU GENERAL PUBLIC LICENSE v3+.</string>
   <string name="about_app_license_button">Просмотреть лицензию</string>

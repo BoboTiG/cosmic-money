@@ -5,7 +5,7 @@
   <string name="action_create_bill">Neue Rechnung</string>
   <string name="action_settings">App-Einstellungen</string>
   <string name="action_projects">Projekte</string>
-  <string name="action_scan_qrcode">QR-Code von Cospend/MoneyBuster scannen</string>
+  <string name="action_scan_qrcode">QR-Code von Cosmic Money scannen</string>
   <string name="action_add_project">Projekt hinzufügen</string>
   <string name="action_save_bill">Ausgabe speichern</string>
   <string name="action_edit_project">Projekt bearbeiten</string>
@@ -73,23 +73,23 @@
   <string name="category_transport">Transport</string>
   <string name="category_sport">Sport</string>
   <string name="project_type_local">Lokales Projekt</string>
-  <string name="project_type_ihatemoney">IHateMoney Projekt</string>
+  <string name="project_type_ilovemoney">ILoveMoney Projekt</string>
   <string name="project_type_nextcloud_cospend">Nextcloud Cospend Projekt</string>
   <string name="new_project_what_todo">Was möchtest du tun?</string>
   <string name="new_project_where">Wo?</string>
   <string name="where_local">Nur mein Telefon (lokal)</string>
-  <string name="where_ihm">IHateMoney Server</string>
+  <string name="where_ihm">ILoveMoney Server</string>
   <string name="where_cospend">Cospend Nextcloud App</string>
   <string name="where_local_short">Lokal</string>
-  <string name="where_ihm_short">IHateMoney</string>
+  <string name="where_ihm_short">ILoveMoney</string>
   <string name="where_cospend_short">Cospend</string>
-  <string name="new_project_scan">Scanne einen MoneyBuster QR-Code</string>
+  <string name="new_project_scan">Scanne einen Cosmic Money QR-Code</string>
   <string name="todo_join">An einem bestehenden Projekt teilnehmen</string>
   <string name="todo_join_label">Teilnehmen</string>
   <string name="todo_create_label">Erstellen</string>
   <string name="todo_create">Ein Projekt erstellen</string>
-  <string name="setting_ihm_project_url_long">Adresse des IHateMoney-Servers für das Projekt</string>
-  <string name="setting_ihm_project_url">IHateMoney Adresse</string>
+  <string name="setting_ihm_project_url_long">Adresse des ILoveMoney-Servers für das Projekt</string>
+  <string name="setting_ihm_project_url">ILoveMoney Adresse</string>
   <string name="setting_cospend_project_url_long">Adresse des Nextcloud-Servers welche das Cospend Projekt hosted</string>
   <string name="setting_cospend_project_url">Nextcloud Server-Adresse</string>
   <string name="setting_project_name">Projektname (Remote)</string>
@@ -108,7 +108,7 @@
   <string name="setting_create_project_summary">Nur möglich, wenn anonyme Projekterstellung auf dem Server erlaubt ist</string>
   <string name="setting_email_long">Kontakt E-Mail</string>
   <string name="setting_email">E-Mail (Remote)</string>
-  <string name="project_added_success">Projekt erfolgreich zu MoneyBuster hinzugefügt</string>
+  <string name="project_added_success">Projekt erfolgreich zu Cosmic Money hinzugefügt</string>
   <string name="action_search">Suche</string>
   <string name="action_search_in_project">In %s suchen</string>
   <string name="simple_error">Fehler</string>
@@ -116,7 +116,7 @@
   <string name="simple_loading">Wird geladen</string>
   <string name="simple_remove">Entfernen</string>
   <string name="sync_error_dialog_title">Projekt-Sync fehlgeschlagen</string>
-  <string name="sync_error_dialog_full_content">Synchronisierung mit Projekt %1$s fehlgeschlagen. Fehlermeldung:\n\n%2$s\n\nDas zugehörige entfernte Projekt existiert möglicherweise nicht mehr. Ist das der Fall, können Sie dieses Projekt von MoneyBuster entfernen.</string>
+  <string name="sync_error_dialog_full_content">Synchronisierung mit Projekt %1$s fehlgeschlagen. Fehlermeldung:\n\n%2$s\n\nDas zugehörige entfernte Projekt existiert möglicherweise nicht mehr. Ist das der Fall, können Sie dieses Projekt von Cosmic Money entfernen.</string>
   <string name="error_maintenance_mode">Der Nextcloud-Server befindet sich wahrscheinlich im Wartungsmodus</string>
   <string name="error_400">400 Ungültige Anforderung</string>
   <string name="error_401">401 Nicht berechtigt</string>
@@ -132,7 +132,7 @@
   <string name="simple_add">Hinzufügen</string>
   <string name="simple_edit_bill">Ausgabe bearbeiten</string>
   <string name="simple_new_bill">Neue Ausgabe</string>
-  <string name="simple_add_project">Projekt in MoneyBuster hinzufügen</string>
+  <string name="simple_add_project">Projekt in Cosmic Money hinzufügen</string>
   <string name="simple_edit_project">Projekt bearbeiten</string>
   <string name="simple_about">Über</string>
   <string name="share_impossible">Projekt teilen nicht möglich</string>
@@ -140,7 +140,7 @@
   <string name="simple_create_bills">Abrechnung erstellen</string>
   <string name="settle_bill_what">Abrechnung</string>
   <string name="simple_stats_share">Statistik teilen</string>
-  <string name="simple_share_share">MoneyBuster-Link teilen</string>
+  <string name="simple_share_share">Cosmic Money-Link teilen</string>
   <string name="action_bill_deleted">Ausgabe gelöscht</string>
   <string name="action_bill_restored">Ausgabe wiederhergestellt</string>
   <string name="action_undo">Wiederherstellen</string>
@@ -165,7 +165,7 @@
   <string name="fab_manage_members">Mitglieder verwalten</string>
   <string name="fab_export_project">Projekt exportieren</string>
   <string name="drawer_last_sync_text">Letzter Sync: %1$02d:%2$02d</string>
-  <string name="scan_qrcode_tooltip">QR-Code von Cospend/IHateMoney scannen</string>
+  <string name="scan_qrcode_tooltip">QR-Code von ILoveMoney scannen</string>
   <string name="scan_qrcode">QR-Code scannen</string>
   <string name="new_project_from_nextcloud_tooltip">Aus Nextcloud Konto wählen</string>
   <string name="import_tooltip">CSV-Datei importieren</string>
@@ -190,10 +190,10 @@
   <string name="remote_project_operation_no_network">Projektoperationen erfordern eine Netzwerkverbindung</string>
   <string name="member_edit_weight_error">Mitgliedergewichtung ist ungültig</string>
   <string name="bill_info_dialog_title">Über %s</string>
-  <string name="welcome_dialog_title">Willkommen bei MoneyBuster v%s</string>
+  <string name="welcome_dialog_title">Willkommen bei Cosmic Money v%s</string>
   <string name="welcome_dialog_content_v12">Was ist neu?\n\n* QR-Code scannen\n* Bessere Schnittstelle\n* Nextcloud-Account-Projekt Import\n* Verbesserte Statistiken\n* Und vieles mehr :-)</string>
   <string name="welcome_dialog_content_v13">Was ist neu?\n\n* Filter in Statistiken\n* Automatische Abrechnungen erstellen\n* Suche nach einem Namen\n* Und vieles mehr :-)</string>
-  <string name="first_welcome_dialog_content">Konfiguriere zuerst ein Nextcloud-Konto, erstelle ein Projekt oder trete einem Projekt bei (mit IHateMoney oder Nextcloud Cospend). Füge dann Mitglieder hinzu und/oder erstelle Ausgaben!\n\nWeitere wichtige Aktionen:\n* Rechne das Projekt ab, um einen Gesamt-Rückzahlungsplan zu generieren\n* Projektstatistiken anzeigen\n* Teilen: Generiere einen QR-Code, den andere scannen können, um dem Projekt beizutreten\n\nAuf Android &gt;= 8.0 kannst du lange auf die Aktionsschaltflächen drücken, um die Hilfe anzuzeigen.</string>
+  <string name="first_welcome_dialog_content">Konfiguriere zuerst ein Nextcloud-Konto, erstelle ein Projekt oder trete einem Projekt bei (mit ILoveMoney oder Nextcloud Cospend). Füge dann Mitglieder hinzu und/oder erstelle Ausgaben!\n\nWeitere wichtige Aktionen:\n* Rechne das Projekt ab, um einen Gesamt-Rückzahlungsplan zu generieren\n* Projektstatistiken anzeigen\n* Teilen: Generiere einen QR-Code, den andere scannen können, um dem Projekt beizutreten\n\nAuf Android &gt;= 8.0 kannst du lange auf die Aktionsschaltflächen drücken, um die Hilfe anzuzeigen.</string>
   <string name="changelog">Änderungsprotokoll</string>
   <string name="changelog_url">https://gitlab.com/eneiluj/moneybuster/blob/master/CHANGELOG.md#change-log</string>
   <string name="permanent_notification_title">Permanente Synchronisierung</string>
@@ -202,7 +202,7 @@
   <string name="settings_network_category">Netzwerk</string>
   <string name="settings_sync_category">Synchronisierung</string>
   <string name="settings_other_category">Weiteres</string>
-  <string name="settings_about">Über MoneyBuster</string>
+  <string name="settings_about">Über Cosmic Money</string>
   <string name="settings_server_settings">Nextcloud Konto</string>
   <string name="settings_url">Server-Adresse</string>
   <string name="settings_url_warn_http">WARNUNG: \"http\" ist unsicher. Bitte \"https\" benutzen.</string>
@@ -215,7 +215,7 @@
   <string name="settings_night_mode_title">Thema</string>
   <string name="settings_offline_mode_title">Offline Modus</string>
   <string name="settings_offline_mode_summary">Nicht automatisch synchronisieren. Synchronisiere nur, wenn der Benutzer fragt.</string>
-  <string name="settings_show_nextcloud_settings_summary">Deaktivieren Sie dies, wenn Sie Nextcloud und Cospend nicht verwenden und nur IHateMoney und lokale Projekte erstellen oder beitreten möchten.</string>
+  <string name="settings_show_nextcloud_settings_summary">Deaktivieren Sie dies, wenn Sie Nextcloud und Cospend nicht verwenden und nur ILoveMoney und lokale Projekte erstellen oder beitreten möchten.</string>
   <string name="settings_show_nextcloud_settings_title">Nextcloud Einstellungen anzeigen</string>
   <string name="settings_color_title">App Hauptfarbe</string>
   <string name="settings_color_summary">Farbe für Aktionsleisten, Schaltflächen, etc...</string>
@@ -264,20 +264,20 @@
   <string name="project_create_success_message">Projekt %1$s wurde erfolgreich erstellt</string>
   <string name="project_add_success_title">Projekt hinzugefügt</string>
   <string name="project_create_success_title">Projekt erstellt</string>
-  <string name="import_bad_url">Fehlerhafter MoneyBuster Link, Import unmöglich</string>
+  <string name="import_bad_url">Fehlerhafter Cosmic Money Link, Import unmöglich</string>
   <string name="import_no_data">Beim Hinzufügen des Projektes ist ein Fehler aufgetreten</string>
   <string name="fab_scan_qrcode_import">MB QR-Code importieren</string>
   <string name="statistic_dialog_title">Projektstatistik</string>
   <string name="settle_dialog_title">Projekt abrechnen</string>
   <string name="settle_dialog_balanced">Die Ausgaben in diesem Projekt sind bereits ausgeglichen. Es gibt nichts zu begleichen!</string>
   <string name="share_dialog_title">Projekt teilen</string>
-  <string name="share_project_dialog_message">Scanne diesen QR-Code mit MoneyBuster oder einer Scanner-App auf einem Android-Gerät, auf dem MoneyBuster installiert ist. Du kannst auch den MoneyBuster Link oben senden/teilen.</string>
+  <string name="share_project_dialog_message">Scanne diesen QR-Code mit Cosmic Money oder einer Scanner-App auf einem Android-Gerät, auf dem Cosmic Money installiert ist. Du kannst auch den Cosmic Money Link oben senden/teilen.</string>
   <string name="share_project_public_url_dialog_message">Teile diesen Weblink, um anderen mit einem Webbrowser Zugang zum Projekt zu ermöglichen.</string>
   <string name="share_project_public_url_title">Weblink</string>
-  <string name="share_project_public_qrcode_title">MoneyBuster Link</string>
-  <string name="qrcode_link_open_attempt_warning">Teile diesen Link mit einem MoneyBuster Benutzer.</string>
-  <string name="share_share_intent_title">MoneyBuster Link von %1$s</string>
-  <string name="share_share_chooser_title">MoneyBuster-Link von %1$s teilen</string>
+  <string name="share_project_public_qrcode_title">Cosmic Money Link</string>
+  <string name="qrcode_link_open_attempt_warning">Teile diesen Link mit einem Cosmic Money Benutzer.</string>
+  <string name="share_share_intent_title">Cosmic Money Link von %1$s</string>
+  <string name="share_share_chooser_title">Cosmic Money-Link von %1$s teilen</string>
   <string name="share_settle_intro">Wie man Projekt %1$s abrechnet:</string>
   <string name="share_settle_sentence">%1$s schuldet %3$.2f an %2$s</string>
   <string name="share_settle_title">Projekt %1$s abrechnen</string>
@@ -298,13 +298,13 @@
   <string name="no_projects_title">Keine Projekte</string>
   <string name="no_projects_text">Sie haben noch keine Projekte. Wenn Sie Cospend auf einem Nextcloud Server installiert haben, können Sie Ihr Nextcloud Konto konfigurieren. Alternativ können Sie auch manuell Projekte hinzufügen.</string>
   <string name="configure_account_choice">Nextcloud-Konto konfigurieren</string>
-  <string name="add_project_choice">Ein Projekt manuell hinzufügen (IHateMoney, Cospend oder lokal)</string>
+  <string name="add_project_choice">Ein Projekt manuell hinzufügen (ILoveMoney, Cospend oder lokal)</string>
   <string name="no_members_title">Keine Mitglieder</string>
   <string name="no_members_text">Dieses Projekt hat keine Mitglieder. Um Rechnungen zu erstellen, müssen Sie mindestens ein Mitglied hinzufügen (besser zwei oder mehr).</string>
   <string name="no_bills_title">Keine Rechnungen</string>
   <string name="no_bills_text">Dieses Projekt hat keine Rechnungen. Klicken Sie auf die Schaltfläche unten, um Ihre erste Rechnung hinzuzufügen.</string>
-  <string name="certificate_notification_connection_security">MoneyBuster - Verbindungssicherheit</string>
-  <string name="trust_certificate_unknown_certificate_found">MoneyBuster hat ein unbekanntes Zertifikat erkannt. Möchtest du diesem vertrauen?</string>
+  <string name="certificate_notification_connection_security">Cosmic Money - Verbindungssicherheit</string>
+  <string name="trust_certificate_unknown_certificate_found">Cosmic Money hat ein unbekanntes Zertifikat erkannt. Möchtest du diesem vertrauen?</string>
   <string name="error_project_connect_check">Das remote Projekt konnte nicht erreicht werden:\n\n%1$s</string>
   <string name="error_sync">Projektsynchronisation fehlgeschlagen: %1$s</string>
   <string name="error_invalid_login">Falsches Login: %1$s</string>
@@ -334,11 +334,11 @@
   <string name="about_version_title">Version</string>
   <string name="about_version">Du verwendest aktuell &lt;strong&gt;%1$s&lt;/strong&gt;</string>
   <string name="about_maintainer_title">Betreuer</string>
-  <string name="about_maintainer">Julien Veyssier</string>
+  <string name="about_maintainer">Mickaël Schoentgen • &lt;a href="https://github.com/BoboTiG/cosmic-money">Code Source&lt;/a></string>
   <string name="about_developers_title">Entwickler</string>
   <string name="about_developers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_translators_title">Übersetzer</string>
-  <string name="about_translators_crowdin">MoneyBuster Community bei &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
+  <string name="about_translators_crowdin">Cosmic Money Community bei &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
   <string name="about_testers_title">Tester</string>
   <string name="about_testers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_source_title">Quellcode</string>
@@ -346,7 +346,7 @@
   <string name="about_issues_title">Probleme</string>
   <string name="about_issues">Du kannst Probleme, Erweiterungsvorschläge und Anfragen für neue Funktionen im Gitlab Issue Tracker eintragen: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_translate_title">Übersetzen</string>
-  <string name="about_translate">Trete dem MoneyBuster Team auf Crowdin bei und hilf uns diese App zu übersetzen: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
+  <string name="about_translate">Trete dem Cosmic Money Team auf Crowdin bei und hilf uns diese App zu übersetzen: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_app_license_title">App Lizenz</string>
   <string name="about_app_license">Diese Anwendung ist unter der GNU GENERAL PUBLIC LICENSE v3+ lizenziert.</string>
   <string name="about_app_license_button">Lizenz anzeigen</string>

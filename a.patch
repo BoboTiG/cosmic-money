@@ -1,0 +1,693 @@
+diff --git a/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectSettlementDialogBuilder.java b/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectSettlementDialogBuilder.java
+index f3a6f0f..8cb5b12 100644
+--- a/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectSettlementDialogBuilder.java
++++ b/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectSettlementDialogBuilder.java
+@@ -33,7 +33,6 @@ import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
+ import net.eneiluj.moneybuster.util.IRefreshBillsListCallback;
+ import net.eneiluj.moneybuster.util.SupportUtil;
+ 
+-import java.text.DecimalFormat;
+ import java.text.NumberFormat;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+@@ -217,7 +216,6 @@ public class ProjectSettlementDialogBuilder {
+             return;
+         }
+ 
+-        NumberFormat numberFormatter = new DecimalFormat("#0.00");
+         final TableLayout tl = view.findViewById(R.id.settleTable);
+         //tl.removeAllViews();
+         // clear table
+@@ -240,7 +238,7 @@ public class ProjectSettlementDialogBuilder {
+             TextView sv = row.findViewById(R.id.settle_howmuch);
+             sv.setTextColor(rowColor);
+             double amount = Math.round(t.getAmount() * 100.0) / 100.0;
+-            sv.setText(numberFormatter.format(amount));
++            sv.setText(SupportUtil.normalNumberFormat.format(amount));
+ 
+             tl.addView(row);
+         }
+diff --git a/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectStatisticsDialogBuilder.java b/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectStatisticsDialogBuilder.java
+index ecd4de1..8761113 100644
+--- a/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectStatisticsDialogBuilder.java
++++ b/app/src/main/java/net/eneiluj/moneybuster/android/dialogs/ProjectStatisticsDialogBuilder.java
+@@ -34,7 +34,6 @@ import net.eneiluj.moneybuster.persistence.moneybusterSQLiteOpenHelper;
+ import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
+ import net.eneiluj.moneybuster.util.SupportUtil;
+ 
+-import java.text.DecimalFormat;
+ import java.text.NumberFormat;
+ import java.text.SimpleDateFormat;
+ import java.util.ArrayList;
+@@ -444,8 +443,6 @@ public class ProjectStatisticsDialogBuilder {
+         HashMap<Long, Double> membersPaid = new HashMap<>();
+         HashMap<Long, Double> membersSpent = new HashMap<>();
+ 
+-        NumberFormat numberFormatter = new DecimalFormat("#0.00");
+-
+         int nbBills = SupportUtil.getStatsOfProject(
+                 selectedProjectId, db,
+                 membersNbBills, membersBalance, membersPaid, membersSpent,
+@@ -496,8 +493,8 @@ public class ProjectStatisticsDialogBuilder {
+                 pv.setText("--");
+                 statsText += "-- | ";
+             } else {
+-                pv.setText(numberFormatter.format(rpaid));
+-                statsText += numberFormatter.format(rpaid) + " | ";
++                pv.setText(SupportUtil.normalNumberFormat.format(rpaid));
++                statsText += SupportUtil.normalNumberFormat.format(rpaid) + " | ";
+             }
+ 
+             TextView sv = row.findViewById(R.id.stat_spent);
+@@ -507,8 +504,8 @@ public class ProjectStatisticsDialogBuilder {
+                 sv.setText("--");
+                 statsText += "-- | ";
+             } else {
+-                sv.setText(numberFormatter.format(rspent));
+-                statsText += numberFormatter.format(rspent) + " | ";
++                sv.setText(SupportUtil.normalNumberFormat.format(rspent));
++                statsText += SupportUtil.normalNumberFormat.format(rspent) + " | ";
+             }
+ 
+             TextView bv = row.findViewById(R.id.stat_balance);
+@@ -524,14 +521,14 @@ public class ProjectStatisticsDialogBuilder {
+             } else {
+                 bv.setTextColor(ContextCompat.getColor(context, R.color.fg_default));
+             }
+-            bv.setText(sign + numberFormatter.format(rbalance));
+-            statsText += sign + numberFormatter.format(rbalance) + ")";
++            bv.setText(sign + SupportUtil.normalNumberFormat.format(rbalance));
++            statsText += sign + SupportUtil.normalNumberFormat.format(rbalance) + ")";
+ 
+             tl.addView(row);
+         }
+         statsTextToShare = statsText;
+ 
+-        totalPaidText.setText(context.getString(R.string.total_payed, totalPayed));
++        totalPaidText.setText(context.getString(R.string.total_payed, SupportUtil.normalNumberFormat.format(totalPayed)));
+     }
+ 
+ }
+diff --git a/app/src/main/java/net/eneiluj/moneybuster/android/fragment/EditBillFragment.java b/app/src/main/java/net/eneiluj/moneybuster/android/fragment/EditBillFragment.java
+index 4bb93a5..b47c34b 100644
+--- a/app/src/main/java/net/eneiluj/moneybuster/android/fragment/EditBillFragment.java
++++ b/app/src/main/java/net/eneiluj/moneybuster/android/fragment/EditBillFragment.java
+@@ -492,7 +492,7 @@ public class EditBillFragment extends ThemedFragment {
+                                         calendar.setTimeInMillis(bill.getDate().getTime());
+                                         updateDateLabel();
+                                         updateTimeLabel();
+-                                        editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
++                                        editAmount.setText(String.valueOf(bill.getAmount()));
+                                         return;
+                                     } catch (ParseException e) {
+                                     }
+@@ -504,7 +504,7 @@ public class EditBillFragment extends ThemedFragment {
+                                             updateDateLabel();
+                                             updateTimeLabel();
+                                         }
+-                                        editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
++                                        editAmount.setText(String.valueOf(bill.getAmount()));
+                                         return;
+                                     } catch (ParseException e) {
+                                     }
+@@ -1080,7 +1080,7 @@ public class EditBillFragment extends ThemedFragment {
+         updateTimeLabel();
+         Log.v(TAG, "AFTER TIME INIT");
+ 
+-        editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
++        editAmount.setText(String.valueOf(bill.getAmount()));
+ 
+         // hide the validation button so that it appears if a value changes
+         if (bill.getId() != 0 || "".equals(bill.getWhat())) {
+diff --git a/app/src/main/java/net/eneiluj/moneybuster/model/NavigationAdapter.java b/app/src/main/java/net/eneiluj/moneybuster/model/NavigationAdapter.java
+index 518a1db..d0872e5 100644
+--- a/app/src/main/java/net/eneiluj/moneybuster/model/NavigationAdapter.java
++++ b/app/src/main/java/net/eneiluj/moneybuster/model/NavigationAdapter.java
+@@ -19,7 +19,6 @@ import android.widget.ImageView;
+ import android.widget.TextView;
+ 
+ import java.security.NoSuchAlgorithmException;
+-import java.text.DecimalFormat;
+ import java.text.NumberFormat;
+ import java.util.ArrayList;
+ import java.util.List;
+@@ -30,6 +29,7 @@ import net.eneiluj.moneybuster.R;
+ import net.eneiluj.moneybuster.android.ui.TextDrawable;
+ import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
+ import net.eneiluj.moneybuster.util.ColorUtils;
++import net.eneiluj.moneybuster.util.SupportUtil;
+ 
+ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
+ 
+@@ -44,8 +44,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
+         public Double count;
+         public boolean isMember;
+ 
+-        public static NumberFormat balanceFormatter = new DecimalFormat("#0.00");
+-
+         public NavigationItem(@NonNull String id, @NonNull String label, @Nullable Double count,
+                               @DrawableRes int icon, boolean isMember) {
+             this.id = id;
+@@ -104,7 +102,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
+                     count.setTextColor(ContextCompat.getColor(view.getContext(), R.color.primary_light));
+                 }
+                 Double absCount = Math.abs(item.count);
+-                String balanceStr = NavigationItem.balanceFormatter.format(absCount).replace(",", ".");
++                String balanceStr = SupportUtil.normalNumberFormat.format(absCount);
+ 
+                 count.setText(sign + balanceStr);
+             } else {
+diff --git a/app/src/main/java/net/eneiluj/moneybuster/util/SupportUtil.java b/app/src/main/java/net/eneiluj/moneybuster/util/SupportUtil.java
+index 550cfed..c6ce246 100644
+--- a/app/src/main/java/net/eneiluj/moneybuster/util/SupportUtil.java
++++ b/app/src/main/java/net/eneiluj/moneybuster/util/SupportUtil.java
+@@ -61,8 +61,7 @@ public class SupportUtil {
+ 
+     public static final NumberFormat normalNumberFormat = NumberFormat.getInstance();
+     static {
+-        normalNumberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+-        normalNumberFormat.setGroupingUsed(false);
++        normalNumberFormat.setMaximumFractionDigits(2);
+     }
+ 
+     public static final NumberFormat dotNumberFormat = NumberFormat.getNumberInstance(Locale.UK);
+diff --git a/app/src/main/res/values-af-rZA/strings.xml b/app/src/main/res/values-af-rZA/strings.xml
+index 63ec8cf..5b8d609 100644
+--- a/app/src/main/res/values-af-rZA/strings.xml
++++ b/app/src/main/res/values-af-rZA/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-ar-rSA/strings.xml b/app/src/main/res/values-ar-rSA/strings.xml
+index 61f0178..2cd9e28 100644
+--- a/app/src/main/res/values-ar-rSA/strings.xml
++++ b/app/src/main/res/values-ar-rSA/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-bg-rBG/strings.xml b/app/src/main/res/values-bg-rBG/strings.xml
+index d7e8747..5f6c708 100644
+--- a/app/src/main/res/values-bg-rBG/strings.xml
++++ b/app/src/main/res/values-bg-rBG/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">До кого?</string>
+   <string name="settle_how_much">Колко?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Общо платено от всички участници: %.2f</string>
++  <string name="total_payed">Общо платено от всички участници: %s</string>
+   <string name="stats_table_title">Таблица статистика</string>
+   <string name="stats_date_min">Минимална дата</string>
+   <string name="stats_date_max">Максимална дата</string>
+diff --git a/app/src/main/res/values-ca-rES/strings.xml b/app/src/main/res/values-ca-rES/strings.xml
+index b7c677a..faee011 100644
+--- a/app/src/main/res/values-ca-rES/strings.xml
++++ b/app/src/main/res/values-ca-rES/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">A qui?</string>
+   <string name="settle_how_much">Quant?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total pagat per tots els membres: %.2f</string>
++  <string name="total_payed">Total pagat per tots els membres: %s</string>
+   <string name="stats_table_title">Taula d\'estadístiques</string>
+   <string name="stats_date_min">Data mínima</string>
+   <string name="stats_date_max">Data màxima</string>
+diff --git a/app/src/main/res/values-da-rDK/strings.xml b/app/src/main/res/values-da-rDK/strings.xml
+index 8750399..f7158ae 100644
+--- a/app/src/main/res/values-da-rDK/strings.xml
++++ b/app/src/main/res/values-da-rDK/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-de-rDE/strings.xml b/app/src/main/res/values-de-rDE/strings.xml
+index 6e28298..86507a4 100644
+--- a/app/src/main/res/values-de-rDE/strings.xml
++++ b/app/src/main/res/values-de-rDE/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">An wen?</string>
+   <string name="settle_how_much">Wie viel?</string>
+   <string name="settle_member_center_explanation">Abrechnungsmodus: optimal oder zentriert auf ein Mitglied.\nOptimal hat die geringste Anzahl an Transaktionen. Das Zentrieren auf ein Mitglied lässt alle Transaktionen via dieses Mitglied gehen. Dies ist nützlich, wenn ein Kassenwart zentral das Geld verwaltet.</string>
+-  <string name="total_payed">Gesamt von allen Mitgliedern bezahlt: %.2f</string>
++  <string name="total_payed">Gesamt von allen Mitgliedern bezahlt: %s</string>
+   <string name="stats_table_title">Statistiktabelle</string>
+   <string name="stats_date_min">Anfangsdatum</string>
+   <string name="stats_date_max">Enddatum</string>
+diff --git a/app/src/main/res/values-el-rGR/strings.xml b/app/src/main/res/values-el-rGR/strings.xml
+index a6e5234..3a0ab47 100644
+--- a/app/src/main/res/values-el-rGR/strings.xml
++++ b/app/src/main/res/values-el-rGR/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">Προς ποιον;</string>
+   <string name="settle_how_much">Πόσο;</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Συνολικό ποσό που καταβλήθηκε από όλα τα μέλη: %.2f</string>
++  <string name="total_payed">Συνολικό ποσό που καταβλήθηκε από όλα τα μέλη: %s</string>
+   <string name="stats_table_title">Πίνακας στατιστικών στοιχείων</string>
+   <string name="stats_date_min">Ελάχιστη ημερομηνία</string>
+   <string name="stats_date_max">Μέγιστη ημερομηνία</string>
+diff --git a/app/src/main/res/values-en-rGB/strings.xml b/app/src/main/res/values-en-rGB/strings.xml
+index 63ec8cf..5b8d609 100644
+--- a/app/src/main/res/values-en-rGB/strings.xml
++++ b/app/src/main/res/values-en-rGB/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-en-rUS/strings.xml b/app/src/main/res/values-en-rUS/strings.xml
+index 63ec8cf..5b8d609 100644
+--- a/app/src/main/res/values-en-rUS/strings.xml
++++ b/app/src/main/res/values-en-rUS/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-es-rES/strings.xml b/app/src/main/res/values-es-rES/strings.xml
+index 98f041c..7c7b21d 100644
+--- a/app/src/main/res/values-es-rES/strings.xml
++++ b/app/src/main/res/values-es-rES/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">¿A quién?</string>
+   <string name="settle_how_much">¿Cuánto?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total pagado por todos los miembros: %.2f</string>
++  <string name="total_payed">Total pagado por todos los miembros: %s</string>
+   <string name="stats_table_title">Tabla de estadísticas</string>
+   <string name="stats_date_min">Fecha mínima</string>
+   <string name="stats_date_max">Fecha máxima</string>
+diff --git a/app/src/main/res/values-fa-rIR/strings.xml b/app/src/main/res/values-fa-rIR/strings.xml
+index 9e1b9a8..4216d37 100644
+--- a/app/src/main/res/values-fa-rIR/strings.xml
++++ b/app/src/main/res/values-fa-rIR/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">به چه کسی؟</string>
+   <string name="settle_how_much">چقدر؟</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">کل پرداخت شده توسط همه اعضا: %.2f</string>
++  <string name="total_payed">کل پرداخت شده توسط همه اعضا: %s</string>
+   <string name="stats_table_title">جدول آمار</string>
+   <string name="stats_date_min">کمترین تاریخ</string>
+   <string name="stats_date_max">بیشینۀ تاریخ</string>
+diff --git a/app/src/main/res/values-fi-rFI/strings.xml b/app/src/main/res/values-fi-rFI/strings.xml
+index 63ec8cf..5b8d609 100644
+--- a/app/src/main/res/values-fi-rFI/strings.xml
++++ b/app/src/main/res/values-fi-rFI/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-fr-rFR/strings.xml b/app/src/main/res/values-fr-rFR/strings.xml
+index 30221c0..9b9bbaf 100644
+--- a/app/src/main/res/values-fr-rFR/strings.xml
++++ b/app/src/main/res/values-fr-rFR/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">À qui ?</string>
+   <string name="settle_how_much">Combien ?</string>
+   <string name="settle_member_center_explanation">Mode de règlement : optimal ou centré sur un membre.\nOptimal a le moins de transactions. Centrer sur un membre fait passer toutes les transactions par l\'intermédiaire de ce membre. C\'est utile si vous avez un trésorier qui gère centralement l\'argent.</string>
+-  <string name="total_payed">Total payé par tous les membres : %.2f</string>
++  <string name="total_payed">Total payé par tous les membres : %s</string>
+   <string name="stats_table_title">Tableau des statistiques</string>
+   <string name="stats_date_min">Date minimum</string>
+   <string name="stats_date_max">Date maximum</string>
+diff --git a/app/src/main/res/values-hu-rHU/strings.xml b/app/src/main/res/values-hu-rHU/strings.xml
+index 6f5482d..1e16fe3 100644
+--- a/app/src/main/res/values-hu-rHU/strings.xml
++++ b/app/src/main/res/values-hu-rHU/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">Kinek?</string>
+   <string name="settle_how_much">Mennyit?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Összes tag által fizetett összeg: %.2f</string>
++  <string name="total_payed">Összes tag által fizetett összeg: %s</string>
+   <string name="stats_table_title">Statisztikai táblázat</string>
+   <string name="stats_date_min">Kezdő dátum</string>
+   <string name="stats_date_max">Utolsó dátum</string>
+diff --git a/app/src/main/res/values-it-rIT/strings.xml b/app/src/main/res/values-it-rIT/strings.xml
+index 87a87c5..809aa3d 100644
+--- a/app/src/main/res/values-it-rIT/strings.xml
++++ b/app/src/main/res/values-it-rIT/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">A chi?</string>
+   <string name="settle_how_much">Quanto?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Totale pagato da tutti i membri: %.2f</string>
++  <string name="total_payed">Totale pagato da tutti i membri: %s</string>
+   <string name="stats_table_title">Tabella statistiche</string>
+   <string name="stats_date_min">Data minima</string>
+   <string name="stats_date_max">Data massima</string>
+diff --git a/app/src/main/res/values-iw-rIL/strings.xml b/app/src/main/res/values-iw-rIL/strings.xml
+index 726ff9d..aa0196c 100644
+--- a/app/src/main/res/values-iw-rIL/strings.xml
++++ b/app/src/main/res/values-iw-rIL/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-ja-rJP/strings.xml b/app/src/main/res/values-ja-rJP/strings.xml
+index 6655be9..d777598 100644
+--- a/app/src/main/res/values-ja-rJP/strings.xml
++++ b/app/src/main/res/values-ja-rJP/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">誰に？</string>
+   <string name="settle_how_much">金額を入力</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">全てのメンバーが支払った合計: %.2f</string>
++  <string name="total_payed">全てのメンバーが支払った合計: %s</string>
+   <string name="stats_table_title">集計表</string>
+   <string name="stats_date_min">最小日付</string>
+   <string name="stats_date_max">最大日付</string>
+diff --git a/app/src/main/res/values-ko-rKR/strings.xml b/app/src/main/res/values-ko-rKR/strings.xml
+index 6b0500a..368dea5 100644
+--- a/app/src/main/res/values-ko-rKR/strings.xml
++++ b/app/src/main/res/values-ko-rKR/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-lt-rLT/strings.xml b/app/src/main/res/values-lt-rLT/strings.xml
+index 7bbd31d..c6111b2 100644
+--- a/app/src/main/res/values-lt-rLT/strings.xml
++++ b/app/src/main/res/values-lt-rLT/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-mk-rMK/strings.xml b/app/src/main/res/values-mk-rMK/strings.xml
+index 4f8b8c6..f7af515 100644
+--- a/app/src/main/res/values-mk-rMK/strings.xml
++++ b/app/src/main/res/values-mk-rMK/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">За кого?</string>
+   <string name="settle_how_much">Колку?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Вклупно платено од сите членови: %.2f</string>
++  <string name="total_payed">Вклупно платено од сите членови: %s</string>
+   <string name="stats_table_title">Табела со статистика</string>
+   <string name="stats_date_min">Минимален датум</string>
+   <string name="stats_date_max">Максимален датум</string>
+diff --git a/app/src/main/res/values-nl-rNL/strings.xml b/app/src/main/res/values-nl-rNL/strings.xml
+index 30c81a1..c36b47e 100644
+--- a/app/src/main/res/values-nl-rNL/strings.xml
++++ b/app/src/main/res/values-nl-rNL/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">Aan wie?</string>
+   <string name="settle_how_much">Hoeveel?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Totaal betaald door alle deelnemers: %.2f</string>
++  <string name="total_payed">Totaal betaald door alle deelnemers: %s</string>
+   <string name="stats_table_title">Statistieken tabel</string>
+   <string name="stats_date_min">Minimale datum</string>
+   <string name="stats_date_max">Maximale datum</string>
+diff --git a/app/src/main/res/values-no-rNO/strings.xml b/app/src/main/res/values-no-rNO/strings.xml
+index 5f12011..69e50e1 100644
+--- a/app/src/main/res/values-no-rNO/strings.xml
++++ b/app/src/main/res/values-no-rNO/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">Til hvem?</string>
+   <string name="settle_how_much">Hvor mye?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Totalt betalt av alle medlemmene: %.2f</string>
++  <string name="total_payed">Totalt betalt av alle medlemmene: %s</string>
+   <string name="stats_table_title">Statistikktabell</string>
+   <string name="stats_date_min">Minimum dato</string>
+   <string name="stats_date_max">Maksimum dato</string>
+diff --git a/app/src/main/res/values-pl-rPL/strings.xml b/app/src/main/res/values-pl-rPL/strings.xml
+index 59fc68f..723c069 100644
+--- a/app/src/main/res/values-pl-rPL/strings.xml
++++ b/app/src/main/res/values-pl-rPL/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">Do kogo?</string>
+   <string name="settle_how_much">Ile?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Razem zapłacone przez wszystkich członków: %.2f</string>
++  <string name="total_payed">Razem zapłacone przez wszystkich członków: %s</string>
+   <string name="stats_table_title">Tabela statystyk</string>
+   <string name="stats_date_min">Minimalna data</string>
+   <string name="stats_date_max">Maksymalna data</string>
+diff --git a/app/src/main/res/values-pt-rBR/strings.xml b/app/src/main/res/values-pt-rBR/strings.xml
+index 9a1094e..1f06c74 100644
+--- a/app/src/main/res/values-pt-rBR/strings.xml
++++ b/app/src/main/res/values-pt-rBR/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">Para quem?</string>
+   <string name="settle_how_much">Quanto?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total pago por todos os membros: %.2f</string>
++  <string name="total_payed">Total pago por todos os membros: %s</string>
+   <string name="stats_table_title">Tabela de estatísticas</string>
+   <string name="stats_date_min">Data de início</string>
+   <string name="stats_date_max">Data de fim</string>
+diff --git a/app/src/main/res/values-pt-rPT/strings.xml b/app/src/main/res/values-pt-rPT/strings.xml
+index 1d77ec5..d751fa7 100644
+--- a/app/src/main/res/values-pt-rPT/strings.xml
++++ b/app/src/main/res/values-pt-rPT/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">A quem?</string>
+   <string name="settle_how_much">Quanto?</string>
+   <string name="settle_member_center_explanation">Modo de liquidação: ideal ou centrada num membro.\nIdeal tem o menor número de transferências. Centrada num membro faz com que todas as transferências passem por esse membro. É útil se tiver um tesoureiro a lidar com o dinheiro centralmente.</string>
+-  <string name="total_payed">Total pago por todos os membros: %.2f</string>
++  <string name="total_payed">Total pago por todos os membros: %s</string>
+   <string name="stats_table_title">Tabela de estatísticas</string>
+   <string name="stats_date_min">Data mínima</string>
+   <string name="stats_date_max">Data máxima</string>
+diff --git a/app/src/main/res/values-ro-rRO/strings.xml b/app/src/main/res/values-ro-rRO/strings.xml
+index acb2ea8..447c52d 100644
+--- a/app/src/main/res/values-ro-rRO/strings.xml
++++ b/app/src/main/res/values-ro-rRO/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-ru-rRU/strings.xml b/app/src/main/res/values-ru-rRU/strings.xml
+index 532915a..3759096 100644
+--- a/app/src/main/res/values-ru-rRU/strings.xml
++++ b/app/src/main/res/values-ru-rRU/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">За кого?</string>
+   <string name="settle_how_much">Сколько?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Всего уплачено всеми участниками: %.2f</string>
++  <string name="total_payed">Всего уплачено всеми участниками: %s</string>
+   <string name="stats_table_title">Таблица статистики</string>
+   <string name="stats_date_min">Минимальная дата</string>
+   <string name="stats_date_max">Максимальная дата</string>
+diff --git a/app/src/main/res/values-sk-rSK/strings.xml b/app/src/main/res/values-sk-rSK/strings.xml
+index 444c115..35ba60d 100644
+--- a/app/src/main/res/values-sk-rSK/strings.xml
++++ b/app/src/main/res/values-sk-rSK/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-sl-rSI/strings.xml b/app/src/main/res/values-sl-rSI/strings.xml
+index 439b4f7..35e8513 100644
+--- a/app/src/main/res/values-sl-rSI/strings.xml
++++ b/app/src/main/res/values-sl-rSI/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-sq-rAL/strings.xml b/app/src/main/res/values-sq-rAL/strings.xml
+index 63ec8cf..5b8d609 100644
+--- a/app/src/main/res/values-sq-rAL/strings.xml
++++ b/app/src/main/res/values-sq-rAL/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-sr-rSP/strings.xml b/app/src/main/res/values-sr-rSP/strings.xml
+index acb2ea8..447c52d 100644
+--- a/app/src/main/res/values-sr-rSP/strings.xml
++++ b/app/src/main/res/values-sr-rSP/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-sv-rSE/strings.xml b/app/src/main/res/values-sv-rSE/strings.xml
+index 63ec8cf..5b8d609 100644
+--- a/app/src/main/res/values-sv-rSE/strings.xml
++++ b/app/src/main/res/values-sv-rSE/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-ta-rIN/strings.xml b/app/src/main/res/values-ta-rIN/strings.xml
+index f44002f..cdd518d 100644
+--- a/app/src/main/res/values-ta-rIN/strings.xml
++++ b/app/src/main/res/values-ta-rIN/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-tr-rTR/strings.xml b/app/src/main/res/values-tr-rTR/strings.xml
+index 2762ce2..8e43940 100644
+--- a/app/src/main/res/values-tr-rTR/strings.xml
++++ b/app/src/main/res/values-tr-rTR/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-uk-rUA/strings.xml b/app/src/main/res/values-uk-rUA/strings.xml
+index 0ea0706..d97ee61 100644
+--- a/app/src/main/res/values-uk-rUA/strings.xml
++++ b/app/src/main/res/values-uk-rUA/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-ur-rIN/strings.xml b/app/src/main/res/values-ur-rIN/strings.xml
+index 017a3a7..d28886f 100644
+--- a/app/src/main/res/values-ur-rIN/strings.xml
++++ b/app/src/main/res/values-ur-rIN/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-vi-rVN/strings.xml b/app/src/main/res/values-vi-rVN/strings.xml
+index b12966e..59f29c1 100644
+--- a/app/src/main/res/values-vi-rVN/strings.xml
++++ b/app/src/main/res/values-vi-rVN/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values-zh-rCN/strings.xml b/app/src/main/res/values-zh-rCN/strings.xml
+index 894b87c..6f0748e 100644
+--- a/app/src/main/res/values-zh-rCN/strings.xml
++++ b/app/src/main/res/values-zh-rCN/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">向谁购买？</string>
+   <string name="settle_how_much">多少钱？</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">所有成员的总付款: %.2f</string>
++  <string name="total_payed">所有成员的总付款: %s</string>
+   <string name="stats_table_title">统计表</string>
+   <string name="stats_date_min">最小日期</string>
+   <string name="stats_date_max">最大日期</string>
+diff --git a/app/src/main/res/values-zh-rTW/strings.xml b/app/src/main/res/values-zh-rTW/strings.xml
+index 09729ab..5062ec1 100644
+--- a/app/src/main/res/values-zh-rTW/strings.xml
++++ b/app/src/main/res/values-zh-rTW/strings.xml
+@@ -250,7 +250,7 @@
+   <string name="settle_to_whom">To whom?</string>
+   <string name="settle_how_much">How much?</string>
+   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-  <string name="total_payed">Total payed by all the members: %.2f</string>
++  <string name="total_payed">Total payed by all the members: %s</string>
+   <string name="stats_table_title">Statistics table</string>
+   <string name="stats_date_min">Minimum date</string>
+   <string name="stats_date_max">Maximum date</string>
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index 1420c97..f63fa67 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -255,7 +255,7 @@
+     <string name="settle_to_whom">To whom?</string>
+     <string name="settle_how_much">How much?</string>
+     <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
+-    <string name="total_payed">Total payed by all the members: %.2f</string>
++    <string name="total_payed">Total payed by all the members: %s</string>
+     <string name="stats_table_title">Statistics table</string>
+     <string name="stats_date_min">Minimum date</string>
+     <string name="stats_date_max">Maximum date</string>

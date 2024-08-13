@@ -5,7 +5,7 @@
   <string name="action_create_bill">Nova despesa</string>
   <string name="action_settings">Configurações da aplicação</string>
   <string name="action_projects">Planeamentos</string>
-  <string name="action_scan_qrcode">Ler código QR do Cospend/Moneybuster</string>
+  <string name="action_scan_qrcode">Ler código QR do Moneybuster</string>
   <string name="action_add_project">Adicionar planeamento</string>
   <string name="action_save_bill">Guardar despesa</string>
   <string name="action_edit_project">Editar planeamento</string>
@@ -73,23 +73,23 @@
   <string name="category_transport">Transporte</string>
   <string name="category_sport">Desporto</string>
   <string name="project_type_local">Planeamento local</string>
-  <string name="project_type_ihatemoney">Planeamento IHateMoney</string>
+  <string name="project_type_ilovemoney">Planeamento ILoveMoney</string>
   <string name="project_type_nextcloud_cospend">Planeamento Cospend do Nextcloud</string>
   <string name="new_project_what_todo">O que deseja fazer?</string>
   <string name="new_project_where">Onde?</string>
   <string name="where_local">Apenas no meu telefone (local)</string>
-  <string name="where_ihm">Servidor IHateMoney</string>
+  <string name="where_ihm">Servidor ILoveMoney</string>
   <string name="where_cospend">Aplicação Cospend do Nextcloud</string>
   <string name="where_local_short">Local</string>
-  <string name="where_ihm_short">IHateMoney</string>
+  <string name="where_ihm_short">ILoveMoney</string>
   <string name="where_cospend_short">Cospend</string>
-  <string name="new_project_scan">Ler um código QR do MoneyBuster</string>
+  <string name="new_project_scan">Ler um código QR do Cosmic Money</string>
   <string name="todo_join">Aderir a um planeamento existente</string>
   <string name="todo_join_label">Aderir</string>
   <string name="todo_create_label">Criar</string>
   <string name="todo_create">Criar um planeamento</string>
-  <string name="setting_ihm_project_url_long">Endereço da instância IHateMoney que hospeda o planeamento (ou hiperligação completa de convite)</string>
-  <string name="setting_ihm_project_url">Endereço do IHateMoney</string>
+  <string name="setting_ihm_project_url_long">Endereço da instância ILoveMoney que hospeda o planeamento (ou hiperligação completa de convite)</string>
+  <string name="setting_ihm_project_url">Endereço do ILoveMoney</string>
   <string name="setting_cospend_project_url_long">Endereço da instância Nextcloud que hospeda o planeamento Cospend</string>
   <string name="setting_cospend_project_url">Endereço Cospend do Nextcloud</string>
   <string name="setting_project_name">Título do planeamento (remoto)</string>
@@ -108,7 +108,7 @@
   <string name="setting_create_project_summary">Funciona apenas se a criação anónima de planeamentos for permitida na instância</string>
   <string name="setting_email_long">E-mail de contacto</string>
   <string name="setting_email">E-mail (remoto)</string>
-  <string name="project_added_success">Planeamento adicionado com sucesso ao MoneyBuster</string>
+  <string name="project_added_success">Planeamento adicionado com sucesso ao Cosmic Money</string>
   <string name="action_search">Pesquisar</string>
   <string name="action_search_in_project">Procurar em %s</string>
   <string name="simple_error">Erro</string>
@@ -116,7 +116,7 @@
   <string name="simple_loading">A carregar</string>
   <string name="simple_remove">Remover</string>
   <string name="sync_error_dialog_title">Falha na sincronização do planeamento</string>
-  <string name="sync_error_dialog_full_content">A sincronização com o planeamento %1$s falhou. Mensagem de erro:\n\n%2$s\n\nO planeamento remoto associado pode já não existir. Se for esse o caso, pode remover este planeamento do MoneyBuster.</string>
+  <string name="sync_error_dialog_full_content">A sincronização com o planeamento %1$s falhou. Mensagem de erro:\n\n%2$s\n\nO planeamento remoto associado pode já não existir. Se for esse o caso, pode remover este planeamento do Cosmic Money.</string>
   <string name="error_maintenance_mode">A instância do Nextcloud provavelmente está em modo de manutenção</string>
   <string name="error_400">400 Pedido inválido</string>
   <string name="error_401">401 Não autorizado</string>
@@ -132,7 +132,7 @@
   <string name="simple_add">Adicionar</string>
   <string name="simple_edit_bill">Editar despesa</string>
   <string name="simple_new_bill">Nova despesa</string>
-  <string name="simple_add_project">Adicionar planeamento no MoneyBuster</string>
+  <string name="simple_add_project">Adicionar planeamento no Cosmic Money</string>
   <string name="simple_edit_project">Editar planeamento</string>
   <string name="simple_about">Sobre</string>
   <string name="share_impossible">É impossível partilhar este planeamento</string>
@@ -140,7 +140,7 @@
   <string name="simple_create_bills">Criar despesas</string>
   <string name="settle_bill_what">Nota de liquidação</string>
   <string name="simple_stats_share">Partilhar estatísticas</string>
-  <string name="simple_share_share">Partilhar ligação MoneyBuster</string>
+  <string name="simple_share_share">Partilhar ligação Cosmic Money</string>
   <string name="action_bill_deleted">Despesa eliminada</string>
   <string name="action_bill_restored">Despesa restaurada</string>
   <string name="action_undo">Desfazer</string>
@@ -165,7 +165,7 @@
   <string name="fab_manage_members">Gerir membros</string>
   <string name="fab_export_project">Exportar planeamento</string>
   <string name="drawer_last_sync_text">Última sincronização: %1$02d:%2$02d</string>
-  <string name="scan_qrcode_tooltip">Ler um código QR do Cospend/IHateMoney</string>
+  <string name="scan_qrcode_tooltip">Ler um código QR do ILoveMoney</string>
   <string name="scan_qrcode">Scan QR code</string>
   <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Importar a partir de um ficheiro CSV</string>
@@ -190,10 +190,10 @@
   <string name="remote_project_operation_no_network">Operações remotas de planeamento requerem uma ligação de rede</string>
   <string name="member_edit_weight_error">Peso do membro está incorrecto</string>
   <string name="bill_info_dialog_title">Sobre %s</string>
-  <string name="welcome_dialog_title">Bem-vindo(a) ao MoneyBuster v%s</string>
+  <string name="welcome_dialog_title">Bem-vindo(a) ao Cosmic Money v%s</string>
   <string name="welcome_dialog_content_v12">O que há de novo?\n\n* Leitura de códigos QR\n* Interface melhorada\n* Importação de planeamentos de contas Nextcloud\n* Estatísticas melhoradas\n* E muito mais :-)</string>
   <string name="welcome_dialog_content_v13">O que há de novo?\n\n* Filtros nas estatísticas\n* Criação automática de notas de liquidação\n* Pesquisa por nome do devedor\n* E muito mais :-)</string>
-  <string name="first_welcome_dialog_content">Primeiro configure uma conta Nextcloud ou crie/adira a um planeamento (IHateMoney ou Nextcloud Cospend), depois adicione alguns membros e/ou crie algumas despesas!\n\nOutras operações principais:\n* Liquide o planeamento para gerar um plano de reembolso global\n* Mostre estatísticas do plano\n* Partilhe: crie um código QR que outros podem ler para aderir ao planeamento\n\nNo Android &gt;= 8.0 pode premir os botões de operação de forma prolongada para obter ajuda.</string>
+  <string name="first_welcome_dialog_content">Primeiro configure uma conta Nextcloud ou crie/adira a um planeamento (ILoveMoney ou Nextcloud Cospend), depois adicione alguns membros e/ou crie algumas despesas!\n\nOutras operações principais:\n* Liquide o planeamento para gerar um plano de reembolso global\n* Mostre estatísticas do plano\n* Partilhe: crie um código QR que outros podem ler para aderir ao planeamento\n\nNo Android &gt;= 8.0 pode premir os botões de operação de forma prolongada para obter ajuda.</string>
   <string name="changelog">Registo de alterações</string>
   <string name="changelog_url">https://gitlab.com/eneiluj/moneybuster/blob/master/CHANGELOG.md#change-log</string>
   <string name="permanent_notification_title">Sincronização permanente</string>
@@ -202,7 +202,7 @@
   <string name="settings_network_category">Rede</string>
   <string name="settings_sync_category">Sincronização</string>
   <string name="settings_other_category">Outra</string>
-  <string name="settings_about">Sobre o MoneyBuster</string>
+  <string name="settings_about">Sobre o Cosmic Money</string>
   <string name="settings_server_settings">Conta Nextcloud</string>
   <string name="settings_url">Endereço do servidor</string>
   <string name="settings_url_warn_http">AVISO: \"http\" não é seguro. Por favor, use \"https\".</string>
@@ -215,7 +215,7 @@
   <string name="settings_night_mode_title">Tema</string>
   <string name="settings_offline_mode_title">Modo desconectado</string>
   <string name="settings_offline_mode_summary">Não sincronizar automaticamente. Sincronizar somente quando o utilizador pedir.</string>
-  <string name="settings_show_nextcloud_settings_summary">Desabilite isto se não usar o Nextcloud nem o Cospend e quer simplesmente criar/juntar planeamentos IHateMoney e locais.</string>
+  <string name="settings_show_nextcloud_settings_summary">Desabilite isto se não usar o Nextcloud nem o Cospend e quer simplesmente criar/juntar planeamentos ILoveMoney e locais.</string>
   <string name="settings_show_nextcloud_settings_title">Mostrar configurações do Nextcloud</string>
   <string name="settings_color_title">Cor principal da aplicação</string>
   <string name="settings_color_summary">Cor para barras de operações, botões de mapa etc...</string>
@@ -264,20 +264,20 @@
   <string name="project_create_success_message">O planeamento %1$s foi criado com sucesso</string>
   <string name="project_add_success_title">Planeamento adicionado</string>
   <string name="project_create_success_title">Planeamento criado</string>
-  <string name="import_bad_url">Ligação do MoneyBuster malformada, impossível de importar</string>
+  <string name="import_bad_url">Ligação do Cosmic Money malformada, impossível de importar</string>
   <string name="import_no_data">Algo correu mal ao adicionar um planeamento novo</string>
   <string name="fab_scan_qrcode_import">Importar código QR do MB</string>
   <string name="statistic_dialog_title">Estatísticas do planeamento</string>
   <string name="settle_dialog_title">Liquidar o planeamento</string>
   <string name="settle_dialog_balanced">As despesas neste planeamento já estão saldadas. Não há nada para liquidar!</string>
   <string name="share_dialog_title">Partilhar o planeamento</string>
-  <string name="share_project_dialog_message">Leia este código QR com o MoneyBuster ou com uma aplicação de leitura de códigos gráficos num dispositivo Android onde o MoneyBuster esteja instalado. Também pode simplesmente enviar/partilhar a ligação do MoneyBuster acima.</string>
+  <string name="share_project_dialog_message">Leia este código QR com o Cosmic Money ou com uma aplicação de leitura de códigos gráficos num dispositivo Android onde o Cosmic Money esteja instalado. Também pode simplesmente enviar/partilhar a ligação do Cosmic Money acima.</string>
   <string name="share_project_public_url_dialog_message">Partilhe esta ligação web para permitir que outros acedam ao planeamento com um navegador web.</string>
   <string name="share_project_public_url_title">Ligação web</string>
-  <string name="share_project_public_qrcode_title">Ligação MoneyBuster</string>
-  <string name="qrcode_link_open_attempt_warning">Partilhe esta ligação com um utilizador do MoneyBuster.</string>
-  <string name="share_share_intent_title">Ligação MoneyBuster de %1$s</string>
-  <string name="share_share_chooser_title">Partilhar ligação MoneyBuster de %1$s</string>
+  <string name="share_project_public_qrcode_title">Ligação Cosmic Money</string>
+  <string name="qrcode_link_open_attempt_warning">Partilhe esta ligação com um utilizador do Cosmic Money.</string>
+  <string name="share_share_intent_title">Ligação Cosmic Money de %1$s</string>
+  <string name="share_share_chooser_title">Partilhar ligação Cosmic Money de %1$s</string>
   <string name="share_settle_intro">Como liquidar o planeamento %1$s:</string>
   <string name="share_settle_sentence">%1$s deve %3$.2f a %2$s</string>
   <string name="share_settle_title">Liquidar o planeamento %1$s</string>
@@ -298,13 +298,13 @@
   <string name="no_projects_title">No Projects</string>
   <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
   <string name="configure_account_choice">Configurar a conta Nextcloud</string>
-  <string name="add_project_choice">Adicionar manualmente um planeamento (IHateMoney, Cospend ou local)</string>
+  <string name="add_project_choice">Adicionar manualmente um planeamento (ILoveMoney, Cospend ou local)</string>
   <string name="no_members_title">No Members</string>
   <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
   <string name="no_bills_title">No Bills</string>
   <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
-  <string name="certificate_notification_connection_security">MoneyBuster - segurança de conexão</string>
-  <string name="trust_certificate_unknown_certificate_found">O MoneyBuster encontrou um certificado desconhecido. Quer confiar nele?</string>
+  <string name="certificate_notification_connection_security">Cosmic Money - segurança de conexão</string>
+  <string name="trust_certificate_unknown_certificate_found">O Cosmic Money encontrou um certificado desconhecido. Quer confiar nele?</string>
   <string name="error_project_connect_check">Foi impossível alcançar o planeamento remoto: \n\n%1$s</string>
   <string name="error_sync">Falha na sincronização do planeamento: %1$s</string>
   <string name="error_invalid_login">Autenticação inválida: %1$s</string>
@@ -334,11 +334,11 @@
   <string name="about_version_title">Versão</string>
   <string name="about_version">Neste momento está a usar &lt;strong&gt;%1$s&lt;/strong&gt;</string>
   <string name="about_maintainer_title">Responsável</string>
-  <string name="about_maintainer">Julien Veyssier</string>
+  <string name="about_maintainer">Mickaël Schoentgen • &lt;a href="https://github.com/BoboTiG/cosmic-money">Code Source&lt;/a></string>
   <string name="about_developers_title">Programadores</string>
   <string name="about_developers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_translators_title">Tradutores</string>
-  <string name="about_translators_crowdin">Comunidade do MoneyBuster no &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
+  <string name="about_translators_crowdin">Comunidade do Cosmic Money no &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
   <string name="about_testers_title">Testadores</string>
   <string name="about_testers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_source_title">Código-fonte</string>
@@ -346,7 +346,7 @@
   <string name="about_issues_title">Questões</string>
   <string name="about_issues">Pode reportar erros, lançar propostas de melhoramento e solicitar funcionalidades no rastreador de questões do GitLab: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_translate_title">Traduzir</string>
-  <string name="about_translate">Junte-se à equipa do MoneyBuster no Crowdin e ajude-nos a traduzir esta aplicação: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
+  <string name="about_translate">Junte-se à equipa do Cosmic Money no Crowdin e ajude-nos a traduzir esta aplicação: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_app_license_title">Licença da aplicação</string>
   <string name="about_app_license">Esta aplicação está licenciada sob a LICENÇA PÚBLICA GERAL GNU v3+.</string>
   <string name="about_app_license_button">Ver licença</string>

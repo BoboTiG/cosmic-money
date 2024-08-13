@@ -73,23 +73,23 @@
   <string name="category_transport">交通</string>
   <string name="category_sport">スポーツ</string>
   <string name="project_type_local">ローカルプロジェクト</string>
-  <string name="project_type_ihatemoney">IHateMoney プロジェクト</string>
+  <string name="project_type_ilovemoney">ILoveMoney プロジェクト</string>
   <string name="project_type_nextcloud_cospend">NextcloudのCospendプロジェクト</string>
   <string name="new_project_what_todo">下記のどれかを選択して下さい。</string>
   <string name="new_project_where">どこ？</string>
   <string name="where_local">携帯電話（ローカル）</string>
-  <string name="where_ihm">IHateMoney サーバー</string>
+  <string name="where_ihm">ILoveMoney サーバー</string>
   <string name="where_cospend">Cospend Nextcloudアプリ</string>
   <string name="where_local_short">ローカル</string>
-  <string name="where_ihm_short">IHateMoney</string>
+  <string name="where_ihm_short">ILoveMoney</string>
   <string name="where_cospend_short">Cospend</string>
-  <string name="new_project_scan">MoneyBuster QRコードをスキャン</string>
+  <string name="new_project_scan">Cosmic Money QRコードをスキャン</string>
   <string name="todo_join">既存のプロジェクトに参加する</string>
   <string name="todo_join_label">参加する</string>
   <string name="todo_create_label">作成する</string>
   <string name="todo_create">プロジェクトを作成</string>
-  <string name="setting_ihm_project_url_long">Address of IHateMoney instance hosting the project</string>
-  <string name="setting_ihm_project_url">IHateMoney address</string>
+  <string name="setting_ihm_project_url_long">Address of ILoveMoney instance hosting the project</string>
+  <string name="setting_ihm_project_url">ILoveMoney address</string>
   <string name="setting_cospend_project_url_long">Cospend プロジェクトをホストする Nextcloudインスタンスのアドレス</string>
   <string name="setting_cospend_project_url">NextcloudのCospendアドレス</string>
   <string name="setting_project_name">プロジェクトタイトル（リモート）</string>
@@ -108,7 +108,7 @@
   <string name="setting_create_project_summary">インスタンス上で匿名のプロジェクト作成が許可されている場合にのみ動作します</string>
   <string name="setting_email_long">連絡先メールアドレス</string>
   <string name="setting_email">メールアドレス（リモート）</string>
-  <string name="project_added_success">プロジェクトをMoneyBusterに追加しました</string>
+  <string name="project_added_success">プロジェクトをCosmic Moneyに追加しました</string>
   <string name="action_search">検索</string>
   <string name="action_search_in_project">%s を検索</string>
   <string name="simple_error">エラー</string>
@@ -116,7 +116,7 @@
   <string name="simple_loading">読み込み中</string>
   <string name="simple_remove">削除</string>
   <string name="sync_error_dialog_title">プロジェクトの同期に失敗しました</string>
-  <string name="sync_error_dialog_full_content">プロジェクト %1$s との同期に失敗しました。 エラーメッセージ: \n\n%2$s\n\n関連するリモートプロジェクトがもう存在しない可能性があります。 そうであれば、MoneyBusterからこのプロジェクトを削除してください。</string>
+  <string name="sync_error_dialog_full_content">プロジェクト %1$s との同期に失敗しました。 エラーメッセージ: \n\n%2$s\n\n関連するリモートプロジェクトがもう存在しない可能性があります。 そうであれば、Cosmic Moneyからこのプロジェクトを削除してください。</string>
   <string name="error_maintenance_mode">Nextcloudインスタンスはおそらくメンテナンスモードです</string>
   <string name="error_400">400 無効なリクエスト</string>
   <string name="error_401">401 Unauthorized</string>
@@ -132,7 +132,7 @@
   <string name="simple_add">追加</string>
   <string name="simple_edit_bill">請求書を編集</string>
   <string name="simple_new_bill">新しい請求書</string>
-  <string name="simple_add_project">MoneyBusterにプロジェクトを追加</string>
+  <string name="simple_add_project">Cosmic Moneyにプロジェクトを追加</string>
   <string name="simple_edit_project">プロジェクトの編集</string>
   <string name="simple_about">このソフトの情報</string>
   <string name="share_impossible">このプロジェクトを共有することはできません</string>
@@ -140,7 +140,7 @@
   <string name="simple_create_bills">請求書を作成</string>
   <string name="settle_bill_what">決算請求書</string>
   <string name="simple_stats_share">集計を共有する</string>
-  <string name="simple_share_share">MoneyBuster リンクを共有</string>
+  <string name="simple_share_share">Cosmic Money リンクを共有</string>
   <string name="action_bill_deleted">請求書が削除されました</string>
   <string name="action_bill_restored">請求書が復元されました</string>
   <string name="action_undo">元に戻す</string>
@@ -165,7 +165,7 @@
   <string name="fab_manage_members">メンバーを管理</string>
   <string name="fab_export_project">プロジェクトのエクスポート</string>
   <string name="drawer_last_sync_text">最終同期: %1$02d:%2$02d</string>
-  <string name="scan_qrcode_tooltip">Cospend/IHateMoney QRコードをスキャン</string>
+  <string name="scan_qrcode_tooltip">ILoveMoney QRコードをスキャン</string>
   <string name="scan_qrcode">Scan QR code</string>
   <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">CSV ファイルからインポート</string>
@@ -190,10 +190,10 @@
   <string name="remote_project_operation_no_network">リモートプロジェクトの操作にはネットワーク接続が必要です</string>
   <string name="member_edit_weight_error">メンバーの重み付けが正しくありません</string>
   <string name="bill_info_dialog_title">%s について</string>
-  <string name="welcome_dialog_title">MoneyBuster v%s へようこそ</string>
+  <string name="welcome_dialog_title">Cosmic Money v%s へようこそ</string>
   <string name="welcome_dialog_content_v12">更新内容\n\n* QRCode スキャン\n* インターフェイス改善\n* Nextcloudアカウントプロジェクトのインポート\n* 集計を改善\n* ほかにもいろいろ :-)</string>
   <string name="welcome_dialog_content_v13">更新内容\n\n* 集計フィルタ\n* 自動決算請求書発行\n* 債務者名で検索\n* などなど :-)</string>
-  <string name="first_welcome_dialog_content">まず、Nextcloudアカウントを設定するか、または（IHateMoneyまたはNextcloudのCospendで）プロジェクトを作成、あるいはプロジェクトに加入し、メンバーを追加したり、請求書を作成したりします。\n\nその他の主なアクション:\n* プロジェクトを決算して全体の精算を行います\n* プロジェクトの集計を表示します\n* 共有: プロジェクトに加入するためのQRコードを表示します\n\nAndroid では &gt;= 8. アクションボタンを長押ししてヘルプを表示できます。</string>
+  <string name="first_welcome_dialog_content">まず、Nextcloudアカウントを設定するか、または（ILoveMoneyまたはNextcloudのCospendで）プロジェクトを作成、あるいはプロジェクトに加入し、メンバーを追加したり、請求書を作成したりします。\n\nその他の主なアクション:\n* プロジェクトを決算して全体の精算を行います\n* プロジェクトの集計を表示します\n* 共有: プロジェクトに加入するためのQRコードを表示します\n\nAndroid では &gt;= 8. アクションボタンを長押ししてヘルプを表示できます。</string>
   <string name="changelog">変更履歴</string>
   <string name="changelog_url">https://gitlab.com/eneiluj/moneybuster/blob/master/CHANGELOG.md#change-log</string>
   <string name="permanent_notification_title">恒久的な同期</string>
@@ -202,7 +202,7 @@
   <string name="settings_network_category">ネットワーク</string>
   <string name="settings_sync_category">同期</string>
   <string name="settings_other_category">その他</string>
-  <string name="settings_about">MoneyBusterについて</string>
+  <string name="settings_about">Cosmic Moneyについて</string>
   <string name="settings_server_settings">Nextcloudアカウント</string>
   <string name="settings_url">サーバーアドレス</string>
   <string name="settings_url_warn_http">警告: \"http\"は安全ではありません。\"https\"を使用してください。</string>
@@ -215,7 +215,7 @@
   <string name="settings_night_mode_title">テーマ</string>
   <string name="settings_offline_mode_title">オフラインモード</string>
   <string name="settings_offline_mode_summary">自動的に同期しない。ユーザーが要求した場合のみ同期。</string>
-  <string name="settings_show_nextcloud_settings_summary">NextcloudとCospendを使用せず、IHateMoneyとローカルプロジェクトを作成/参加したい場合はこれを無効にしてください。</string>
+  <string name="settings_show_nextcloud_settings_summary">NextcloudとCospendを使用せず、ILoveMoneyとローカルプロジェクトを作成/参加したい場合はこれを無効にしてください。</string>
   <string name="settings_show_nextcloud_settings_title">Nextcloud設定を表示</string>
   <string name="settings_color_title">アプリのメインカラー</string>
   <string name="settings_color_summary">アクションバー、マップボタンなどの色...</string>
@@ -264,20 +264,20 @@
   <string name="project_create_success_message">プロジェクト %1$s が正常に作成されました</string>
   <string name="project_add_success_title">プロジェクトが追加されました</string>
   <string name="project_create_success_title">プロジェクトが作成されました</string>
-  <string name="import_bad_url">不正なMoneyBusterリンク、インポート不可</string>
+  <string name="import_bad_url">不正なCosmic Moneyリンク、インポート不可</string>
   <string name="import_no_data">新しいプロジェクトを追加するときに問題が発生しました</string>
   <string name="fab_scan_qrcode_import">MB QRコードをインポート</string>
   <string name="statistic_dialog_title">プロジェクトの集計</string>
   <string name="settle_dialog_title">プロジェクトを決算する</string>
   <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">このプロジェクトを共有</string>
-  <string name="share_project_dialog_message">MoneyBusterがインストールされているAndroidデバイス上のMoneyBusterまたはスキャナアプリでQRコードをスキャンしてください。 上記のMoneyBusterリンクを送信/共有することもできます。</string>
+  <string name="share_project_dialog_message">Cosmic MoneyがインストールされているAndroidデバイス上のCosmic MoneyまたはスキャナアプリでQRコードをスキャンしてください。 上記のCosmic Moneyリンクを送信/共有することもできます。</string>
   <string name="share_project_public_url_dialog_message">このウェブリンクを共有すると、他のユーザーがプロジェクトにアクセスできるようになります。</string>
   <string name="share_project_public_url_title">Webリンク</string>
-  <string name="share_project_public_qrcode_title">MoneyBuster リンク</string>
-  <string name="qrcode_link_open_attempt_warning">MoneyBuster ユーザーにこのリンクを共有します。</string>
-  <string name="share_share_intent_title">%1$s の MoneyBuster リンク</string>
-  <string name="share_share_chooser_title">%1$s の MoneyBuster リンクを共有</string>
+  <string name="share_project_public_qrcode_title">Cosmic Money リンク</string>
+  <string name="qrcode_link_open_attempt_warning">Cosmic Money ユーザーにこのリンクを共有します。</string>
+  <string name="share_share_intent_title">%1$s の Cosmic Money リンク</string>
+  <string name="share_share_chooser_title">%1$s の Cosmic Money リンクを共有</string>
   <string name="share_settle_intro">プロジェクト %1$s を決算する方法は次のとおりです:</string>
   <string name="share_settle_sentence">%1$s は %3$.2f を %2$s に借りています</string>
   <string name="share_settle_title">プロジェクト %1$sを決算する</string>
@@ -298,13 +298,13 @@
   <string name="no_projects_title">No Projects</string>
   <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
   <string name="configure_account_choice">Nextcloudアカウントの設定</string>
-  <string name="add_project_choice">手動でプロジェクトを追加する (IHateMoney, Cospend or local)</string>
+  <string name="add_project_choice">手動でプロジェクトを追加する (ILoveMoney, Cospend or local)</string>
   <string name="no_members_title">No Members</string>
   <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
   <string name="no_bills_title">No Bills</string>
   <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
-  <string name="certificate_notification_connection_security">MoneyBuster - 接続セキュリティ</string>
-  <string name="trust_certificate_unknown_certificate_found">MoneyBuster が不明な証明書に遭遇しました。信頼しますか？</string>
+  <string name="certificate_notification_connection_security">Cosmic Money - 接続セキュリティ</string>
+  <string name="trust_certificate_unknown_certificate_found">Cosmic Money が不明な証明書に遭遇しました。信頼しますか？</string>
   <string name="error_project_connect_check">リモートプロジェクトに到達できません:\n\n%1$s</string>
   <string name="error_sync">プロジェクトの同期に失敗しました: %1$s</string>
   <string name="error_invalid_login">無効なログイン: %1$s</string>
@@ -334,11 +334,11 @@
   <string name="about_version_title">バージョン</string>
   <string name="about_version">あなたがいま使っているのは &lt;strong&gt;%1$s&lt;/strong&gt; です</string>
   <string name="about_maintainer_title">管理者</string>
-  <string name="about_maintainer">Julien Veyssier</string>
+  <string name="about_maintainer">Mickaël Schoentgen • &lt;a href="https://github.com/BoboTiG/cosmic-money">Code Source&lt;/a></string>
   <string name="about_developers_title">開発者</string>
   <string name="about_developers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_translators_title">翻訳者</string>
-  <string name="about_translators_crowdin">MoneyBuster コミュニティは &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt; にあります</string>
+  <string name="about_translators_crowdin">Cosmic Money コミュニティは &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt; にあります</string>
   <string name="about_testers_title">テストスタッフ</string>
   <string name="about_testers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_source_title">ソースコード</string>
@@ -346,7 +346,7 @@
   <string name="about_issues_title">問題</string>
   <string name="about_issues">Gitlab イシュートラッカーでバグ、機能強化の提案、機能要求を報告できます: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_translate_title">翻訳</string>
-  <string name="about_translate">CrowdinのMoneyBusterチームに参加して、このアプリの翻訳を手伝ってください： &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
+  <string name="about_translate">CrowdinのCosmic Moneyチームに参加して、このアプリの翻訳を手伝ってください： &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_app_license_title">アプリケーションライセンス</string>
   <string name="about_app_license">このアプリケーションは GNU General PUBLICライセンス v3+ の下でライセンスされています。</string>
   <string name="about_app_license_button">ライセンスを表示</string>

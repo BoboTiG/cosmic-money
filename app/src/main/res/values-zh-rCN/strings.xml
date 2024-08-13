@@ -5,7 +5,7 @@
   <string name="action_create_bill">新账单</string>
   <string name="action_settings">应用设置</string>
   <string name="action_projects">项目</string>
-  <string name="action_scan_qrcode">从Compen/MoneyBuster扫描二维码</string>
+  <string name="action_scan_qrcode">从Compen/Cosmic Money扫描二维码</string>
   <string name="action_add_project">添加项目</string>
   <string name="action_save_bill">保存账单</string>
   <string name="action_edit_project">编辑项目</string>
@@ -73,23 +73,23 @@
   <string name="category_transport">交通</string>
   <string name="category_sport">运动</string>
   <string name="project_type_local">本地项目</string>
-  <string name="project_type_ihatemoney">IHateMoney 项目</string>
+  <string name="project_type_ilovemoney">ILoveMoney 项目</string>
   <string name="project_type_nextcloud_cospend">Nextcloud Cospend 项目</string>
   <string name="new_project_what_todo">你想要做什么?</string>
   <string name="new_project_where">在哪里？</string>
   <string name="where_local">仅我的手机 (本地)</string>
-  <string name="where_ihm">IHateMoney 服务器</string>
+  <string name="where_ihm">ILoveMoney 服务器</string>
   <string name="where_cospend">Cospend Nextcloud app</string>
   <string name="where_local_short">本地</string>
-  <string name="where_ihm_short">IHateMoney</string>
+  <string name="where_ihm_short">ILoveMoney</string>
   <string name="where_cospend_short">账单</string>
-  <string name="new_project_scan">扫描一个 MoneyBuster 二维码</string>
+  <string name="new_project_scan">扫描一个 Cosmic Money 二维码</string>
   <string name="todo_join">加入一个现有项目</string>
   <string name="todo_join_label">加入</string>
   <string name="todo_create_label">创建</string>
   <string name="todo_create">创建一个项目</string>
-  <string name="setting_ihm_project_url_long">托管项目的 IHateMoney 实例地址</string>
-  <string name="setting_ihm_project_url">IHateMoney 地址</string>
+  <string name="setting_ihm_project_url_long">托管项目的 ILoveMoney 实例地址</string>
+  <string name="setting_ihm_project_url">ILoveMoney 地址</string>
   <string name="setting_cospend_project_url_long">托管 Cospend 项目的 Nextcloud 实例地址</string>
   <string name="setting_cospend_project_url">Nextcloud Cospend 地址</string>
   <string name="setting_project_name">项目标题 (远程)</string>
@@ -108,7 +108,7 @@
   <string name="setting_create_project_summary">仅在实例允许创建匿名项目时可用</string>
   <string name="setting_email_long">联系人电子邮件地址</string>
   <string name="setting_email">电子邮件(远程)</string>
-  <string name="project_added_success">项目已成功添加到 MoneyBuster</string>
+  <string name="project_added_success">项目已成功添加到 Cosmic Money</string>
   <string name="action_search">搜索</string>
   <string name="action_search_in_project">在 %s 中搜索</string>
   <string name="simple_error">错误</string>
@@ -116,7 +116,7 @@
   <string name="simple_loading">载入中</string>
   <string name="simple_remove">移除</string>
   <string name="sync_error_dialog_title">项目同步失败</string>
-  <string name="sync_error_dialog_full_content">与项目 %1$s 同步失败。 错误消息：\n\n%2$s\n\n关联的远程项目可能不存在。 如果是，您可以从MoneyBuster删除此项目。</string>
+  <string name="sync_error_dialog_full_content">与项目 %1$s 同步失败。 错误消息：\n\n%2$s\n\n关联的远程项目可能不存在。 如果是，您可以从Cosmic Money删除此项目。</string>
   <string name="error_maintenance_mode">Nextcloud 实例可能处于维护模式</string>
   <string name="error_400">400 错误请求</string>
   <string name="error_401">401 未授权</string>
@@ -132,7 +132,7 @@
   <string name="simple_add">添加</string>
   <string name="simple_edit_bill">编辑账单</string>
   <string name="simple_new_bill">新建账单</string>
-  <string name="simple_add_project">在 MoneyBuster 里添加项目</string>
+  <string name="simple_add_project">在 Cosmic Money 里添加项目</string>
   <string name="simple_edit_project">编辑项目</string>
   <string name="simple_about">关于</string>
   <string name="share_impossible">无法共享此项目</string>
@@ -140,7 +140,7 @@
   <string name="simple_create_bills">创建账单</string>
   <string name="settle_bill_what">账单结算</string>
   <string name="simple_stats_share">分享统计</string>
-  <string name="simple_share_share">分享 MoneyBuster 链接</string>
+  <string name="simple_share_share">分享 Cosmic Money 链接</string>
   <string name="action_bill_deleted">已删除账单</string>
   <string name="action_bill_restored">已恢复账单</string>
   <string name="action_undo">撤销</string>
@@ -165,7 +165,7 @@
   <string name="fab_manage_members">管理成员</string>
   <string name="fab_export_project">导出项目</string>
   <string name="drawer_last_sync_text">上次同步： %1$02d:%2$02d</string>
-  <string name="scan_qrcode_tooltip">扫描Cospend/IHateMoney QRCode</string>
+  <string name="scan_qrcode_tooltip">扫描ILoveMoney QRCode</string>
   <string name="scan_qrcode">Scan QR code</string>
   <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">从 CSV 文件导入</string>
@@ -190,10 +190,10 @@
   <string name="remote_project_operation_no_network">远程项目操作需要网络连接</string>
   <string name="member_edit_weight_error">成员权重不正确</string>
   <string name="bill_info_dialog_title">关于 %s</string>
-  <string name="welcome_dialog_title">欢迎来到 MoneyBuster v%s</string>
+  <string name="welcome_dialog_title">欢迎来到 Cosmic Money v%s</string>
   <string name="welcome_dialog_content_v12">有什么新功能？\n\n* 二维码扫描\n* 更好的接口\n* Nextcloud帐户项目导入\n* 优化统计\n* 更多 :-)</string>
   <string name="welcome_dialog_content_v13">有什么新功能？\n\n* 统计过滤器\n* 自动生成结算账单\n* 通过拥有者用户名搜索\n* 和更多 :-)</string>
-  <string name="first_welcome_dialog_content">首先，配置Nextcloud帐户或创建/加入一个项目 (IHateMoney或Nextcloud Costpend)，然后添加一些成员和/或创建一些账单！\n\n其他主要行动：\n* 解决项目以生成全球还款计划\n* 显示项目统计\n* 分享：生成一个QRCode，其他人可以扫描以加入此项目\n\n在 Android &gt;= 8。 您可以长按动作按钮来显示帮助。</string>
+  <string name="first_welcome_dialog_content">首先，配置Nextcloud帐户或创建/加入一个项目 (ILoveMoney或Nextcloud Costpend)，然后添加一些成员和/或创建一些账单！\n\n其他主要行动：\n* 解决项目以生成全球还款计划\n* 显示项目统计\n* 分享：生成一个QRCode，其他人可以扫描以加入此项目\n\n在 Android &gt;= 8。 您可以长按动作按钮来显示帮助。</string>
   <string name="changelog">更新日志</string>
   <string name="changelog_url">https://gitlab.com/eneiluj/moneybuster/blob/master/CHANGELOG.md#change-log</string>
   <string name="permanent_notification_title">永久同步</string>
@@ -202,7 +202,7 @@
   <string name="settings_network_category">网络</string>
   <string name="settings_sync_category">同步</string>
   <string name="settings_other_category">其它</string>
-  <string name="settings_about">关于 MoneyBuster</string>
+  <string name="settings_about">关于 Cosmic Money</string>
   <string name="settings_server_settings">Nextcloud 帐户</string>
   <string name="settings_url">服务器地址</string>
   <string name="settings_url_warn_http">警告：“http” 不安全。请使用 “https”。</string>
@@ -215,7 +215,7 @@
   <string name="settings_night_mode_title">主题</string>
   <string name="settings_offline_mode_title">离线模式</string>
   <string name="settings_offline_mode_summary">不要自动同步。只有当用户请求时才同步。</string>
-  <string name="settings_show_nextcloud_settings_summary">如果您不使用Nextcloud和Cospend，只是想创建/加入IHateMoney和本地项目，请禁用它。</string>
+  <string name="settings_show_nextcloud_settings_summary">如果您不使用Nextcloud和Cospend，只是想创建/加入ILoveMoney和本地项目，请禁用它。</string>
   <string name="settings_show_nextcloud_settings_title">显示Nextcloud 设置</string>
   <string name="settings_color_title">应用主颜色</string>
   <string name="settings_color_summary">动作栏、地图按钮等等的颜色</string>
@@ -264,20 +264,20 @@
   <string name="project_create_success_message">项目 %1$s 已成功添加</string>
   <string name="project_add_success_title">项目已添加</string>
   <string name="project_create_success_title">项目已创建</string>
-  <string name="import_bad_url">错误的 MoneyBuster 链接，不能导入</string>
+  <string name="import_bad_url">错误的 Cosmic Money 链接，不能导入</string>
   <string name="import_no_data">添加新项目时出错</string>
-  <string name="fab_scan_qrcode_import">导入 MoneyBuster 二维码</string>
+  <string name="fab_scan_qrcode_import">导入 Cosmic Money 二维码</string>
   <string name="statistic_dialog_title">项目统计</string>
   <string name="settle_dialog_title">清算项目</string>
   <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">共享项目</string>
-  <string name="share_project_dialog_message">已经安装了 MoneyBuster 的安卓设备上，用 MoneyBuster 或者其他二维码扫描工具来扫描这个二维码。您也可以直接发送/分享上面的 MoneyBuster 链接。</string>
+  <string name="share_project_dialog_message">已经安装了 Cosmic Money 的安卓设备上，用 Cosmic Money 或者其他二维码扫描工具来扫描这个二维码。您也可以直接发送/分享上面的 Cosmic Money 链接。</string>
   <string name="share_project_public_url_dialog_message">分享此网页链接，让其他人用网页浏览器访问这个项目。</string>
   <string name="share_project_public_url_title">网页链接</string>
-  <string name="share_project_public_qrcode_title">MoneyBuster 链接</string>
-  <string name="qrcode_link_open_attempt_warning">分享此链接给 MoneyBuster 用户。</string>
-  <string name="share_share_intent_title">%1$s 的 MoneyBuster 链接</string>
-  <string name="share_share_chooser_title">分享 %1$s 的 MoneyBuster 链接</string>
+  <string name="share_project_public_qrcode_title">Cosmic Money 链接</string>
+  <string name="qrcode_link_open_attempt_warning">分享此链接给 Cosmic Money 用户。</string>
+  <string name="share_share_intent_title">%1$s 的 Cosmic Money 链接</string>
+  <string name="share_share_chooser_title">分享 %1$s 的 Cosmic Money 链接</string>
   <string name="share_settle_intro">以下是如何清算项目 %1$s :</string>
   <string name="share_settle_sentence">%1$s 欠 %2$s %3$.2f</string>
   <string name="share_settle_title">清算项目 %1$s</string>
@@ -298,7 +298,7 @@
   <string name="no_projects_title">No Projects</string>
   <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
   <string name="configure_account_choice">配置 Nextcloud 帐户</string>
-  <string name="add_project_choice">手动添加项目 (IHateMoney、Cospend或本地)</string>
+  <string name="add_project_choice">手动添加项目 (ILoveMoney、Cospend或本地)</string>
   <string name="no_members_title">No Members</string>
   <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
   <string name="no_bills_title">No Bills</string>
@@ -334,7 +334,7 @@
   <string name="about_version_title">版本</string>
   <string name="about_version">您正使用 &lt;strong&gt;%1$s&lt;/strong&gt;</string>
   <string name="about_maintainer_title">维护人员</string>
-  <string name="about_maintainer">Julien Veyssier</string>
+  <string name="about_maintainer">Mickaël Schoentgen • &lt;a href="https://github.com/BoboTiG/cosmic-money">Code Source&lt;/a></string>
   <string name="about_developers_title">开发人员</string>
   <string name="about_developers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_translators_title">翻译人员</string>
