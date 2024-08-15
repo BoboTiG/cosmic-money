@@ -17,7 +17,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -196,6 +195,7 @@ public class BillsListViewActivity
     private NavigationAdapter.NavigationItem itemAll;
     private Category navigationSelection = new Category(null, null);
     private String navigationOpen = "";
+    private int newMemberColor = 0;
 
     private ActionMode mActionMode;
     private MoneyBusterSQLiteOpenHelper db = null;
@@ -1085,6 +1085,7 @@ public class BillsListViewActivity
         } else {
             color = TextDrawable.getColorFromName(memberToEdit.getName());
         }
+        newMemberColor = color;
 
         AlertDialog.Builder builder = new ThemedMaterialAlertDialogBuilder(
                 new ContextThemeWrapper(
@@ -1132,6 +1133,7 @@ public class BillsListViewActivity
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 int newColor = lobsterPicker.getColor();
                                 buttonColor.setBackgroundColor(newColor);
+                                newMemberColor = newColor;
                             }
                         })
                         .setNegativeButton(getString(R.string.simple_cancel), null)
@@ -1152,7 +1154,7 @@ public class BillsListViewActivity
                 EditText wvi = iView.findViewById(R.id.editMemberWeight);
                 double newMemberWeight = 1.0;
                 try {
-                    newMemberWeight = Double.valueOf(wvi.getText().toString().replace(',', '.'));
+                    newMemberWeight = Double.parseDouble(wvi.getText().toString().replace(',', '.'));
                 }
                 catch (Exception e) {
                     showToast(getString(R.string.member_edit_weight_error));
@@ -1162,17 +1164,15 @@ public class BillsListViewActivity
                 CheckBox cvi = iView.findViewById(R.id.editMemberActivated);
                 boolean newActivated = cvi.isChecked();
 
-                Button bu = iView.findViewById(R.id.editMemberColor);
-                int newColor = ((ColorDrawable) bu.getBackground()).getColor();
-                int red = Color.red(newColor);
-                int green = Color.green(newColor);
-                int blue = Color.blue(newColor);
+                int red = Color.red(newMemberColor);
+                int green = Color.green(newMemberColor);
+                int blue = Color.blue(newMemberColor);
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 long selectedProjectId = preferences.getLong("selected_project", 0);
 
                 if (selectedProjectId != 0) {
-                    if (!newMemberName.isEmpty() && !newMemberName.equals("")) {
+                    if (!newMemberName.isEmpty()) {
                         db.updateMemberAndSync(
                             memberToEdit, newMemberName, newMemberWeight, newActivated,
                             red, green, blue, "", ""
@@ -1203,7 +1203,7 @@ public class BillsListViewActivity
 
         MaterialButton buttonDelete = iView.findViewById(R.id.editMemberDelete);
         TextView deleteHelpText = iView.findViewById(R.id.editMemberDeleteHelp);
-        boolean isPresentInBills = db.getBillsOfMember(memberId).size() > 0;
+        boolean isPresentInBills = !db.getBillsOfMember(memberId).isEmpty();
 
         // Setup deletion. This needs the created dialog to be able to dismiss it.
         if (project.getType() != ProjectType.LOCAL) { // TODO: implement deletion for Cospend and iHateMoney
