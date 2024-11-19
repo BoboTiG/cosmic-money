@@ -47,6 +47,7 @@
                         android:layout_height="match_parent"
                         android:ems="10"
                         android:selectAllOnFocus="true"
+                        android:inputType="textCapSentences"
                         android:importantForAutofill="no" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -452,7 +453,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:ems="10"
-                        android:inputType="text|textMultiLine"
+                        android:inputType="text|textMultiLine|textCapSentences"
                         android:selectAllOnFocus="true"
                         android:importantForAutofill="no"/>
                 </com.google.android.material.textfield.TextInputLayout>
