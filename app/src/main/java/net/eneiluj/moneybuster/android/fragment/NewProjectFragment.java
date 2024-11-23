@@ -40,6 +40,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -446,6 +447,9 @@ public class NewProjectFragment extends ThemedFragment {
         String projectName = getName();
         String projectEmail = getEmail();
 
+        @ColorInt int warningColor = getResources().getColor(R.color.bg_warning_transparent, requireContext().getTheme());
+        @ColorInt int defaultColor = getResources().getColor(android.R.color.transparent, requireContext().getTheme());
+
         boolean isIhmInvitationLink = type.equals(ProjectType.IHATEMONEY)
                 && isValidUrl(projectUrl)
                 && isInvitationLink(projectUrl);
@@ -463,17 +467,17 @@ public class NewProjectFragment extends ThemedFragment {
         // always check project ID
         if (todoCreate) {
             if (projectId.equals("")) {
-                newProjectIdInputLayout.setBackgroundColor(0x55FF0000);
+                newProjectIdInputLayout.setBackgroundColor(warningColor);
                 valid = false;
             } else {
-                newProjectIdInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                newProjectIdInputLayout.setBackgroundColor(defaultColor);
             }
         } else {
             if (projectId.equals("") && !isIhmInvitationLink && !isCospendScheme) {
-                newProjectIdInputLayout.setBackgroundColor(0x55FF0000);
+                newProjectIdInputLayout.setBackgroundColor(warningColor);
                 valid = false;
             } else {
-                newProjectIdInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                newProjectIdInputLayout.setBackgroundColor(defaultColor);
             }
         }
 
@@ -482,24 +486,24 @@ public class NewProjectFragment extends ThemedFragment {
                     !isCospendScheme
                     && (projectUrl.equals("") || !isValidUrl(projectUrl))
             ) {
-                newProjectUrlInputLayout.setBackgroundColor(0x55FF0000);
+                newProjectUrlInputLayout.setBackgroundColor(warningColor);
                 valid = false;
             } else {
-                newProjectUrlInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                newProjectUrlInputLayout.setBackgroundColor(defaultColor);
             }
             if (todoCreate) {
                 if (type.equals(ProjectType.IHATEMONEY) && projectPassword.equals("")) {
-                    newProjectPasswordInputLayout.setBackgroundColor(0x55FF0000);
+                    newProjectPasswordInputLayout.setBackgroundColor(warningColor);
                     valid = false;
                 } else {
-                    newProjectPasswordInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                    newProjectPasswordInputLayout.setBackgroundColor(defaultColor);
                 }
             } else {
                 if (projectPassword.equals("") && !isIhmInvitationLink && !isCospendScheme) {
-                    newProjectPasswordInputLayout.setBackgroundColor(0x55FF0000);
+                    newProjectPasswordInputLayout.setBackgroundColor(warningColor);
                     valid = false;
                 } else {
-                    newProjectPasswordInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                    newProjectPasswordInputLayout.setBackgroundColor(defaultColor);
                 }
             }
         }
@@ -508,16 +512,16 @@ public class NewProjectFragment extends ThemedFragment {
         if (todoCreate) {
             if (!type.equals(ProjectType.LOCAL)) {
                 if (projectName.equals("")) {
-                    newProjectNameInputLayout.setBackgroundColor(0x55FF0000);
+                    newProjectNameInputLayout.setBackgroundColor(warningColor);
                     valid = false;
                 } else {
-                    newProjectNameInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                    newProjectNameInputLayout.setBackgroundColor(defaultColor);
                 }
                 if (!SupportUtil.isValidEmail(projectEmail)) {
-                    newProjectEmailInputLayout.setBackgroundColor(0x55FF0000);
+                    newProjectEmailInputLayout.setBackgroundColor(warningColor);
                     valid = false;
                 } else {
-                    newProjectEmailInputLayout.setBackgroundColor(getResources().getColor(R.color.bg_normal, requireContext().getTheme()));
+                    newProjectEmailInputLayout.setBackgroundColor(defaultColor);
                 }
             }
         } else {
