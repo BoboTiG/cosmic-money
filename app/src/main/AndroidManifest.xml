@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <application
-        android:name="net.eneiluj.moneybuster.util.MoneyBuster"
+        android:name="net.bobotig.cosmicmoney.util.CosmicMoney"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -30,7 +30,7 @@
         <activity android:name=".android.activity.ManageCurrenciesActivity" />
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
 
@@ -45,37 +45,37 @@
                 android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value="net.eneiluj.moneybuster.android.activity.BillsListViewActivity" />
+                android:value="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity" />
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.AccountActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.AccountActivity"
             android:label="@string/settings_server_settings"
-            android:parentActivityName="net.eneiluj.moneybuster.android.activity.PreferencesActivity"
+            android:parentActivityName="net.bobotig.cosmicmoney.android.activity.PreferencesActivity"
             android:windowSoftInputMode="stateVisible"
             android:launchMode="standard"
             />
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.PreferencesActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.PreferencesActivity"
             android:label="@string/action_settings"
-            android:parentActivityName="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+            android:parentActivityName="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.QrCodeScannerActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.QrCodeScannerActivity"
             android:label="@string/action_scan_qrcode"
-            android:parentActivityName="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+            android:parentActivityName="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity"
             android:windowSoftInputMode="stateHidden"
             />
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.NewProjectActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.NewProjectActivity"
             android:label="@string/simple_add_project"
-            android:parentActivityName="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+            android:parentActivityName="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="standard"
             android:exported="true">
@@ -95,39 +95,39 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="*" android:pathPrefix="/" android:scheme="ihatemoney" />
+                <data android:host="*" android:pathPrefix="/" android:scheme="ilovemoney" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="*" android:pathPrefix="/" android:scheme="ihatemoney+http" />
+                <data android:host="*" android:pathPrefix="/" android:scheme="ilovemoney+http" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.EditProjectActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.EditProjectActivity"
             android:label="@string/simple_edit_project"
-            android:parentActivityName="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+            android:parentActivityName="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="standard">
         </activity>
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.EditBillActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.EditBillActivity"
             android:label="@string/simple_edit_bill"
-            android:parentActivityName="net.eneiluj.moneybuster.android.activity.BillsListViewActivity"
+            android:parentActivityName="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="standard">
         </activity>
 
         <activity
-            android:name="net.eneiluj.moneybuster.android.activity.AboutActivity"
+            android:name="net.bobotig.cosmicmoney.android.activity.AboutActivity"
             android:label="@string/simple_about"
-            android:parentActivityName="net.eneiluj.moneybuster.android.activity.BillsListViewActivity" />
+            android:parentActivityName="net.bobotig.cosmicmoney.android.activity.BillsListViewActivity" />
 
         <service
-            android:name="net.eneiluj.moneybuster.android.quicksettings.NewProjectTileService"
+            android:name="net.bobotig.cosmicmoney.android.quicksettings.NewProjectTileService"
             android:icon="@drawable/ic_dollar_grey_24dp"
             android:label="@string/action_add_project"
             android:description="@string/action_add_project"
@@ -139,7 +139,7 @@
         </service>
 
         <receiver
-            android:name="net.eneiluj.moneybuster.service.BootCompletedReceiver"
+            android:name="net.bobotig.cosmicmoney.service.BootCompletedReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

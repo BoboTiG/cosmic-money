@@ -5,7 +5,7 @@
   <string name="action_create_bill">Nový účet</string>
   <string name="action_settings">Nastavení aplikace</string>
   <string name="action_projects">Projekty</string>
-  <string name="action_scan_qrcode">Naskenujte QR kód z Cospend/MoneyBuster</string>
+  <string name="action_scan_qrcode">Naskenujte QR kód z Cosmic Money</string>
   <string name="action_add_project">Přidat projekt</string>
   <string name="action_save_bill">Uložit účet</string>
   <string name="action_edit_project">Upravit projekt</string>
@@ -73,23 +73,23 @@
   <string name="category_transport">Doprava</string>
   <string name="category_sport">Sport</string>
   <string name="project_type_local">Místní projekt</string>
-  <string name="project_type_ihatemoney">Projekt IHateMoney</string>
+  <string name="project_type_ilovemoney">Projekt ILoveMoney</string>
   <string name="project_type_nextcloud_cospend">Projekt Nextcloud Cospend</string>
   <string name="new_project_what_todo">Co chcete udělat?</string>
   <string name="new_project_where">Kde?</string>
   <string name="where_local">Jen můj telefon (lokální)</string>
-  <string name="where_ihm">Server s IHateMoney</string>
+  <string name="where_ihm">Server s ILoveMoney</string>
   <string name="where_cospend">Cospend Nextcloud aplikace</string>
   <string name="where_local_short">Místní</string>
-  <string name="where_ihm_short">IHateMoney</string>
+  <string name="where_ihm_short">ILoveMoney</string>
   <string name="where_cospend_short">Cospend</string>
-  <string name="new_project_scan">Naskenujte QR kód z MoneyBuster</string>
+  <string name="new_project_scan">Naskenujte QR kód z Cosmic Money</string>
   <string name="todo_join">Připojit k existujícímu projektu</string>
   <string name="todo_join_label">Připojit</string>
   <string name="todo_create_label">Vytvořit</string>
   <string name="todo_create">Vytvořit projekt</string>
-  <string name="setting_ihm_project_url_long">Adresa instance IHateMoney, hostující projekt</string>
-  <string name="setting_ihm_project_url">Adresa IHateMoney</string>
+  <string name="setting_ihm_project_url_long">Adresa instance ILoveMoney, hostující projekt</string>
+  <string name="setting_ihm_project_url">Adresa ILoveMoney</string>
   <string name="setting_cospend_project_url_long">Adresa instance Nextcloud, hostující Cospend projekt</string>
   <string name="setting_cospend_project_url">Adresa Nextcloud Cospend</string>
   <string name="setting_project_name">Název projektu (vzdálený)</string>
@@ -108,7 +108,7 @@
   <string name="setting_create_project_summary">Funguje pouze pokud je na instanci povoleno anonymní vytváření projektu</string>
   <string name="setting_email_long">Kontaktní e-mail</string>
   <string name="setting_email">E-mail (vzdálený)</string>
-  <string name="project_added_success">Projekt úspěšně přidán do MoneyBuster</string>
+  <string name="project_added_success">Projekt úspěšně přidán do Cosmic Money</string>
   <string name="action_search">Hledat</string>
   <string name="action_search_in_project">Hledat v %s</string>
   <string name="simple_error">Chyba</string>
@@ -116,7 +116,7 @@
   <string name="simple_loading">Načítá se</string>
   <string name="simple_remove">Odstranit</string>
   <string name="sync_error_dialog_title">Synchronizace projektu se nezdařila</string>
-  <string name="sync_error_dialog_full_content">Synchronizace s projektem %1$s se nezdařila. Chybové hlášení:\n\n%2$s\n\nPřidružený vzdálený projekt už možná neexistuje. Pokud tomu tak je, můžete ho odstranit z MoneyBuster.</string>
+  <string name="sync_error_dialog_full_content">Synchronizace s projektem %1$s se nezdařila. Chybové hlášení:\n\n%2$s\n\nPřidružený vzdálený projekt už možná neexistuje. Pokud tomu tak je, můžete ho odstranit z Cosmic Money.</string>
   <string name="error_maintenance_mode">Na dané instanci Nextcloud pravděpodobně probíhá údržba</string>
   <string name="error_400">400 Chybný požadavek</string>
   <string name="error_401">401 (chybí oprávnění)</string>
@@ -132,7 +132,7 @@
   <string name="simple_add">Přidat</string>
   <string name="simple_edit_bill">Upravit účet</string>
   <string name="simple_new_bill">Nový účet</string>
-  <string name="simple_add_project">Přidat projekt do MoneyBuster</string>
+  <string name="simple_add_project">Přidat projekt do Cosmic Money</string>
   <string name="simple_edit_project">Upravit projekt</string>
   <string name="simple_about">O aplikaci</string>
   <string name="share_impossible">Tento projekt není možné sdílet</string>
@@ -140,7 +140,7 @@
   <string name="simple_create_bills">Vytvořit účty</string>
   <string name="settle_bill_what">Vypořádací účet</string>
   <string name="simple_stats_share">Sdílet statistiky</string>
-  <string name="simple_share_share">Sdílet MoneyBuster odkaz</string>
+  <string name="simple_share_share">Sdílet Cosmic Money odkaz</string>
   <string name="action_bill_deleted">Účet smazán</string>
   <string name="action_bill_restored">Účet obnoven</string>
   <string name="action_undo">Vrátit zpět</string>
@@ -165,7 +165,7 @@
   <string name="fab_manage_members">Spravovat členy</string>
   <string name="fab_export_project">Exportovat projekt</string>
   <string name="drawer_last_sync_text">Naposledy synchronizováno: %1$02d:%2$02d</string>
-  <string name="scan_qrcode_tooltip">Naskenujte QR kód z Cospend/IHateMoney</string>
+  <string name="scan_qrcode_tooltip">Naskenujte QR kód z ILoveMoney</string>
   <string name="scan_qrcode">Scan QR code</string>
   <string name="new_project_from_nextcloud_tooltip">Choose from Nextcloud account</string>
   <string name="import_tooltip">Import z CSV souboru</string>
@@ -190,10 +190,10 @@
   <string name="remote_project_operation_no_network">K operacím na vzdáleném projektu je zapotřebí připojení k síti</string>
   <string name="member_edit_weight_error">Podíl člena není platný</string>
   <string name="bill_info_dialog_title">O aplikaci %s</string>
-  <string name="welcome_dialog_title">Vítejte v MoneyBuster v%s</string>
+  <string name="welcome_dialog_title">Vítejte v Cosmic Money v%s</string>
   <string name="welcome_dialog_content_v12">Co je nového?\n\n* Skenování QR kódů \n* Lepší rozhraní\n* Import projektů Nextcloud účtů\n* Vylepšené statistiky\n* A mnoho dalšího :-)</string>
   <string name="welcome_dialog_content_v13">Co je nového?\n\n* Filtry ve statistikách\n* Automatické vytváření vypořádávacích účtů\n* Vyhledávání podle jména majitele\n* A mnoho dalšího :-)</string>
-  <string name="first_welcome_dialog_content">Nejprve nastavte Nextcloud účet nebo vytvořte/připojte k projektu (IHateMoney nebo Nextcloud Cospend), poté přidejte nějaké členy a/nebo vytvořte nějaké účty!\n\nDalší hlavní akce:\n* Nastavte projekt k vytváření globálního plánu splácení\n* Zobrazit statistiky projektu\n* Sdílet: vytvořte QR kód který mohou ostatní naskenovat a přidat se tak k projektu\n\nNa Androidu &gt;= 8.0 je pro zobrazení nápovědy možné dlouze stisknout tlačítka akcí.</string>
+  <string name="first_welcome_dialog_content">Nejprve nastavte Nextcloud účet nebo vytvořte/připojte k projektu (ILoveMoney nebo Nextcloud Cospend), poté přidejte nějaké členy a/nebo vytvořte nějaké účty!\n\nDalší hlavní akce:\n* Nastavte projekt k vytváření globálního plánu splácení\n* Zobrazit statistiky projektu\n* Sdílet: vytvořte QR kód který mohou ostatní naskenovat a přidat se tak k projektu\n\nNa Androidu &gt;= 8.0 je pro zobrazení nápovědy možné dlouze stisknout tlačítka akcí.</string>
   <string name="changelog">Seznam změn</string>
   <string name="changelog_url">https://gitlab.com/eneiluj/moneybuster/blob/master/CHANGELOG.md#change-log</string>
   <string name="permanent_notification_title">Trvalá synchronizace</string>
@@ -202,7 +202,7 @@
   <string name="settings_network_category">Síť</string>
   <string name="settings_sync_category">Synchronizace</string>
   <string name="settings_other_category">Ostatní</string>
-  <string name="settings_about">O MoneyBuster</string>
+  <string name="settings_about">O Cosmic Money</string>
   <string name="settings_server_settings">Nextcloud účet</string>
   <string name="settings_url">Adresa serveru</string>
   <string name="settings_url_warn_http">VAROVÁNÍ: „http“ není bezpečné. Použijte „https://“.</string>
@@ -215,7 +215,7 @@
   <string name="settings_night_mode_title">Motiv vzhledu</string>
   <string name="settings_offline_mode_title">Režim bez připojení k síti</string>
   <string name="settings_offline_mode_summary">Nesynchronizovat automaticky. Synchronizovat pouze na vyžádání uživatelem.</string>
-  <string name="settings_show_nextcloud_settings_summary">Vypněte pokud nepoužíváte Nextcloud a Cospend a chcete jen vytvářet / připojovat se k IHateMoney a projektům, uloženým přímo na zařízení.</string>
+  <string name="settings_show_nextcloud_settings_summary">Vypněte pokud nepoužíváte Nextcloud a Cospend a chcete jen vytvářet / připojovat se k ILoveMoney a projektům, uloženým přímo na zařízení.</string>
   <string name="settings_show_nextcloud_settings_title">Zobrazit nastavení Nextcloud</string>
   <string name="settings_color_title">Hlavní barva aplikace</string>
   <string name="settings_color_summary">Barva pro lišty s akcemi, mapová tlačítka, atd…</string>
@@ -264,20 +264,20 @@
   <string name="project_create_success_message">Projekt %1$s byl úspěšně vytvořen</string>
   <string name="project_add_success_title">Projekt přidán</string>
   <string name="project_create_success_title">Projekt vytvořen</string>
-  <string name="import_bad_url">Pokažený odkaz MoneyBuster, nelze importovat</string>
+  <string name="import_bad_url">Pokažený odkaz Cosmic Money, nelze importovat</string>
   <string name="import_no_data">Při přidávání nového projektu se něco pokazilo</string>
   <string name="fab_scan_qrcode_import">Importovat MB QR kód</string>
   <string name="statistic_dialog_title">Statistiky projektu</string>
   <string name="settle_dialog_title">Vypořádat projekt</string>
   <string name="settle_dialog_balanced">The expenses in this project are already balanced. There is nothing to settle!</string>
   <string name="share_dialog_title">Nasdílet projekt</string>
-  <string name="share_project_dialog_message">Naskenujte tento QR kód pomocí MoneyBuster nebo skenovací aplikací na Android zařízení, kde je nainstalován MoneyBuster. Můžete také snadno poslat/sdílet výše uvedený MoneyBuster odkaz.</string>
+  <string name="share_project_dialog_message">Naskenujte tento QR kód pomocí Cosmic Money nebo skenovací aplikací na Android zařízení, kde je nainstalován Cosmic Money. Můžete také snadno poslat/sdílet výše uvedený Cosmic Money odkaz.</string>
   <string name="share_project_public_url_dialog_message">Sdílejte tento webový odkaz, abyste ostatním umožnili přístup k projektu prostřednictvím webového prohlížeče.</string>
   <string name="share_project_public_url_title">Webový odkaz</string>
-  <string name="share_project_public_qrcode_title">Odkaz MoneyBuster</string>
-  <string name="qrcode_link_open_attempt_warning">Sdílet tento odkaz uživateli MoneyBuster.</string>
-  <string name="share_share_intent_title">MoneyBuster odkaz %1$s</string>
-  <string name="share_share_chooser_title">Sdílet MoneyBuster odkaz %1$s</string>
+  <string name="share_project_public_qrcode_title">Odkaz Cosmic Money</string>
+  <string name="qrcode_link_open_attempt_warning">Sdílet tento odkaz uživateli Cosmic Money.</string>
+  <string name="share_share_intent_title">Cosmic Money odkaz %1$s</string>
+  <string name="share_share_chooser_title">Sdílet Cosmic Money odkaz %1$s</string>
   <string name="share_settle_intro">Zde je jak vypořádat projekt %1$s:</string>
   <string name="share_settle_sentence">%1$s dluží %3$.2f uživateli %2$s</string>
   <string name="share_settle_title">Vypořádat projekt %1$s</string>
@@ -298,13 +298,13 @@
   <string name="no_projects_title">No Projects</string>
   <string name="no_projects_text">You don\'t have any projects yet. If you have Cospend installed on a Nextcloud server, you can configure your Nextcloud account. Alternatively, you can manually add projects.</string>
   <string name="configure_account_choice">Nastavit Nextcloud účet</string>
-  <string name="add_project_choice">Přidat projekt ručně (IHateMoney, Cospend nebo místní)</string>
+  <string name="add_project_choice">Přidat projekt ručně (ILoveMoney, Cospend nebo místní)</string>
   <string name="no_members_title">No Members</string>
   <string name="no_members_text">This project doesn\'t have any members. In order to create bills, you need to add at least one member (better two or more).</string>
   <string name="no_bills_title">No Bills</string>
   <string name="no_bills_text">This project doesn\'t have any bills. Click the button below to add your first bill.</string>
-  <string name="certificate_notification_connection_security">MoneyBuster – zabezpečení spojení</string>
-  <string name="trust_certificate_unknown_certificate_found">MoneyBuster narazilo na neznámý certifikát. Chcete mu důvěřovat?</string>
+  <string name="certificate_notification_connection_security">Cosmic Money – zabezpečení spojení</string>
+  <string name="trust_certificate_unknown_certificate_found">Cosmic Money narazilo na neznámý certifikát. Chcete mu důvěřovat?</string>
   <string name="error_project_connect_check">Nelze dosáhnout vzdáleného projektu:\n\n%1$s</string>
   <string name="error_sync">Synchronizace projektu se nezdařila: %1$s</string>
   <string name="error_invalid_login">Neplatné přihlášení: %1$s</string>
@@ -334,11 +334,11 @@
   <string name="about_version_title">Verze</string>
   <string name="about_version">Nyní používáte &lt;strong&gt;%1$s&lt;/strong&gt;</string>
   <string name="about_maintainer_title">Správce</string>
-  <string name="about_maintainer">Julien Veyssier</string>
+  <string name="about_maintainer">Mickaël Schoentgen • &lt;a href="https://github.com/BoboTiG/cosmic-money">Code Source&lt;/a></string>
   <string name="about_developers_title">Vývojáři</string>
   <string name="about_developers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_translators_title">Překladatelé</string>
-  <string name="about_translators_crowdin">Komunita kolem MoneyBuster na &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
+  <string name="about_translators_crowdin">Komunita kolem Cosmic Money na &lt;a href=\"%1$s\"&gt;Crowdin&lt;/a&gt;</string>
   <string name="about_testers_title">Testeři</string>
   <string name="about_testers">Julien Veyssier, Andy Scherzinger</string>
   <string name="about_source_title">Zdrojové kódy</string>
@@ -346,7 +346,7 @@
   <string name="about_issues_title">Problémy</string>
   <string name="about_issues">Hlásit chyby, podávat návrhy na vylepšení a žádat o přidání funkcí je možné vyplněním v systému správy hlášení na portálu Gitlab: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_translate_title">Překládání</string>
-  <string name="about_translate">Připojte se k MoneyBuster týmu na portálu Crowdin a pomozte nám překládat tuto aplikaci: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
+  <string name="about_translate">Připojte se k Cosmic Money týmu na portálu Crowdin a pomozte nám překládat tuto aplikaci: &lt;a href=\"%1$s\"&gt;%1$s&lt;/a&gt;</string>
   <string name="about_app_license_title">Licence aplikace</string>
   <string name="about_app_license">Tato aplikace je licencována pod GNU GNU GENERAL PUBLIC LICENSE v3+.</string>
   <string name="about_app_license_button">Zobrazit licenci</string>
