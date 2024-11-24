@@ -19,8 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,6 +28,7 @@ import net.eneiluj.moneybuster.R;
 import net.eneiluj.moneybuster.android.ui.TextDrawable;
 import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.util.ColorUtils;
+import net.eneiluj.moneybuster.util.SupportUtil;
 
 public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.ViewHolder> {
 
@@ -43,8 +42,6 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
         @Nullable
         public Double count;
         public boolean isMember;
-
-        public static NumberFormat balanceFormatter = new DecimalFormat("#0.00");
 
         public NavigationItem(@NonNull String id, @NonNull String label, @Nullable Double count,
                               @DrawableRes int icon, boolean isMember) {
@@ -104,7 +101,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                     count.setTextColor(ContextCompat.getColor(view.getContext(), R.color.primary_light));
                 }
                 Double absCount = Math.abs(item.count);
-                String balanceStr = NavigationItem.balanceFormatter.format(absCount).replace(",", ".");
+                String balanceStr = SupportUtil.normalNumberFormat.format(absCount);
 
                 count.setText(sign + balanceStr);
             } else {

@@ -250,7 +250,7 @@
   <string name="settle_to_whom">Aan wie?</string>
   <string name="settle_how_much">Hoeveel?</string>
   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
-  <string name="total_payed">Totaal betaald door alle deelnemers: %.2f</string>
+  <string name="total_payed">Totaal betaald door alle deelnemers: %s</string>
   <string name="stats_table_title">Statistieken tabel</string>
   <string name="stats_date_min">Minimale datum</string>
   <string name="stats_date_max">Maximale datum</string>

@@ -250,7 +250,7 @@
   <string name="settle_to_whom">A quem?</string>
   <string name="settle_how_much">Quanto?</string>
   <string name="settle_member_center_explanation">Modo de liquidação: ideal ou centrada num membro.\nIdeal tem o menor número de transferências. Centrada num membro faz com que todas as transferências passem por esse membro. É útil se tiver um tesoureiro a lidar com o dinheiro centralmente.</string>
-  <string name="total_payed">Total pago por todos os membros: %.2f</string>
+  <string name="total_payed">Total pago por todos os membros: %s</string>
   <string name="stats_table_title">Tabela de estatísticas</string>
   <string name="stats_date_min">Data mínima</string>
   <string name="stats_date_max">Data máxima</string>

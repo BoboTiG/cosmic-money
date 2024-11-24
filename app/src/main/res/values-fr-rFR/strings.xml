@@ -250,7 +250,7 @@
   <string name="settle_to_whom">À qui ?</string>
   <string name="settle_how_much">Combien ?</string>
   <string name="settle_member_center_explanation">Mode de règlement : optimal ou centré sur un membre.\nOptimal a le moins de transactions. Centrer sur un membre fait passer toutes les transactions par l\'intermédiaire de ce membre. C\'est utile si vous avez un trésorier qui gère centralement l\'argent.</string>
-  <string name="total_payed">Total payé par tous les membres : %.2f</string>
+  <string name="total_payed">Total payé par tous les membres : %s</string>
   <string name="stats_table_title">Tableau des statistiques</string>
   <string name="stats_date_min">Date minimum</string>
   <string name="stats_date_max">Date maximum</string>

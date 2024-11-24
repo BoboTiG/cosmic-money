@@ -33,8 +33,6 @@ import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.IRefreshBillsListCallback;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -217,7 +215,6 @@ public class ProjectSettlementDialogBuilder {
             return;
         }
 
-        NumberFormat numberFormatter = new DecimalFormat("#0.00");
         final TableLayout tl = view.findViewById(R.id.settleTable);
         //tl.removeAllViews();
         // clear table
@@ -240,7 +237,7 @@ public class ProjectSettlementDialogBuilder {
             TextView sv = row.findViewById(R.id.settle_howmuch);
             sv.setTextColor(rowColor);
             double amount = Math.round(t.getAmount() * 100.0) / 100.0;
-            sv.setText(numberFormatter.format(amount));
+            sv.setText(SupportUtil.normalNumberFormat.format(amount));
 
             tl.addView(row);
         }

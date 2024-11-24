@@ -34,8 +34,6 @@ import net.eneiluj.moneybuster.persistence.MoneyBusterSQLiteOpenHelper;
 import net.eneiluj.moneybuster.theme.ThemedMaterialAlertDialogBuilder;
 import net.eneiluj.moneybuster.util.SupportUtil;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -444,8 +442,6 @@ public class ProjectStatisticsDialogBuilder {
         HashMap<Long, Double> membersPaid = new HashMap<>();
         HashMap<Long, Double> membersSpent = new HashMap<>();
 
-        NumberFormat numberFormatter = new DecimalFormat("#0.00");
-
         int nbBills = SupportUtil.getStatsOfProject(
                 selectedProjectId, db,
                 membersNbBills, membersBalance, membersPaid, membersSpent,
@@ -496,8 +492,8 @@ public class ProjectStatisticsDialogBuilder {
                 pv.setText("--");
                 statsText += "-- | ";
             } else {
-                pv.setText(numberFormatter.format(rpaid));
-                statsText += numberFormatter.format(rpaid) + " | ";
+                pv.setText(SupportUtil.normalNumberFormat.format(rpaid));
+                statsText += SupportUtil.normalNumberFormat.format(rpaid) + " | ";
             }
 
             TextView sv = row.findViewById(R.id.stat_spent);
@@ -507,8 +503,8 @@ public class ProjectStatisticsDialogBuilder {
                 sv.setText("--");
                 statsText += "-- | ";
             } else {
-                sv.setText(numberFormatter.format(rspent));
-                statsText += numberFormatter.format(rspent) + " | ";
+                sv.setText(SupportUtil.normalNumberFormat.format(rspent));
+                statsText += SupportUtil.normalNumberFormat.format(rspent) + " | ";
             }
 
             TextView bv = row.findViewById(R.id.stat_balance);
@@ -524,14 +520,14 @@ public class ProjectStatisticsDialogBuilder {
             } else {
                 bv.setTextColor(ContextCompat.getColor(context, R.color.fg_default));
             }
-            bv.setText(sign + numberFormatter.format(rbalance));
-            statsText += sign + numberFormatter.format(rbalance) + ")";
+            bv.setText(sign + SupportUtil.normalNumberFormat.format(rbalance));
+            statsText += sign + SupportUtil.normalNumberFormat.format(rbalance) + ")";
 
             tl.addView(row);
         }
         statsTextToShare = statsText;
 
-        totalPaidText.setText(context.getString(R.string.total_payed, totalPayed));
+        totalPaidText.setText(context.getString(R.string.total_payed, SupportUtil.normalNumberFormat.format(totalPayed)));
     }
 
 }

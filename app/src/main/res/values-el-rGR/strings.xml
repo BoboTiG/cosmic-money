@@ -250,7 +250,7 @@
   <string name="settle_to_whom">Προς ποιον;</string>
   <string name="settle_how_much">Πόσο;</string>
   <string name="settle_member_center_explanation">Settlement mode: optimal or centered on a member.\nOptimal has the least number of transactions. Centering on a member makes all transactions go through this member. This is useful if you have a treasurer centrally handling money.</string>
-  <string name="total_payed">Συνολικό ποσό που καταβλήθηκε από όλα τα μέλη: %.2f</string>
+  <string name="total_payed">Συνολικό ποσό που καταβλήθηκε από όλα τα μέλη: %s</string>
   <string name="stats_table_title">Πίνακας στατιστικών στοιχείων</string>
   <string name="stats_date_min">Ελάχιστη ημερομηνία</string>
   <string name="stats_date_max">Μέγιστη ημερομηνία</string>

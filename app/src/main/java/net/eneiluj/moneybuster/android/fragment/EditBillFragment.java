@@ -482,7 +482,7 @@ public class EditBillFragment extends ThemedFragment {
                                         calendar.setTimeInMillis(bill.getDate().getTime());
                                         updateDateLabel();
                                         updateTimeLabel();
-                                        editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
+                                        editAmount.setText(String.valueOf(bill.getAmount()));
                                         return;
                                     } catch (ParseException e) {
                                     }
@@ -494,7 +494,7 @@ public class EditBillFragment extends ThemedFragment {
                                             updateDateLabel();
                                             updateTimeLabel();
                                         }
-                                        editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
+                                        editAmount.setText(String.valueOf(bill.getAmount()));
                                         return;
                                     } catch (ParseException e) {
                                     }
@@ -1070,7 +1070,7 @@ public class EditBillFragment extends ThemedFragment {
         updateTimeLabel();
         Log.v(TAG, "AFTER TIME INIT");
 
-        editAmount.setText(SupportUtil.normalNumberFormat.format(bill.getAmount()));
+        editAmount.setText(String.valueOf(bill.getAmount()));
 
         // hide the validation button so that it appears if a value changes
         if (bill.getId() != 0 || "".equals(bill.getWhat())) {
