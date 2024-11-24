@@ -848,7 +848,7 @@ public class BillsListViewActivity
                 BillsListViewActivity.this,
                 R.style.AppTheme
         ));
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         input.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         builder.setView(input);
 
@@ -1099,7 +1099,7 @@ public class BillsListViewActivity
         final View iView = LayoutInflater.from(this).inflate(R.layout.dialog_edit_member, null);
         EditText nv = iView.findViewById(R.id.editMemberName);
         nv.setText(memberToEdit.getName());
-        nv.setInputType(InputType.TYPE_CLASS_TEXT);
+        nv.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         nv.setTextColor(ContextCompat.getColor(BillsListViewActivity.this, R.color.fg_default));
         EditText we = iView.findViewById(R.id.editMemberWeight);
         we.setText(String.valueOf(memberToEdit.getWeight()));
